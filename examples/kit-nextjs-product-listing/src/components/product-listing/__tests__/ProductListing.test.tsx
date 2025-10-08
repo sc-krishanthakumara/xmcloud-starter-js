@@ -31,7 +31,7 @@ describe('ProductListing Component - Default Variant', () => {
             {
               productName: {
                 jsonValue: {
-                  value: 'Premium Wireless Headphones',
+                  value: 'Premium Wireless Headphone',
                 },
               },
               productThumbnail: {
