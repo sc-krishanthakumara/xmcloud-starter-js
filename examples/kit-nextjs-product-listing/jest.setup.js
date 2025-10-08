@@ -1,6 +1,10 @@
 // Learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 
+// Configure jest-axe for accessibility testing
+import { toHaveNoViolations } from 'jest-axe';
+expect.extend(toHaveNoViolations);
+
 // Mock change-case
 jest.mock('change-case', () => ({
   kebabCase: (str) => str?.toLowerCase().replace(/\s+/g, '-'),
@@ -70,5 +74,13 @@ global.IntersectionObserver = class IntersectionObserver {
   takeRecords() {
     return [];
   }
+  unobserve() {}
+};
+
+// Mock ResizeObserver (required for embla-carousel)
+global.ResizeObserver = class ResizeObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
   unobserve() {}
 };
