@@ -47,7 +47,11 @@ jest.mock('@sitecore-content-sdk/nextjs', () => ({
   },
   Link: ({ field, children, ...props }) => {
     if (!field?.value?.href) return <>{children}</>;
-    return <a href={field.value.href} {...props}>{children}</a>;
+    
+    // Use field.value.text if available, otherwise fall back to children
+    const linkText = field?.value?.text || children;
+    
+    return <a href={field.value.href} {...props}>{linkText}</a>;
   },
 }));
 
