@@ -284,8 +284,7 @@ expect(screen.getByRole('link', { name: /view all/i })).toHaveAttribute('href', 
 expect(component.state.products.length).toBe(3);
 expect(component.instance().renderProducts).toHaveBeenCalled();
 ```
-} as any);
-```
+
 
 ### 3. Testing XM Cloud Components
 - Always mock `useSitecore` hook
