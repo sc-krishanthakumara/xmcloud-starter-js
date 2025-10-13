@@ -14,6 +14,25 @@ import {
   mockUseSitecore,
 } from './Navigation.mockProps';
 
+// Mock console.error to suppress React key warnings
+const originalConsoleError = console.error;
+beforeAll(() => {
+  console.error = jest.fn((message, ...args) => {
+    // Suppress React key warnings for components we can't modify
+    if (
+      typeof message === 'string' &&
+      message.includes('Each child in a list should have a unique "key" prop')
+    ) {
+      return;
+    }
+    originalConsoleError(message, ...args);
+  });
+});
+
+afterAll(() => {
+  console.error = originalConsoleError;
+});
+
 // Mock the Sitecore Content SDK components and Next.js Link
 /* eslint-disable @typescript-eslint/no-explicit-any */
 jest.mock('@sitecore-content-sdk/nextjs', () => ({
