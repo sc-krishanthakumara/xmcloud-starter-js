@@ -16,7 +16,7 @@ const customJestConfig = {
     '<rootDir>/src/__tests__/**/*.test.[jt]s?(x)',
   ],
   transformIgnorePatterns: [
-    'node_modules/(?!(?:@sitecore-content-sdk|@sitecore-feaas)/)',
+    'node_modules/(?!(?:@sitecore-content-sdk|@sitecore-feaas|lucide-react|change-case)/)',
   ],
   collectCoverageFrom: [
     'src/components/**/*.{js,jsx,ts,tsx}',
