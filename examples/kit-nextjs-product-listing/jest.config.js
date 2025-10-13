@@ -8,9 +8,12 @@ const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/',
-    '^components/(.*)$': '<rootDir>/src/components/',
-    '^lib/(.*)$': '<rootDir>/src/lib/',
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^components/(.*)$': '<rootDir>/src/components/$1',
+    '^lib/(.*)$': '<rootDir>/src/lib/$1',
+    '^shadcn/(.*)$': '<rootDir>/shadcn/$1',
+    '^shadcd/(.*)$': '<rootDir>/shadcn/$1',
+    'sitecore.config': '<rootDir>/sitecore.config.ts',
   },
   testMatch: [
     '<rootDir>/src/__tests__/**/*.test.[jt]s?(x)',
