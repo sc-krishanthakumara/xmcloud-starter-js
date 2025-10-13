@@ -5,18 +5,14 @@
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import {
-  Default as NavigationDefault,
-  ButtonNavigation,
-  Header,
-} from 'components/sxa/Navigation';
+import { Default as NavigationDefault, ButtonNavigation, Header } from 'components/sxa/Navigation';
 import {
   defaultNavigationProps,
   navigationWithItemsProps,
   buttonNavigationProps,
   emptyNavigationProps,
   mockUseSitecore,
-} from './Navigation.fixtures';
+} from './Navigation.mockProps';
 
 // Mock the Sitecore Content SDK components and Next.js Link
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -58,31 +54,32 @@ jest.mock('lucide-react', () => ({
 }));
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 describe('Navigation Component - Default Variant', () => {
   describe('Basic Rendering', () => {
     it('should render navigation with base classes', () => {
-      const { container } = render(<NavigationDefault {...defaultNavigationProps} />);
+      const { container } = render(<NavigationDefault {...(defaultNavigationProps as any)} />);
 
       const nav = container.querySelector('.component.navigation');
       expect(nav).toBeInTheDocument();
     });
 
     it('should apply custom styles from params', () => {
-      const { container } = render(<NavigationDefault {...defaultNavigationProps} />);
+      const { container } = render(<NavigationDefault {...(defaultNavigationProps as any)} />);
 
       const nav = container.querySelector('.navigation');
       expect(nav).toHaveClass('custom-nav-style');
     });
 
     it('should apply GridParameters from params', () => {
-      const { container } = render(<NavigationDefault {...defaultNavigationProps} />);
+      const { container } = render(<NavigationDefault {...(defaultNavigationProps as any)} />);
 
       const nav = container.querySelector('.navigation');
       expect(nav).toHaveClass('col-12');
     });
 
     it('should apply RenderingIdentifier as id', () => {
-      const { container } = render(<NavigationDefault {...defaultNavigationProps} />);
+      const { container } = render(<NavigationDefault {...(defaultNavigationProps as any)} />);
 
       const nav = container.querySelector('#navigation-1');
       expect(nav).toBeInTheDocument();
@@ -91,13 +88,13 @@ describe('Navigation Component - Default Variant', () => {
 
   describe('Empty State', () => {
     it('should render placeholder when fields are empty', () => {
-      const { container } = render(<NavigationDefault {...emptyNavigationProps} />);
+      const { container } = render(<NavigationDefault {...(emptyNavigationProps as any)} />);
 
       expect(container.querySelector('.component-content')).toHaveTextContent('[Navigation]');
     });
 
     it('should render placeholder with proper styling', () => {
-      const { container } = render(<NavigationDefault {...emptyNavigationProps} />);
+      const { container } = render(<NavigationDefault {...(emptyNavigationProps as any)} />);
 
       const nav = container.querySelector('.component.navigation');
       expect(nav).toBeInTheDocument();
@@ -107,7 +104,7 @@ describe('Navigation Component - Default Variant', () => {
 
   describe('Mobile Menu', () => {
     it('should render mobile menu toggle', () => {
-      const { container } = render(<NavigationDefault {...defaultNavigationProps} />);
+      const { container } = render(<NavigationDefault {...(defaultNavigationProps as any)} />);
 
       const label = container.querySelector('.menu-mobile-navigate-wrapper');
       const input = container.querySelector('.menu-mobile-navigate');
@@ -119,7 +116,7 @@ describe('Navigation Component - Default Variant', () => {
     });
 
     it('should toggle menu state on checkbox change', () => {
-      const { container } = render(<NavigationDefault {...defaultNavigationProps} />);
+      const { container } = render(<NavigationDefault {...(defaultNavigationProps as any)} />);
 
       const checkbox = container.querySelector('.menu-mobile-navigate') as HTMLInputElement;
       expect(checkbox?.checked).toBe(false);
@@ -129,7 +126,7 @@ describe('Navigation Component - Default Variant', () => {
     });
 
     it('should render nav element with ul', () => {
-      const { container } = render(<NavigationDefault {...defaultNavigationProps} />);
+      const { container } = render(<NavigationDefault {...(defaultNavigationProps as any)} />);
 
       const nav = container.querySelector('nav');
       const ul = container.querySelector('ul.clearfix');
@@ -159,7 +156,7 @@ describe('Navigation Component - Default Variant', () => {
         },
       };
 
-      const { container } = render(<NavigationDefault {...propsWithItems} />);
+      const { container } = render(<NavigationDefault {...(propsWithItems as any)} />);
 
       const navItems = container.querySelectorAll('li');
       expect(navItems.length).toBeGreaterThan(0);
@@ -170,21 +167,21 @@ describe('Navigation Component - Default Variant', () => {
 describe('Navigation Component - ButtonNavigation Variant', () => {
   describe('Basic Rendering', () => {
     it('should render section with proper classes', () => {
-      const { container } = render(<ButtonNavigation {...buttonNavigationProps} />);
+      const { container } = render(<ButtonNavigation {...(buttonNavigationProps as any)} />);
 
       const section = container.querySelector('section.py-16');
       expect(section).toBeInTheDocument();
     });
 
     it('should render container with proper classes', () => {
-      const { container } = render(<ButtonNavigation {...buttonNavigationProps} />);
+      const { container } = render(<ButtonNavigation {...(buttonNavigationProps as any)} />);
 
       const containerDiv = container.querySelector('.container.mx-auto');
       expect(containerDiv).toBeInTheDocument();
     });
 
     it('should render heading', () => {
-      const { container } = render(<ButtonNavigation {...buttonNavigationProps} />);
+      const { container } = render(<ButtonNavigation {...(buttonNavigationProps as any)} />);
 
       const heading = container.querySelector('h3');
       expect(heading).toHaveTextContent('Component Categories');
@@ -198,7 +195,7 @@ describe('Navigation Component - ButtonNavigation Variant', () => {
     });
 
     it('should render grid layout', () => {
-      const { container } = render(<ButtonNavigation {...buttonNavigationProps} />);
+      const { container } = render(<ButtonNavigation {...(buttonNavigationProps as any)} />);
 
       const grid = container.querySelector(
         '.grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3.gap-6'
@@ -226,7 +223,7 @@ describe('Navigation Component - ButtonNavigation Variant', () => {
         },
       };
 
-      const { container } = render(<ButtonNavigation {...propsWithItems} />);
+      const { container } = render(<ButtonNavigation {...(propsWithItems as any)} />);
 
       const cards = container.querySelectorAll('.bg-white.p-6.rounded-lg.shadow-md');
       expect(cards.length).toBeGreaterThan(0);
@@ -250,7 +247,7 @@ describe('Navigation Component - ButtonNavigation Variant', () => {
         },
       };
 
-      const { container } = render(<ButtonNavigation {...propsWithItems} />);
+      const { container } = render(<ButtonNavigation {...(propsWithItems as any)} />);
 
       const cardTitle = container.querySelector('h4');
       expect(cardTitle).toHaveTextContent('Components');
@@ -278,7 +275,7 @@ describe('Navigation Component - ButtonNavigation Variant', () => {
         },
       };
 
-      const { container } = render(<ButtonNavigation {...propsWithItems} />);
+      const { container } = render(<ButtonNavigation {...(propsWithItems as any)} />);
 
       const arrow = container.querySelector('.arrow-right');
       expect(arrow).toBeInTheDocument();
@@ -331,7 +328,7 @@ describe('Navigation Component - Header Variant', () => {
 
 describe('Navigation Component - Accessibility', () => {
   it('should have proper semantic structure (Default)', () => {
-    const { container } = render(<NavigationDefault {...defaultNavigationProps} />);
+    const { container } = render(<NavigationDefault {...(defaultNavigationProps as any)} />);
 
     const nav = container.querySelector('nav');
     const ul = container.querySelector('ul');
@@ -351,7 +348,7 @@ describe('Navigation Component - Accessibility', () => {
   });
 
   it('should have tabIndex on navigation items', () => {
-    const { container } = render(<NavigationDefault {...defaultNavigationProps} />);
+    const { container } = render(<NavigationDefault {...(defaultNavigationProps as any)} />);
 
     const li = container.querySelector('li');
     expect(li).toHaveAttribute('tabindex', '0');

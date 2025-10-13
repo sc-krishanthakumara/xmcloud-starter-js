@@ -19,7 +19,7 @@ import {
   richTextPropsStyledText,
   richTextPropsHeadingContent,
   richTextPropsLinkContent,
-} from './RichText.fixtures';
+} from './RichText.mockProps';
 
 describe('RichText Component', () => {
   describe('Rendering', () => {

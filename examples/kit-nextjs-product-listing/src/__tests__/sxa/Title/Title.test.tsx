@@ -12,7 +12,7 @@ import {
   titlePropsMinimal,
   titlePropsNullFields,
   titlePropsSpecialChars,
-} from './Title.fixtures';
+} from './Title.mockProps';
 
 // Mock the useSitecore hook to avoid complex Sitecore context setup
 jest.mock('@sitecore-content-sdk/nextjs', () => ({

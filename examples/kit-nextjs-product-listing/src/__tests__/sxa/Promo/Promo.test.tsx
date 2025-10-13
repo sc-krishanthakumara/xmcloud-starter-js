@@ -12,7 +12,7 @@ import {
   minimalPromoProps,
   emptyPromoProps,
   emptyTextFieldsProps,
-} from './Promo.fixtures';
+} from './Promo.mockProps';
 
 // Mock the Sitecore Content SDK components and shadcn UI Button
 /* eslint-disable @typescript-eslint/no-explicit-any */

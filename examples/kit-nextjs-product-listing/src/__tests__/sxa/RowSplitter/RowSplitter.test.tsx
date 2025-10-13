@@ -12,7 +12,7 @@ import {
   singleRowSplitterProps,
   noRowsSplitterProps,
   missingPlaceholdersProps,
-} from './RowSplitter.fixtures';
+} from './RowSplitter.mockProps';
 
 // Mock the Placeholder component
 /* eslint-disable @typescript-eslint/no-explicit-any */

@@ -14,7 +14,7 @@ import {
   contentBlockPropsEmpty,
   contentBlockPropsSpecialChars,
   contentBlockPropsNullFields,
-} from './ContentBlock.fixtures';
+} from './ContentBlock.mockProps';
 
 // Mock the withDatasourceCheck HOC and Sitecore components
 /* eslint-disable @typescript-eslint/no-explicit-any */

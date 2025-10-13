@@ -15,7 +15,7 @@ import {
   imagePropsNullFields,
   bannerImageProps,
   bannerImagePropsWithBackground,
-} from './Image.fixtures';
+} from './Image.mockProps';
 
 // Mock the useSitecore hook
 jest.mock('@sitecore-content-sdk/nextjs', () => ({

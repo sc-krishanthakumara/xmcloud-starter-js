@@ -14,7 +14,7 @@ import {
   noColumnsSplitterProps,
   missingPlaceholdersProps,
   varyingWidthsProps,
-} from './ColumnSplitter.fixtures';
+} from './ColumnSplitter.mockProps';
 
 // Mock the Placeholder component
 /* eslint-disable @typescript-eslint/no-explicit-any */

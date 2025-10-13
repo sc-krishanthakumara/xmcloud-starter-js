@@ -13,7 +13,7 @@ import {
   containerPropsMinimal,
   containerPropsNullParams,
   containerPropsEmptyStyles,
-} from './Container.fixtures';
+} from './Container.mockProps';
 
 // Mock the Placeholder component
 jest.mock('@sitecore-content-sdk/nextjs', () => ({
