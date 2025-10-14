@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { Default as CarouselDefault } from '../../components/carousel/Carousel';
 import {
   defaultCarouselProps,
@@ -100,7 +100,9 @@ describe('Carousel', () => {
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
     jest.useRealTimers();
   });
 

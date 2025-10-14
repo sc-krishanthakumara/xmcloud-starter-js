@@ -1,6 +1,16 @@
 ﻿import '@testing-library/jest-dom';
 import React from 'react';
 
+// Mock ResizeObserver for tests
+global.ResizeObserver = class ResizeObserver {
+  constructor(cb) {
+    this.cb = cb;
+  }
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
+
 jest.mock('@sitecore-content-sdk/nextjs', () => ({
   Text: ({ field, tag: Tag = 'span' }) => {
     if (!field || !field.value) return null;
