@@ -27,6 +27,14 @@ const customJestConfig = {
     '!src/components/**/__tests__/**',
     '!src/**/*.d.ts',
   ],
+  coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
+  coverageDirectory: '<rootDir>/coverage',
+  // Optimize memory usage
+  maxWorkers: '50%', // Use 50% of available CPU cores
+  workerIdleMemoryLimit: '512MB', // Restart workers after they use this much memory
+  // Cache configuration
+  cache: true,
+  cacheDirectory: '<rootDir>/.jest-cache',
 };
 
 module.exports = createJestConfig(customJestConfig);
