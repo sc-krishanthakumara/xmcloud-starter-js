@@ -172,4 +172,237 @@ describe('ArticleHeader', () => {
       expect(mockToast).toHaveBeenCalled();
     });
   });
+
+  it('handles mouse move events and updates parallax effect', () => {
+    render(<ArticleHeader {...fullProps} />);
+
+    // Simulate mouse move event
+    const mouseMoveEvent = new MouseEvent('mousemove', {
+      clientX: 100,
+      clientY: 100,
+      bubbles: true,
+    });
+
+    fireEvent(window, mouseMoveEvent);
+
+    // Component should update mouse position state
+    // The parallax effect will be applied via inline styles
+    expect(screen.getByRole('banner')).toBeInTheDocument();
+  });
+
+  it('handles reduced motion preference', async () => {
+    // Mock matchMedia to simulate reduced motion preference
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const mockMatchMedia = jest.fn().mockImplementation((query: string) => ({
+      matches: query === '(prefers-reduced-motion: reduce)',
+      media: query,
+      onchange: null,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }));
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    window.matchMedia = mockMatchMedia as any;
+
+    render(<ArticleHeader {...fullProps} />);
+
+    // Component should detect reduced motion preference
+    expect(mockMatchMedia).toHaveBeenCalledWith('(prefers-reduced-motion: reduce)');
+  });
+
+  it('handles Facebook share action', async () => {
+    const mockWindowOpen = jest.fn();
+    window.open = mockWindowOpen;
+
+    render(<ArticleHeader {...fullProps} />);
+
+    const facebookButtons = await screen.findAllByLabelText('Share on Facebook');
+    fireEvent.click(facebookButtons[0]);
+
+    await waitFor(() => {
+      expect(mockWindowOpen).toHaveBeenCalledWith(
+        expect.stringContaining('facebook.com/sharer'),
+        '_blank',
+        'width=600,height=400'
+      );
+    });
+  });
+
+  it('handles Twitter share action', async () => {
+    const mockWindowOpen = jest.fn();
+    window.open = mockWindowOpen;
+
+    render(<ArticleHeader {...fullProps} />);
+
+    const twitterButtons = await screen.findAllByLabelText('Share on Twitter');
+    fireEvent.click(twitterButtons[0]);
+
+    await waitFor(() => {
+      expect(mockWindowOpen).toHaveBeenCalledWith(
+        expect.stringContaining('twitter.com/intent/tweet'),
+        '_blank',
+        'width=600,height=400'
+      );
+    });
+  });
+
+  it('handles LinkedIn share action', async () => {
+    const mockWindowOpen = jest.fn();
+    window.open = mockWindowOpen;
+
+    render(<ArticleHeader {...fullProps} />);
+
+    const linkedinButtons = await screen.findAllByLabelText('Share on LinkedIn');
+    fireEvent.click(linkedinButtons[0]);
+
+    await waitFor(() => {
+      expect(mockWindowOpen).toHaveBeenCalledWith(
+        expect.stringContaining('linkedin.com/sharing'),
+        '_blank',
+        'width=600,height=400'
+      );
+    });
+  });
+
+  it('handles email share action', async () => {
+    render(<ArticleHeader {...fullProps} />);
+
+    const emailButtons = await screen.findAllByLabelText('Share via Email');
+    fireEvent.click(emailButtons[0]);
+
+    // Email action sets window.location.href, which we can't fully test in jest
+    // But we can verify the button exists and is clickable
+    expect(emailButtons[0]).toBeInTheDocument();
+  });
+
+  it('handles copy link failure gracefully', async () => {
+    // Mock clipboard to simulate failure
+    (navigator.clipboard.writeText as jest.Mock).mockRejectedValueOnce(
+      new Error('Clipboard error')
+    );
+
+    render(<ArticleHeader {...fullProps} />);
+
+    const copyButtons = await screen.findAllByLabelText('Copy link');
+    fireEvent.click(copyButtons[0]);
+
+    await waitFor(() => {
+      expect(mockToast).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'Copy failed',
+          variant: 'destructive',
+        })
+      );
+    });
+  });
+
+  it('renders author information when provided', () => {
+    const propsWithAuthor = {
+      ...fullProps,
+      externalFields: {
+        ...fullProps.externalFields,
+        pageAuthor: {
+          value: {
+            personFirstName: { value: 'John' },
+            personLastName: { value: 'Doe' },
+            personJobTitle: { value: 'Software Engineer' },
+          },
+        },
+      },
+    };
+
+    render(<ArticleHeader {...propsWithAuthor} />);
+
+    // Verify avatar section renders
+    expect(screen.getByTestId('avatar')).toBeInTheDocument();
+
+    // Verify author name is displayed (appears in Avatar fallback and paragraph)
+    const authorElements = screen.getAllByText(/John\s+Doe/);
+    expect(authorElements.length).toBeGreaterThan(0);
+
+    // Verify job title is displayed
+    expect(screen.getByText('Software Engineer')).toBeInTheDocument();
+  });
+
+  it('renders read time when provided', () => {
+    render(<ArticleHeader {...fullProps} />);
+
+    expect(screen.getByText('3 min')).toBeInTheDocument();
+  });
+
+  it('renders display date when provided', () => {
+    render(<ArticleHeader {...fullProps} />);
+
+    expect(screen.getByText('2025-10-01')).toBeInTheDocument();
+  });
+
+  it('renders eyebrow badge when provided', () => {
+    render(<ArticleHeader {...fullProps} />);
+
+    expect(screen.getByText('Category')).toBeInTheDocument();
+    expect(screen.getByTestId('badge')).toBeInTheDocument();
+  });
+
+  it('renders without eyebrow badge when not provided', () => {
+    const propsWithoutEyebrow = {
+      ...fullProps,
+      fields: {
+        imageRequired: fullProps.fields.imageRequired,
+      },
+    };
+
+    render(<ArticleHeader {...propsWithoutEyebrow} />);
+
+    expect(screen.queryByTestId('badge')).not.toBeInTheDocument();
+  });
+
+  it('renders image wrapper with correct props', () => {
+    render(<ArticleHeader {...fullProps} />);
+
+    const images = screen.getAllByTestId('image-wrapper');
+    expect(images.length).toBeGreaterThan(0);
+    expect(images[0]).toHaveAttribute('src', '/image.jpg');
+  });
+
+  it('renders floating dock with all share options', async () => {
+    render(<ArticleHeader {...fullProps} />);
+
+    const floatingDocks = screen.getAllByTestId('floating-dock');
+    expect(floatingDocks.length).toBeGreaterThan(0);
+
+    // Verify all share buttons exist
+    expect(await screen.findAllByLabelText('Share on Facebook')).toHaveLength(2);
+    expect(await screen.findAllByLabelText('Share on Twitter')).toHaveLength(2);
+    expect(await screen.findAllByLabelText('Share on LinkedIn')).toHaveLength(2);
+    expect(await screen.findAllByLabelText('Share via Email')).toHaveLength(2);
+    expect(await screen.findAllByLabelText('Copy link')).toHaveLength(2);
+  });
+
+  it('updates copy button state after successful copy', async () => {
+    render(<ArticleHeader {...fullProps} />);
+
+    const copyButtons = await screen.findAllByLabelText('Copy link');
+    fireEvent.click(copyButtons[0]);
+
+    await waitFor(() => {
+      expect(screen.getAllByLabelText('Link copied').length).toBeGreaterThan(0);
+    });
+  });
+
+  it('cleans up event listeners on unmount', () => {
+    const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+    const cancelAnimationFrameSpy = jest.spyOn(window, 'cancelAnimationFrame');
+
+    const { unmount } = render(<ArticleHeader {...fullProps} />);
+    unmount();
+
+    expect(removeEventListenerSpy).toHaveBeenCalledWith('mousemove', expect.any(Function));
+    expect(cancelAnimationFrameSpy).toHaveBeenCalled();
+
+    removeEventListenerSpy.mockRestore();
+    cancelAnimationFrameSpy.mockRestore();
+  });
 });

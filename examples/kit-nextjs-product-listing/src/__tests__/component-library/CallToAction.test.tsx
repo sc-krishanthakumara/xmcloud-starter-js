@@ -1,6 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Default as CallToAction1 } from '../../components/component-library/CallToAction';
+import {
+  Default as CallToActionDefault,
+  CallToAction1,
+  CallToAction2,
+  CallToAction3,
+  CallToAction4,
+} from '../../components/component-library/CallToAction';
 import {
   defaultCallToActionProps,
   ctaPropsWithStyles,
@@ -154,5 +160,59 @@ describe('CallToAction', () => {
 
     const image = screen.getByTestId('cta-image');
     expect(image).toHaveClass('absolute', 'object-cover');
+  });
+});
+
+describe('CallToActionDefault', () => {
+  it('renders correctly', () => {
+    const { container } = render(<CallToActionDefault {...defaultCallToActionProps} />);
+    expect(container.querySelector('section')).toBeInTheDocument();
+  });
+});
+
+describe('CallToAction2', () => {
+  it('renders variant 2 correctly', () => {
+    const { container } = render(<CallToAction2 {...defaultCallToActionProps} />);
+    expect(container.querySelector('section')).toBeInTheDocument();
+    expect(screen.getByText('Transform Your Business Today')).toBeInTheDocument();
+  });
+
+  it('handles custom styles', () => {
+    const { container } = render(<CallToAction2 {...ctaPropsWithStyles} />);
+    expect(container.querySelector('section')).toHaveClass('custom-cta-class');
+  });
+});
+
+describe('CallToAction3', () => {
+  it('renders variant 3 correctly', () => {
+    const { container } = render(<CallToAction3 {...defaultCallToActionProps} />);
+    expect(container.querySelector('section')).toBeInTheDocument();
+    expect(screen.getByText('Transform Your Business Today')).toBeInTheDocument();
+  });
+
+  it('handles links correctly', () => {
+    render(<CallToAction3 {...defaultCallToActionProps} />);
+    const links = screen.getAllByTestId('cta-link');
+    expect(links.length).toBeGreaterThan(0);
+  });
+});
+
+describe('CallToAction4', () => {
+  it('renders variant 4 correctly', () => {
+    const { container } = render(<CallToAction4 {...defaultCallToActionProps} />);
+    expect(container.querySelector('section')).toBeInTheDocument();
+    expect(screen.getByText('Transform Your Business Today')).toBeInTheDocument();
+  });
+
+  it('renders with only one link', () => {
+    render(<CallToAction4 {...ctaPropsOnlyOneLink} />);
+    const links = screen.getAllByTestId('cta-link');
+    expect(links).toHaveLength(1);
+  });
+
+  it('handles no links', () => {
+    render(<CallToAction4 {...ctaPropsNoLinks} />);
+    const links = screen.queryAllByTestId('cta-link');
+    expect(links).toHaveLength(0);
   });
 });
