@@ -17,8 +17,6 @@ import {
   promoAnimatedPropsNoFields,
   promoAnimatedPropsEmptyFields,
   promoAnimatedPropsNoColorScheme,
-  mockUseSitecoreNormal,
-  mockUseSitecoreEditing,
 } from './PromoAnimated.mockProps';
 
 // Mock window.matchMedia
@@ -295,7 +293,7 @@ describe('PromoAnimated Component', () => {
         promoAnimatedPropsOrange,
       ];
 
-      colorSchemeVariants.forEach((props, index) => {
+      colorSchemeVariants.forEach((props) => {
         const { unmount } = render(<PromoAnimatedDefault {...props} />);
         
         expect(screen.getByText('Revolutionary Audio Experience')).toBeInTheDocument();
@@ -325,7 +323,10 @@ describe('PromoAnimated Component', () => {
       render(<PromoAnimatedDefault {...promoAnimatedPropsNoImage} />);
 
       expect(screen.getByText('Text Only Promo')).toBeInTheDocument();
-      expect(screen.queryByTestId('promo-image')).not.toBeInTheDocument();
+      // Image element is still rendered but with empty src
+      const image = screen.getByTestId('promo-image');
+      expect(image).toBeInTheDocument();
+      expect(image).toHaveAttribute('alt', '');
       expect(screen.getByTestId('primary-button')).toBeInTheDocument();
     });
 

@@ -111,6 +111,79 @@ jest.mock('../../utils/NoDataFallback', () => ({
   ),
 }));
 
+// Mock all hero variant components
+jest.mock('../../components/hero/HeroImageBottom.dev', () => ({
+  HeroImageBottom: ({ fields, isPageEditing }: any) => {
+    return (
+      <section data-testid="hero-image-bottom">
+        <div data-testid="hero-content">
+          {fields?.title?.value && <h1 data-testid="hero-title">{fields.title.value}</h1>}
+          {fields?.dictionary && (
+            <div data-testid="hero-dictionary">
+              <span data-testid="submit-label">{fields.dictionary.SubmitCTALabel}</span>
+            </div>
+          )}
+          <span data-testid="editing-mode">{isPageEditing ? 'editing' : 'normal'}</span>
+        </div>
+      </section>
+    );
+  },
+}));
+
+jest.mock('../../components/hero/HeroImageBottomInset.dev', () => ({
+  HeroImageBottomInset: ({ fields, isPageEditing }: any) => {
+    return (
+      <section data-testid="hero-image-bottom-inset">
+        <div data-testid="hero-content">
+          {fields?.title?.value && <h1 data-testid="hero-title">{fields.title.value}</h1>}
+          {fields?.dictionary && (
+            <div data-testid="hero-dictionary">
+              <span data-testid="submit-label">{fields.dictionary.SubmitCTALabel}</span>
+            </div>
+          )}
+          <span data-testid="editing-mode">{isPageEditing ? 'editing' : 'normal'}</span>
+        </div>
+      </section>
+    );
+  },
+}));
+
+jest.mock('../../components/hero/HeroImageBackground.dev', () => ({
+  HeroImageBackground: ({ fields, isPageEditing }: any) => {
+    return (
+      <section data-testid="hero-image-background">
+        <div data-testid="hero-content">
+          {fields?.title?.value && <h1 data-testid="hero-title">{fields.title.value}</h1>}
+          {fields?.dictionary && (
+            <div data-testid="hero-dictionary">
+              <span data-testid="submit-label">{fields.dictionary.SubmitCTALabel}</span>
+            </div>
+          )}
+          <span data-testid="editing-mode">{isPageEditing ? 'editing' : 'normal'}</span>
+        </div>
+      </section>
+    );
+  },
+}));
+
+jest.mock('../../components/hero/HeroImageRight.dev', () => ({
+  HeroImageRight: ({ fields, isPageEditing }: any) => {
+    return (
+      <section data-testid="hero-image-right">
+        <div data-testid="hero-content">
+          {fields?.title?.value && <h1 data-testid="hero-title">{fields.title.value}</h1>}
+          {fields?.dictionary && (
+            <div data-testid="hero-dictionary">
+              <span data-testid="submit-label">{fields.dictionary.SubmitCTALabel}</span>
+            </div>
+          )}
+          <span data-testid="editing-mode">{isPageEditing ? 'editing' : 'normal'}</span>
+        </div>
+      </section>
+    );
+  },
+}));
+
 describe('Hero Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -217,9 +290,163 @@ describe('Hero Component', () => {
   });
 
   describe('Hero Variants', () => {
-    // Note: Variant tests temporarily removed due to component dependency issues
-    // in test environment. The Default variant covers the main functionality.
-    it('has multiple variant exports available', () => {
+    it('renders ImageBottom variant correctly', () => {
+      render(<ImageBottom {...defaultHeroProps} />);
+
+      expect(screen.getByTestId('hero-image-bottom')).toBeInTheDocument();
+      expect(screen.getByTestId('hero-content')).toBeInTheDocument();
+      expect(screen.getByTestId('hero-title')).toHaveTextContent('Experience Premium Audio');
+      expect(screen.getByTestId('hero-dictionary')).toBeInTheDocument();
+      expect(screen.getByTestId('submit-label')).toHaveTextContent('Find Store');
+    });
+
+    it('renders ImageBottom variant in editing mode', () => {
+      const { useSitecore } = jest.requireMock('@sitecore-content-sdk/nextjs');
+      useSitecore.mockReturnValue({ page: { mode: { isEditing: true } } });
+
+      render(<ImageBottom {...heroPropsEditing} />);
+
+      expect(screen.getByTestId('hero-image-bottom')).toBeInTheDocument();
+      expect(screen.getByTestId('editing-mode')).toHaveTextContent('editing');
+    });
+
+    it('renders ImageBottom variant with no fields', () => {
+      const { useSitecore } = jest.requireMock('@sitecore-content-sdk/nextjs');
+      useSitecore.mockReturnValue({ page: { mode: { isEditing: false } } });
+
+      render(<ImageBottom {...heroPropsNoFields} />);
+
+      expect(screen.getByTestId('hero-image-bottom')).toBeInTheDocument();
+      expect(screen.getByTestId('editing-mode')).toHaveTextContent('normal');
+    });
+
+    it('renders ImageBottomInset variant correctly', () => {
+      render(<ImageBottomInset {...defaultHeroProps} />);
+
+      expect(screen.getByTestId('hero-image-bottom-inset')).toBeInTheDocument();
+      expect(screen.getByTestId('hero-content')).toBeInTheDocument();
+      expect(screen.getByTestId('hero-title')).toHaveTextContent('Experience Premium Audio');
+      expect(screen.getByTestId('hero-dictionary')).toBeInTheDocument();
+      expect(screen.getByTestId('submit-label')).toHaveTextContent('Find Store');
+    });
+
+    it('renders ImageBottomInset variant in editing mode', () => {
+      const { useSitecore } = jest.requireMock('@sitecore-content-sdk/nextjs');
+      useSitecore.mockReturnValue({ page: { mode: { isEditing: true } } });
+
+      render(<ImageBottomInset {...heroPropsEditing} />);
+
+      expect(screen.getByTestId('hero-image-bottom-inset')).toBeInTheDocument();
+      expect(screen.getByTestId('editing-mode')).toHaveTextContent('editing');
+    });
+
+    it('renders ImageBottomInset variant with no fields', () => {
+      const { useSitecore } = jest.requireMock('@sitecore-content-sdk/nextjs');
+      useSitecore.mockReturnValue({ page: { mode: { isEditing: false } } });
+
+      render(<ImageBottomInset {...heroPropsNoFields} />);
+
+      expect(screen.getByTestId('hero-image-bottom-inset')).toBeInTheDocument();
+      expect(screen.getByTestId('editing-mode')).toHaveTextContent('normal');
+    });
+
+    it('renders ImageBackground variant correctly', () => {
+      render(<ImageBackground {...defaultHeroProps} />);
+
+      expect(screen.getByTestId('hero-image-background')).toBeInTheDocument();
+      expect(screen.getByTestId('hero-content')).toBeInTheDocument();
+      expect(screen.getByTestId('hero-title')).toHaveTextContent('Experience Premium Audio');
+      expect(screen.getByTestId('hero-dictionary')).toBeInTheDocument();
+      expect(screen.getByTestId('submit-label')).toHaveTextContent('Find Store');
+    });
+
+    it('renders ImageBackground variant in editing mode', () => {
+      const { useSitecore } = jest.requireMock('@sitecore-content-sdk/nextjs');
+      useSitecore.mockReturnValue({ page: { mode: { isEditing: true } } });
+
+      render(<ImageBackground {...heroPropsEditing} />);
+
+      expect(screen.getByTestId('hero-image-background')).toBeInTheDocument();
+      expect(screen.getByTestId('editing-mode')).toHaveTextContent('editing');
+    });
+
+    it('renders ImageBackground variant with no fields', () => {
+      const { useSitecore } = jest.requireMock('@sitecore-content-sdk/nextjs');
+      useSitecore.mockReturnValue({ page: { mode: { isEditing: false } } });
+
+      render(<ImageBackground {...heroPropsNoFields} />);
+
+      expect(screen.getByTestId('hero-image-background')).toBeInTheDocument();
+      expect(screen.getByTestId('editing-mode')).toHaveTextContent('normal');
+    });
+
+    it('renders ImageRight variant correctly', () => {
+      render(<ImageRight {...defaultHeroProps} />);
+
+      expect(screen.getByTestId('hero-image-right')).toBeInTheDocument();
+      expect(screen.getByTestId('hero-content')).toBeInTheDocument();
+      expect(screen.getByTestId('hero-title')).toHaveTextContent('Experience Premium Audio');
+      expect(screen.getByTestId('hero-dictionary')).toBeInTheDocument();
+      expect(screen.getByTestId('submit-label')).toHaveTextContent('Find Store');
+    });
+
+    it('renders ImageRight variant in editing mode', () => {
+      const { useSitecore } = jest.requireMock('@sitecore-content-sdk/nextjs');
+      useSitecore.mockReturnValue({ page: { mode: { isEditing: true } } });
+
+      render(<ImageRight {...heroPropsEditing} />);
+
+      expect(screen.getByTestId('hero-image-right')).toBeInTheDocument();
+      expect(screen.getByTestId('editing-mode')).toHaveTextContent('editing');
+    });
+
+    it('renders ImageRight variant with no fields', () => {
+      const { useSitecore } = jest.requireMock('@sitecore-content-sdk/nextjs');
+      useSitecore.mockReturnValue({ page: { mode: { isEditing: false } } });
+
+      render(<ImageRight {...heroPropsNoFields} />);
+
+      expect(screen.getByTestId('hero-image-right')).toBeInTheDocument();
+      expect(screen.getByTestId('editing-mode')).toHaveTextContent('normal');
+    });
+
+    it('passes dictionary to all variants', () => {
+      // Test each variant receives and displays dictionary
+      const variants = [
+        { Component: ImageBottom, testId: 'hero-image-bottom' },
+        { Component: ImageBottomInset, testId: 'hero-image-bottom-inset' },
+        { Component: ImageBackground, testId: 'hero-image-background' },
+        { Component: ImageRight, testId: 'hero-image-right' },
+      ];
+
+      variants.forEach(({ Component, testId }) => {
+        const { unmount } = render(<Component {...defaultHeroProps} />);
+        expect(screen.getByTestId(testId)).toBeInTheDocument();
+        expect(screen.getByTestId('hero-dictionary')).toBeInTheDocument();
+        unmount();
+      });
+    });
+
+    it('passes isPageEditing prop to all variants', () => {
+      const { useSitecore } = jest.requireMock('@sitecore-content-sdk/nextjs');
+      useSitecore.mockReturnValue({ page: { mode: { isEditing: false } } });
+
+      const variants = [
+        { Component: ImageBottom, testId: 'hero-image-bottom' },
+        { Component: ImageBottomInset, testId: 'hero-image-bottom-inset' },
+        { Component: ImageBackground, testId: 'hero-image-background' },
+        { Component: ImageRight, testId: 'hero-image-right' },
+      ];
+
+      variants.forEach(({ Component, testId }) => {
+        const { unmount } = render(<Component {...defaultHeroProps} />);
+        expect(screen.getByTestId(testId)).toBeInTheDocument();
+        expect(screen.getByTestId('editing-mode')).toHaveTextContent('normal');
+        unmount();
+      });
+    });
+
+    it('has all variant exports defined', () => {
       expect(ImageBottom).toBeDefined();
       expect(ImageBottomInset).toBeDefined();
       expect(ImageBackground).toBeDefined();

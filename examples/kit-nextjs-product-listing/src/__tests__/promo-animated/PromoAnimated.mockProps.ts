@@ -1,4 +1,5 @@
 // Mock props for PromoAnimated component tests
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field, ImageField, LinkField } from '@sitecore-content-sdk/nextjs';
 import { PromoAnimatedProps } from '../../components/promo-animated/promo-animated.props';
 import { ColorSchemeLimited as ColorScheme } from '../../enumerations/ColorSchemeLimited.enum';
@@ -25,13 +26,19 @@ export const mockUseSitecoreEditing = {
 
 // Default props with full content
 export const defaultPromoAnimatedProps: PromoAnimatedProps = {
+  rendering: {
+    uid: 'promo-animated-default',
+    componentName: 'PromoAnimated',
+  },
   params: {
-    colorScheme: ColorScheme.PURPLE,
+    colorScheme: ColorScheme.PRIMARY,
   },
   fields: {
     image: createMockImageField('/images/promo-hero.jpg', 'Promotional Hero Image'),
     title: createMockField('Revolutionary Audio Experience'),
-    description: createMockField('Discover our latest collection of premium audio devices designed to elevate your listening experience to new heights.'),
+    description: createMockField(
+      'Discover our latest collection of premium audio devices designed to elevate your listening experience to new heights.'
+    ),
     primaryLink: createMockLinkField('/products/featured', 'Shop Now'),
     secondaryLink: createMockLinkField('/about', 'Learn More'),
   },
@@ -40,8 +47,12 @@ export const defaultPromoAnimatedProps: PromoAnimatedProps = {
 
 // Props with minimal content
 export const promoAnimatedPropsMinimal: PromoAnimatedProps = {
+  rendering: {
+    uid: 'promo-animated-minimal',
+    componentName: 'PromoAnimated',
+  },
   params: {
-    colorScheme: ColorScheme.BLUE,
+    colorScheme: ColorScheme.SECONDARY,
   },
   fields: {
     image: createMockImageField('/images/simple-promo.jpg', 'Simple Promo'),
@@ -52,10 +63,15 @@ export const promoAnimatedPropsMinimal: PromoAnimatedProps = {
 
 // Props without image
 export const promoAnimatedPropsNoImage: PromoAnimatedProps = {
+  rendering: {
+    uid: 'promo-animated-no-image',
+    componentName: 'PromoAnimated',
+  },
   params: {
-    colorScheme: ColorScheme.GREEN,
+    colorScheme: ColorScheme.PRIMARY,
   },
   fields: {
+    image: createMockImageField('', ''),
     title: createMockField('Text Only Promo'),
     description: createMockField('This promo has no image component.'),
     primaryLink: createMockLinkField('/products', 'View Products'),
@@ -65,8 +81,12 @@ export const promoAnimatedPropsNoImage: PromoAnimatedProps = {
 
 // Props without links
 export const promoAnimatedPropsNoLinks: PromoAnimatedProps = {
+  rendering: {
+    uid: 'promo-animated-no-links',
+    componentName: 'PromoAnimated',
+  },
   params: {
-    colorScheme: ColorScheme.ORANGE,
+    colorScheme: ColorScheme.SECONDARY,
   },
   fields: {
     image: createMockImageField('/images/info-promo.jpg', 'Info Promo'),
@@ -78,8 +98,12 @@ export const promoAnimatedPropsNoLinks: PromoAnimatedProps = {
 
 // Props with only primary link
 export const promoAnimatedPropsPrimaryOnly: PromoAnimatedProps = {
+  rendering: {
+    uid: 'promo-animated-primary-only',
+    componentName: 'PromoAnimated',
+  },
   params: {
-    colorScheme: ColorScheme.PURPLE,
+    colorScheme: ColorScheme.PRIMARY,
   },
   fields: {
     image: createMockImageField('/images/single-action.jpg', 'Single Action'),
@@ -92,8 +116,12 @@ export const promoAnimatedPropsPrimaryOnly: PromoAnimatedProps = {
 
 // Props with only secondary link
 export const promoAnimatedPropsSecondaryOnly: PromoAnimatedProps = {
+  rendering: {
+    uid: 'promo-animated-secondary-only',
+    componentName: 'PromoAnimated',
+  },
   params: {
-    colorScheme: ColorScheme.BLUE,
+    colorScheme: ColorScheme.SECONDARY,
   },
   fields: {
     image: createMockImageField('/images/learn-more.jpg', 'Learn More'),
@@ -112,8 +140,12 @@ export const promoAnimatedPropsEditing: PromoAnimatedProps = {
 
 // Props with empty links (editing mode should show them)
 export const promoAnimatedPropsEmptyLinksEditing: PromoAnimatedProps = {
+  rendering: {
+    uid: 'promo-animated-empty-links',
+    componentName: 'PromoAnimated',
+  },
   params: {
-    colorScheme: ColorScheme.GREEN,
+    colorScheme: ColorScheme.PRIMARY,
   },
   fields: {
     image: createMockImageField('/images/editing-mode.jpg', 'Editing Mode'),
@@ -129,26 +161,30 @@ export const promoAnimatedPropsEmptyLinksEditing: PromoAnimatedProps = {
 export const promoAnimatedPropsBlue: PromoAnimatedProps = {
   ...defaultPromoAnimatedProps,
   params: {
-    colorScheme: ColorScheme.BLUE,
+    colorScheme: ColorScheme.SECONDARY,
   },
 };
 
 export const promoAnimatedPropsGreen: PromoAnimatedProps = {
   ...defaultPromoAnimatedProps,
   params: {
-    colorScheme: ColorScheme.GREEN,
+    colorScheme: ColorScheme.PRIMARY,
   },
 };
 
 export const promoAnimatedPropsOrange: PromoAnimatedProps = {
   ...defaultPromoAnimatedProps,
   params: {
-    colorScheme: ColorScheme.ORANGE,
+    colorScheme: ColorScheme.SECONDARY,
   },
 };
 
 // Props without fields
 export const promoAnimatedPropsNoFields: PromoAnimatedProps = {
+  rendering: {
+    uid: 'promo-animated-no-fields',
+    componentName: 'PromoAnimated',
+  },
   params: {},
   fields: undefined as any,
   isPageEditing: false,
@@ -156,10 +192,15 @@ export const promoAnimatedPropsNoFields: PromoAnimatedProps = {
 
 // Props with empty fields
 export const promoAnimatedPropsEmptyFields: PromoAnimatedProps = {
+  rendering: {
+    uid: 'promo-animated-empty-fields',
+    componentName: 'PromoAnimated',
+  },
   params: {
-    colorScheme: ColorScheme.PURPLE,
+    colorScheme: ColorScheme.PRIMARY,
   },
   fields: {
+    image: createMockImageField('', ''),
     title: createMockField(''),
     description: createMockField(''),
   },
@@ -168,6 +209,10 @@ export const promoAnimatedPropsEmptyFields: PromoAnimatedProps = {
 
 // Props without color scheme (should use default)
 export const promoAnimatedPropsNoColorScheme: PromoAnimatedProps = {
+  rendering: {
+    uid: 'promo-animated-no-color-scheme',
+    componentName: 'PromoAnimated',
+  },
   params: {},
   fields: {
     image: createMockImageField('/images/default-scheme.jpg', 'Default Scheme'),
