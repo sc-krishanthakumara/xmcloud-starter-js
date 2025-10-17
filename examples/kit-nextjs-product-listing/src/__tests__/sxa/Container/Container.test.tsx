@@ -96,7 +96,7 @@ describe('Container Component', () => {
       expect(container.querySelector('.component-content')).toBeInTheDocument();
     });
 
-    // Skipped: Component doesn't handle null params - it expects params.GridParameters to exist
+    // TODO: Skipped: Component doesn't handle null params - it expects params.GridParameters to exist
     // This would require modifying the component to add null checks
     it.skip('should handle null params gracefully', () => {
       const { container } = render(<Container {...containerPropsNullParams} />);

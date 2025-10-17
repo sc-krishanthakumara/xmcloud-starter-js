@@ -72,6 +72,7 @@ if (typeof global.IntersectionObserver === 'undefined') {
   } as any;
 }
 
+//TODO: Seems like there is a memory leak issue, require further investigation
 describe.skip('MediaSection Component', () => {
   const originalLocation = window.location;
 
@@ -97,18 +98,21 @@ describe.skip('MediaSection Component', () => {
   });
 
   describe('Video Rendering', () => {
-    it('renders video with correct attributes and classes', () => {
-      render(<MediaSectionDefault {...defaultMediaSectionProps} />);
+  it('renders video with correct attributes and classes', () => {
+    const { container } = render(<MediaSectionDefault {...defaultMediaSectionProps} />);
 
-      const video = screen.getByRole('presentation'); // video with aria-hidden="true"
-      expect(video).toBeInTheDocument();
-      expect(video.tagName.toLowerCase()).toBe('video');
-      expect(video).toHaveAttribute('src', '/videos/demo-video.mp4');
+    const video = container.querySelector('video'); // video with aria-hidden="true"
+    expect(video).toBeInTheDocument();
+    expect(video?.tagName.toLowerCase()).toBe('video');
+    
+    // Check source element for the video src
+    const source = video?.querySelector('source');
+    expect(source).toHaveAttribute('src', '/videos/demo-video.mp4');
       
-      // Accessibility and performance attributes
-      expect(video).toHaveAttribute('playsInline');
-      expect(video).toHaveAttribute('muted');
-      expect(video).toHaveAttribute('loop');
+    // Accessibility and performance attributes
+    expect(video).toHaveAttribute('playsInline');
+    expect(video).toHaveProperty('muted', true);  // muted is a boolean property, not attribute
+    expect(video).toHaveAttribute('loop');
       expect(video).toHaveAttribute('aria-hidden', 'true');
       expect(video).toHaveAttribute('preload', 'metadata');
       expect(video).toHaveAttribute('loading', 'lazy');
@@ -171,9 +175,9 @@ describe.skip('MediaSection Component', () => {
     });
 
     it('renders when only video is provided (no image)', () => {
-      render(<MediaSectionDefault {...mediaSectionPropsVideoOnly} />);
+      const { container } = render(<MediaSectionDefault {...mediaSectionPropsVideoOnly} />);
 
-      expect(screen.getByRole('presentation')).toBeInTheDocument();
+      expect(container.querySelector('video')).toBeInTheDocument();
     });
 
     it('renders when only image is provided (no video)', () => {
@@ -185,20 +189,24 @@ describe.skip('MediaSection Component', () => {
 
   describe('Media Source Handling', () => {
     it('includes video source element with correct type', () => {
-      render(<MediaSectionDefault {...defaultMediaSectionProps} />);
+      const { container } = render(<MediaSectionDefault {...defaultMediaSectionProps} />);
 
-      const source = screen.getByRole('presentation').querySelector('source');
+      const video = container.querySelector('video');
+      const source = video?.querySelector('source');
       expect(source).toBeInTheDocument();
       expect(source).toHaveAttribute('src', '/videos/demo-video.mp4');
       expect(source).toHaveAttribute('type', 'video/mp4');
     });
 
     it('handles minimal props with just video', () => {
-      render(<MediaSectionDefault {...mediaSectionPropsMinimal} />);
+      const { container } = render(<MediaSectionDefault {...mediaSectionPropsMinimal} />);
 
-      const video = screen.getByRole('presentation');
-      expect(video).toBeInTheDocument();
-      expect(video).toHaveAttribute('src', '/videos/demo-video.mp4');
+    const video = container.querySelector('video');
+    expect(video).toBeInTheDocument();
+    
+    // Check source element for the video src
+    const source = video?.querySelector('source');
+    expect(source).toHaveAttribute('src', '/videos/demo-video.mp4');
     });
   });
 
@@ -230,10 +238,10 @@ describe.skip('MediaSection Component', () => {
         page: { mode: { isNormal: false, isEditing: true } }
       });
 
-      render(<MediaSectionDefault {...defaultMediaSectionProps} />);
+      const { container } = render(<MediaSectionDefault {...defaultMediaSectionProps} />);
 
       // Should still render in editing mode
-      expect(screen.getByRole('presentation')).toBeInTheDocument();
+      expect(container.querySelector('video')).toBeInTheDocument();
     });
   });
 
@@ -253,12 +261,14 @@ describe.skip('MediaSection Component', () => {
         video: 'invalid-url',
       };
 
-      expect(() => {
-        render(<MediaSectionDefault {...propsWithBadVideo} />);
-      }).not.toThrow();
+      const { container } = render(<MediaSectionDefault {...propsWithBadVideo} />);
 
-      const video = screen.getByRole('presentation');
-      expect(video).toHaveAttribute('src', 'invalid-url');
+      const video = container.querySelector('video');
+      expect(video).toBeInTheDocument();
+      
+      // Check source element for the video src
+      const source = video?.querySelector('source');
+    expect(source).toHaveAttribute('src', 'invalid-url');
     });
 
     it('handles missing image fields gracefully', () => {
@@ -267,10 +277,10 @@ describe.skip('MediaSection Component', () => {
         image: undefined,
       };
 
-      render(<MediaSectionDefault {...propsWithoutImage} />);
+      const { container } = render(<MediaSectionDefault {...propsWithoutImage} />);
 
       // Should render video but no image
-      expect(screen.getByRole('presentation')).toBeInTheDocument();
+      expect(container.querySelector('video')).toBeInTheDocument();
       expect(screen.queryByTestId('media-image')).not.toBeInTheDocument();
     });
   });

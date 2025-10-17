@@ -129,7 +129,7 @@ describe('Image Component', () => {
 
   describe('Empty States', () => {
     it.skip('should show placeholder when image is empty (editing mode)', () => {
-      // Note: This test requires mocking isEditing: true
+      // TODO: Note: This test requires mocking isEditing: true
       // Skipped because we need isEditing: false for link tests
       const { container } = render(<Image {...imagePropsEmptyImage} />);
 

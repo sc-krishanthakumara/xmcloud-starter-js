@@ -146,7 +146,7 @@ describe('ContentBlock Component', () => {
     });
 
     it.skip('should handle null fields gracefully', () => {
-      // Note: Component crashes with null fields - this is expected behavior
+      //TODO: Note: Component crashes with null fields - this is expected behavior
       // The component should be wrapped with withDatasourceCheck HOC which prevents this
       const { container } = render(<ContentBlock {...contentBlockPropsNullFields} />);
 
