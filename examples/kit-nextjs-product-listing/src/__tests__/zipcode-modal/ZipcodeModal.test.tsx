@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -8,7 +8,6 @@ import {
   zipcodeModalPropsNotOpen,
   zipcodeModalPropsWithError,
   zipcodeModalPropsGeoLoading,
-  zipcodeModalPropsLocationError,
   zipcodeModalPropsPermissionDenied,
   zipcodeModalPropsNetworkError,
   zipcodeModalPropsLongError,
@@ -18,7 +17,6 @@ import {
   invalidZipcodes,
   edgeCaseZipcodes,
   mockOnClose,
-  mockOnSubmit,
   mockOnUseMyLocation,
 } from './ZipcodeModal.mockProps';
 
@@ -65,21 +63,9 @@ jest.mock('../../components/ui/dialog', () => ({
       {children}
     </div>
   ),
-  DialogHeader: ({ children }: any) => (
-    <div data-testid="dialog-header">
-      {children}
-    </div>
-  ),
-  DialogTitle: ({ children }: any) => (
-    <h2 data-testid="dialog-title">
-      {children}
-    </h2>
-  ),
-  DialogDescription: ({ children }: any) => (
-    <p data-testid="dialog-description">
-      {children}
-    </p>
-  ),
+  DialogHeader: ({ children }: any) => <div data-testid="dialog-header">{children}</div>,
+  DialogTitle: ({ children }: any) => <h2 data-testid="dialog-title">{children}</h2>,
+  DialogDescription: ({ children }: any) => <p data-testid="dialog-description">{children}</p>,
   DialogFooter: ({ children, className }: any) => (
     <div data-testid="dialog-footer" className={className}>
       {children}
@@ -108,7 +94,9 @@ describe('ZipcodeModal Component', () => {
 
       expect(screen.getByTestId('dialog')).toHaveAttribute('data-open', 'true');
       expect(screen.getByTestId('dialog-title')).toHaveTextContent('Enter your zipcode');
-      expect(screen.getByTestId('dialog-description')).toHaveTextContent('Please enter your zipcode to continue.');
+      expect(screen.getByTestId('dialog-description')).toHaveTextContent(
+        'Please enter your zipcode to continue.'
+      );
     });
 
     it('does not render when open prop is false', () => {
@@ -148,13 +136,17 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...zipcodeModalPropsWithError} />);
 
       const description = screen.getByTestId('dialog-description');
-      expect(description).toHaveTextContent('We couldn\'t access your location: Location access denied');
+      expect(description).toHaveTextContent(
+        "We couldn't access your location: Location access denied"
+      );
     });
 
     it('displays permission denied error correctly', () => {
       render(<ZipcodeModal {...zipcodeModalPropsPermissionDenied} />);
 
-      expect(screen.getByTestId('dialog-description')).toHaveTextContent('Location permission denied');
+      expect(screen.getByTestId('dialog-description')).toHaveTextContent(
+        'Location permission denied'
+      );
     });
 
     it('displays network error correctly', () => {
@@ -173,13 +165,15 @@ describe('ZipcodeModal Component', () => {
     it('handles special characters in error messages', () => {
       render(<ZipcodeModal {...zipcodeModalPropsSpecialCharsError} />);
 
-      expect(screen.getByTestId('dialog-description')).toHaveTextContent('Erreur d\'accès');
+      expect(screen.getByTestId('dialog-description')).toHaveTextContent("Erreur d'accès");
     });
 
     it('shows default description when no error', () => {
       render(<ZipcodeModal {...defaultZipcodeModalProps} />);
 
-      expect(screen.getByTestId('dialog-description')).toHaveTextContent('Please enter your zipcode to continue.');
+      expect(screen.getByTestId('dialog-description')).toHaveTextContent(
+        'Please enter your zipcode to continue.'
+      );
     });
   });
 
@@ -189,9 +183,9 @@ describe('ZipcodeModal Component', () => {
 
       const locationButton = screen.getByText('Getting location...');
       expect(locationButton).toBeInTheDocument();
-      
+
       const buttons = screen.getAllByTestId('button');
-      const geoButton = buttons.find(btn => btn.textContent?.includes('Getting location'));
+      const geoButton = buttons.find((btn) => btn.textContent?.includes('Getting location'));
       expect(geoButton).toBeDisabled();
     });
 
@@ -206,7 +200,7 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...zipcodeModalPropsGeoLoading} />);
 
       const buttons = screen.getAllByTestId('button');
-      const geoButton = buttons.find(btn => btn.textContent?.includes('Getting location'));
+      const geoButton = buttons.find((btn) => btn.textContent?.includes('Getting location'));
       expect(geoButton).toBeDisabled();
     });
 
@@ -214,9 +208,9 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...defaultZipcodeModalProps} />);
 
       expect(screen.getByText('Use my location')).toBeInTheDocument();
-      
+
       const buttons = screen.getAllByTestId('button');
-      const geoButton = buttons.find(btn => btn.textContent?.includes('Use my location'));
+      const geoButton = buttons.find((btn) => btn.textContent?.includes('Use my location'));
       expect(geoButton).not.toBeDisabled();
     });
   });
@@ -244,27 +238,29 @@ describe('ZipcodeModal Component', () => {
     });
 
     describe('Invalid Zipcodes', () => {
-      invalidZipcodes.filter(zipcode => zipcode.trim() !== '').forEach((zipcode) => {
-        it(`rejects invalid zipcode: "${zipcode}"`, async () => {
-          const mockSubmit = jest.fn();
-          render(<ZipcodeModal {...defaultZipcodeModalProps} onSubmit={mockSubmit} />);
+      invalidZipcodes
+        .filter((zipcode) => zipcode.trim() !== '')
+        .forEach((zipcode) => {
+          it(`rejects invalid zipcode: "${zipcode}"`, async () => {
+            const mockSubmit = jest.fn();
+            render(<ZipcodeModal {...defaultZipcodeModalProps} onSubmit={mockSubmit} />);
 
-          const input = screen.getByTestId('input');
-          const submitButton = screen.getByText('Save zipcode');
+            const input = screen.getByTestId('input');
+            const submitButton = screen.getByText('Save zipcode');
 
-          await act(async () => {
-            await userEvent.type(input, zipcode);
-            fireEvent.click(submitButton);
+            await act(async () => {
+              await userEvent.type(input, zipcode);
+              fireEvent.click(submitButton);
+            });
+
+            await waitFor(() => {
+              expect(mockSubmit).not.toHaveBeenCalled();
+            });
+
+            // Should show validation error
+            expect(screen.getByText(/Please enter a valid/)).toBeInTheDocument();
           });
-
-          await waitFor(() => {
-            expect(mockSubmit).not.toHaveBeenCalled();
-          });
-
-          // Should show validation error
-          expect(screen.getByText(/Please enter a valid/)).toBeInTheDocument();
         });
-      });
     });
 
     describe('Edge Cases', () => {
@@ -306,7 +302,7 @@ describe('ZipcodeModal Component', () => {
 
       // Submit empty form to trigger error
       fireEvent.click(submitButton);
-      
+
       await waitFor(() => {
         expect(screen.getByText('Please enter a valid zipcode')).toBeInTheDocument();
       });
@@ -416,7 +412,7 @@ describe('ZipcodeModal Component', () => {
       submitEvent.preventDefault = preventDefaultSpy;
 
       await userEvent.type(screen.getByTestId('input'), '12345');
-      
+
       if (form) {
         await act(async () => {
           form.dispatchEvent(submitEvent);
@@ -443,8 +439,8 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...zipcodeModalPropsGeoLoading} onUseMyLocation={mockUseLocation} />);
 
       const buttons = screen.getAllByTestId('button');
-      const geoButton = buttons.find(btn => btn.textContent?.includes('Getting location'));
-      
+      const geoButton = buttons.find((btn) => btn.textContent?.includes('Getting location'));
+
       if (geoButton) {
         fireEvent.click(geoButton);
       }
@@ -463,8 +459,8 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...zipcodeModalPropsGeoLoading} />);
 
       const buttons = screen.getAllByTestId('button');
-      const geoButton = buttons.find(btn => btn.textContent?.includes('Getting location'));
-      
+      const geoButton = buttons.find((btn) => btn.textContent?.includes('Getting location'));
+
       expect(geoButton).toHaveAttribute('disabled');
       expect(geoButton).toHaveClass('w-full');
     });
@@ -488,7 +484,7 @@ describe('ZipcodeModal Component', () => {
       // Simulate dialog onOpenChange being called with false
       const dialog = screen.getByTestId('dialog');
       const onOpenChange = dialog.getAttribute('data-open') === 'true' ? mockClose : undefined;
-      
+
       if (onOpenChange) {
         onOpenChange();
       }
@@ -496,7 +492,9 @@ describe('ZipcodeModal Component', () => {
 
     it('handles rapid open/close state changes', async () => {
       const mockClose = jest.fn();
-      const { rerender } = render(<ZipcodeModal {...defaultZipcodeModalProps} onClose={mockClose} />);
+      const { rerender } = render(
+        <ZipcodeModal {...defaultZipcodeModalProps} onClose={mockClose} />
+      );
 
       // Rapidly toggle open state
       rerender(<ZipcodeModal {...zipcodeModalPropsNotOpen} onClose={mockClose} />);
@@ -513,9 +511,9 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...defaultZipcodeModalProps} />);
 
       const input = screen.getByTestId('input');
-      
+
       await userEvent.type(input, '12345');
-      
+
       expect(input).toHaveValue('12345');
     });
 
@@ -523,11 +521,11 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...defaultZipcodeModalProps} />);
 
       const input = screen.getByTestId('input');
-      
+
       await userEvent.type(input, 'wrong');
       await userEvent.clear(input);
       await userEvent.type(input, '12345');
-      
+
       expect(input).toHaveValue('12345');
     });
 
@@ -535,10 +533,10 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...defaultZipcodeModalProps} />);
 
       const input = screen.getByTestId('input');
-      
+
       await userEvent.type(input, '123456');
       await userEvent.type(input, '{backspace}');
-      
+
       expect(input).toHaveValue('12345');
     });
 
@@ -546,10 +544,10 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...defaultZipcodeModalProps} />);
 
       const input = screen.getByTestId('input');
-      
+
       await userEvent.click(input);
       await userEvent.paste('90210');
-      
+
       expect(input).toHaveValue('90210');
     });
 
@@ -561,7 +559,7 @@ describe('ZipcodeModal Component', () => {
 
       // Trigger validation error
       fireEvent.click(submitButton);
-      
+
       await waitFor(() => {
         expect(screen.getByText('Please enter a valid zipcode')).toBeInTheDocument();
       });
@@ -579,8 +577,8 @@ describe('ZipcodeModal Component', () => {
 
       const input = screen.getByTestId('input');
       const buttons = screen.getAllByTestId('button');
-      const locationButton = buttons.find(btn => btn.textContent?.includes('Use my location'));
-      const submitButton = buttons.find(btn => btn.textContent?.includes('Save zipcode'));
+      const locationButton = buttons.find((btn) => btn.textContent?.includes('Use my location'));
+      const submitButton = buttons.find((btn) => btn.textContent?.includes('Save zipcode'));
 
       // Tab through elements
       await userEvent.tab();
@@ -598,7 +596,7 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...defaultZipcodeModalProps} onSubmit={mockSubmit} />);
 
       const input = screen.getByTestId('input');
-      
+
       await userEvent.type(input, '12345');
       await userEvent.keyboard('{Enter}');
 
@@ -613,8 +611,6 @@ describe('ZipcodeModal Component', () => {
 
       await userEvent.keyboard('{Escape}');
 
-      // Note: The actual Escape handling would be implemented by the Dialog component
-      // This test verifies that the component structure supports it
       expect(screen.getByTestId('dialog')).toBeInTheDocument();
     });
 
@@ -623,7 +619,7 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...defaultZipcodeModalProps} onUseMyLocation={mockUseLocation} />);
 
       const buttons = screen.getAllByTestId('button');
-      const locationButton = buttons.find(btn => btn.textContent?.includes('Use my location'));
+      const locationButton = buttons.find((btn) => btn.textContent?.includes('Use my location'));
 
       if (locationButton) {
         locationButton.focus();
@@ -665,7 +661,7 @@ describe('ZipcodeModal Component', () => {
 
       const input = screen.getByTestId('input');
       await userEvent.click(input);
-      
+
       expect(document.activeElement).toBe(input);
     });
 
@@ -694,7 +690,7 @@ describe('ZipcodeModal Component', () => {
       render(<ZipcodeModal {...defaultZipcodeModalProps} />);
 
       const input = screen.getByTestId('input');
-      
+
       // Rapidly type multiple characters
       const rapidText = '1234567890';
       for (const char of rapidText) {
@@ -735,7 +731,7 @@ describe('ZipcodeModal Component', () => {
 
       const input = screen.getByTestId('input');
       const buttons = screen.getAllByTestId('button');
-      const locationButton = buttons.find(btn => btn.textContent?.includes('Use my location'));
+      const locationButton = buttons.find((btn) => btn.textContent?.includes('Use my location'));
 
       // Rapid alternating interactions
       await userEvent.type(input, '1');
@@ -771,7 +767,9 @@ describe('ZipcodeModal Component', () => {
       expect(screen.getByText('Getting location...')).toBeInTheDocument();
 
       rerender(<ZipcodeModal {...zipcodeModalPropsWithError} />);
-      expect(screen.getByTestId('dialog-description')).toHaveTextContent('We couldn\'t access your location');
+      expect(screen.getByTestId('dialog-description')).toHaveTextContent(
+        "We couldn't access your location"
+      );
     });
 
     it('maintains component state across prop changes', async () => {
@@ -782,17 +780,17 @@ describe('ZipcodeModal Component', () => {
 
       // Change props but maintain internal state
       rerender(<ZipcodeModal {...defaultZipcodeModalProps} error="Test error" />);
-      
+
       expect(input).toHaveValue('12345');
     });
 
     it('handles concurrent operations gracefully', async () => {
       const mockSubmit = jest.fn();
       const mockUseLocation = jest.fn();
-      
+
       render(
-        <ZipcodeModal 
-          {...defaultZipcodeModalProps} 
+        <ZipcodeModal
+          {...defaultZipcodeModalProps}
           onSubmit={mockSubmit}
           onUseMyLocation={mockUseLocation}
         />

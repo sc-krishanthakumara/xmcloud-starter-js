@@ -1,6 +1,6 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Default as VideoDefault } from '../../components/video/Video';
 import {
   defaultVideoProps,
@@ -29,7 +29,6 @@ import {
   mockVideoContextPlayingOther,
   mockVideoModalDefault,
   mockVideoModalOpen,
-  mockIsMobileTrue,
   mockIsMobileFalse,
   mockUseSitecoreNormal,
 } from './Video.mockProps';
@@ -44,8 +43,6 @@ jest.mock('@sitecore-content-sdk/nextjs', () => ({
 // Mock video hooks
 const mockUseVideoModal = jest.fn();
 const mockUseVideo = jest.fn();
-const mockUseVideoModalReturn = mockVideoModalDefault;
-const mockUseVideoReturn = mockVideoContextDefault;
 
 jest.mock('../../hooks/useVideoModal', () => ({
   useVideoModal: () => mockUseVideoModal(),
@@ -74,16 +71,19 @@ const mockGetYouTubeThumbnail = jest.fn();
 
 jest.mock('../../lib/utils', () => ({
   cn: (...classes: any[]) => {
-    return classes.filter(Boolean).filter(c => typeof c === 'string' || typeof c === 'number').join(' ');
+    return classes
+      .filter(Boolean)
+      .filter((c) => typeof c === 'string' || typeof c === 'number')
+      .join(' ');
   },
-  getYouTubeThumbnail: (videoId: string, width?: number, height?: number) => 
+  getYouTubeThumbnail: (videoId: string, width?: number, height?: number) =>
     mockGetYouTubeThumbnail(videoId, width, height),
 }));
 
 // Mock framer-motion
-jest.mock('framer-motion', () => ({
-  motion: {
-    div: React.forwardRef(({ children, className, onClick, whileHover, initial, variants, ...props }: any, ref: any) => (
+jest.mock('framer-motion', () => {
+  const MotionDiv = React.forwardRef(
+    ({ children, className, onClick, whileHover, ...props }: any, ref: any) => (
       <div
         ref={ref}
         className={className}
@@ -94,19 +94,20 @@ jest.mock('framer-motion', () => ({
       >
         {children}
       </div>
-    )),
-  },
-}));
+    )
+  );
+  MotionDiv.displayName = 'MotionDiv';
+  return {
+    motion: {
+      div: MotionDiv,
+    },
+  };
+});
 
 // Mock Icon component
 jest.mock('../../components/icon/Icon', () => ({
   Default: ({ iconName, className, ...props }: any) => (
-    <div
-      data-testid="icon"
-      data-icon-name={iconName}
-      className={className}
-      {...props}
-    >
+    <div data-testid="icon" data-icon-name={iconName} className={className} {...props}>
       {iconName} Icon
     </div>
   ),
@@ -147,7 +148,7 @@ jest.mock('../../components/video/VideoPlayer.dev', () => ({
 
 // Mock VideoModal component
 jest.mock('../../components/video/VideoModal.dev', () => ({
-  VideoModal: ({ isOpen, onClose, videoUrl, componentRef }: any) => (
+  VideoModal: ({ isOpen, onClose, videoUrl }: any) => (
     <div
       data-testid="video-modal"
       data-is-open={isOpen}
@@ -177,7 +178,9 @@ describe('Video Component', () => {
     mockUseVideo.mockReturnValue(mockVideoContextDefault);
     mockIsMobile.mockReturnValue(mockIsMobileFalse);
     mockExtractVideoId.mockReturnValue('dQw4w9WgXcQ');
-    mockGetYouTubeThumbnail.mockReturnValue('https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg');
+    mockGetYouTubeThumbnail.mockReturnValue(
+      'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg'
+    );
   });
 
   describe('Default Rendering', () => {
@@ -357,7 +360,9 @@ describe('Video Component', () => {
     it('handles video ID extraction correctly', () => {
       render(<VideoDefault {...defaultVideoProps} />);
 
-      expect(mockExtractVideoId).toHaveBeenCalledWith('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+      expect(mockExtractVideoId).toHaveBeenCalledWith(
+        'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+      );
     });
   });
 
@@ -405,7 +410,9 @@ describe('Video Component', () => {
     it('handles YouTube URLs correctly', () => {
       render(<VideoDefault {...defaultVideoProps} />);
 
-      expect(mockExtractVideoId).toHaveBeenCalledWith('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+      expect(mockExtractVideoId).toHaveBeenCalledWith(
+        'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+      );
     });
 
     it('handles YouTube short URLs', () => {
@@ -578,12 +585,12 @@ describe('Video Component', () => {
     it('closes modal and stops video when modal closes', () => {
       const mockCloseModal = jest.fn();
       const mockSetPlayingVideoId = jest.fn();
-      
+
       mockUseVideoModal.mockReturnValue({
         ...mockVideoModalOpen,
         closeModal: mockCloseModal,
       });
-      
+
       mockUseVideo.mockReturnValue({
         ...mockVideoContextDefault,
         setPlayingVideoId: mockSetPlayingVideoId,
@@ -603,7 +610,10 @@ describe('Video Component', () => {
 
       const modal = screen.getByTestId('video-modal');
       expect(modal).toHaveAttribute('data-is-open', 'true');
-      expect(modal).toHaveAttribute('data-video-url', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+      expect(modal).toHaveAttribute(
+        'data-video-url',
+        'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+      );
     });
   });
 
@@ -612,7 +622,10 @@ describe('Video Component', () => {
       render(<VideoDefault {...videoPropsWithoutModal} />);
 
       const videoPlayer = screen.getByTestId('video-player');
-      expect(videoPlayer).toHaveAttribute('data-video-url', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+      expect(videoPlayer).toHaveAttribute(
+        'data-video-url',
+        'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+      );
       expect(videoPlayer).toHaveAttribute('data-full-screen', 'true');
       expect(videoPlayer).toHaveAttribute('data-icon-name', 'play');
     });
@@ -668,11 +681,11 @@ describe('Video Component', () => {
       render(<VideoDefault {...defaultVideoProps} />);
 
       const playButton = screen.getByRole('button', { name: /play video/i });
-      
+
       // Should be focusable
       playButton.focus();
       expect(document.activeElement).toBe(playButton);
-      
+
       // Should respond to keyboard events
       fireEvent.keyDown(playButton, { key: 'Enter' });
       // The component should handle this appropriately
@@ -682,16 +695,16 @@ describe('Video Component', () => {
   describe('Performance', () => {
     it('handles re-renders efficiently', () => {
       const { rerender } = render(<VideoDefault {...defaultVideoProps} />);
-      
+
       rerender(<VideoDefault {...defaultVideoProps} />);
-      
+
       const motionDivs = screen.getAllByTestId('motion-div');
       expect(motionDivs.length).toBeGreaterThan(0);
     });
 
     it('cleans up effects on unmount', () => {
       const { unmount } = render(<VideoDefault {...defaultVideoProps} />);
-      
+
       expect(() => {
         unmount();
       }).not.toThrow();
@@ -707,7 +720,7 @@ describe('Video Component', () => {
       render(<VideoDefault {...defaultVideoProps} />);
 
       const playButton = screen.getByRole('button', { name: /play video/i });
-      
+
       // Rapidly click multiple times
       fireEvent.click(playButton);
       fireEvent.click(playButton);
@@ -735,7 +748,9 @@ describe('Video Component', () => {
     it('integrates with video ID extraction utility', () => {
       render(<VideoDefault {...defaultVideoProps} />);
 
-      expect(mockExtractVideoId).toHaveBeenCalledWith('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+      expect(mockExtractVideoId).toHaveBeenCalledWith(
+        'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+      );
     });
 
     it('integrates with YouTube thumbnail utility', () => {

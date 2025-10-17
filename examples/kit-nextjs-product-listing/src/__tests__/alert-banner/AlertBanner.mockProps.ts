@@ -1,4 +1,5 @@
 import type { AlertBannerProps } from '../../components/alert-banner/alert-banner.props';
+
 import type { Field, LinkField } from '@sitecore-content-sdk/nextjs';
 
 const mockTitleField: Field<string> = { value: 'Site notice' } as unknown as Field<string>;

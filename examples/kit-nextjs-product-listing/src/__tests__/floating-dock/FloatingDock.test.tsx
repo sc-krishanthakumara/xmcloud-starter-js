@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 
 // Mock lucide-react to avoid ESM parsing in jest
 jest.mock('lucide-react', () => ({
@@ -174,7 +173,6 @@ describe('FloatingDock', () => {
       fireEvent.keyDown(document, { key: 'ArrowDown' });
 
       // Second item should be focused (in a real scenario)
-      // Note: Testing focus management can be complex with React Testing Library
     });
 
     it('supports keyboard navigation with ArrowUp', () => {

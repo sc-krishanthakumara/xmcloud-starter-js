@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { Default as TextSliderDefault } from '@/components/site-three/TextSlider';
 
 // Mock Sitecore SDK with variable editing mode
@@ -144,35 +144,32 @@ describe('TextSlider', () => {
     expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function));
   });
 
-  // TODO: This test fails due to a component bug where repeatCount can be invalid
-  // The component needs to validate repeatCount before using it with Array()
-  it.skip('waits for fonts to load', async () => {
-    const fontReadyPromise = Promise.resolve();
+  it('waits for fonts to load before calculating repeats', async () => {
+    // Mock offsetWidth to return valid values
+    // First call: measureRef (phraseWidth) = 200
+    // Second call: containerRef (containerWidth) = 800
+    // Expected repeats: Math.ceil((800 * 4) / 200) = 16
+    const mockOffsetWidth = jest
+      .fn()
+      .mockReturnValueOnce(200) // phraseWidth
+      .mockReturnValueOnce(800); // containerWidth
 
-    // Mock document.fonts if not already mocked
-    if (!document.fonts) {
-      Object.defineProperty(document, 'fonts', {
-        configurable: true,
-        value: {
-          ready: fontReadyPromise,
-        },
-      });
-    }
-
-    // Mock offsetWidth - phraseWidth first (200), then containerWidth (800)
-    // This will calculate: Math.ceil((800 * 4) / 200) = Math.ceil(16) = 16 repeats
     Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
       configurable: true,
-      value: jest.fn().mockReturnValueOnce(200).mockReturnValueOnce(800),
+      get: mockOffsetWidth,
     });
 
     render(<TextSliderDefault {...mockProps} />);
 
-    await act(async () => {
-      await fontReadyPromise;
+    // Wait for fonts to be ready and component to calculate repeats
+    await waitFor(() => {
+      const textElements = screen.getAllByText('Sliding text content');
+      // With repeatCount of 16, we should have at least one visible text element
+      expect(textElements.length).toBeGreaterThanOrEqual(1);
     });
 
-    expect(screen.getAllByText('Sliding text content').length).toBeGreaterThan(0);
+    // Verify offsetWidth was called to calculate dimensions
+    expect(mockOffsetWidth).toHaveBeenCalled();
   });
 
   it('handles case when offsetWidth is 0', async () => {

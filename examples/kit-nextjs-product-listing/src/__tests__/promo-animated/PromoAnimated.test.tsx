@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { PromoAnimatedDefault } from '../../components/promo-animated/PromoAnimatedDefault.dev';
@@ -42,7 +42,7 @@ jest.mock('@sitecore-content-sdk/nextjs', () => ({
 
 jest.mock('../../components/button-component/ButtonComponent', () => ({
   ButtonBase: ({ children, buttonLink, variant, isPageEditing, ...props }: any) => (
-    <button 
+    <button
       data-testid={variant === 'secondary' ? 'secondary-button' : 'primary-button'}
       data-href={buttonLink?.value?.href}
       data-editing={isPageEditing}
@@ -56,8 +56,8 @@ jest.mock('../../components/button-component/ButtonComponent', () => ({
 jest.mock('../../components/image/ImageWrapper.dev', () => ({
   Default: ({ image, className, wrapperClass, sizes, priority, ...props }: any) => (
     <div className={wrapperClass} data-testid="image-wrapper">
-      <img 
-        src={image?.value?.src} 
+      <img
+        src={image?.value?.src}
         alt={image?.value?.alt}
         className={className}
         data-sizes={sizes}
@@ -70,19 +70,19 @@ jest.mock('../../components/image/ImageWrapper.dev', () => ({
 }));
 
 jest.mock('../../components/animated-section/AnimatedSection.dev', () => ({
-  Default: ({ 
-    children, 
-    className, 
-    animationType, 
-    delay, 
-    reducedMotion, 
+  Default: ({
+    children,
+    className,
+    animationType,
+    delay,
+    reducedMotion,
     isPageEditing,
     divWithImage,
-    ...props 
+    ...props
   }: any) => (
-    <div 
+    <div
       className={className}
-      data-testid="animated-section" 
+      data-testid="animated-section"
       data-animation-type={animationType}
       data-delay={delay}
       data-reduced-motion={reducedMotion}
@@ -104,7 +104,7 @@ jest.mock('../../utils/NoDataFallback', () => ({
 describe('PromoAnimated Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     // Mock matchMedia for reduced motion
     mockMatchMedia.mockImplementation((query: string) => ({
       matches: query.includes('prefers-reduced-motion'),
@@ -124,7 +124,11 @@ describe('PromoAnimated Component', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Revolutionary Audio Experience')).toBeInTheDocument();
-        expect(screen.getByText('Discover our latest collection of premium audio devices designed to elevate your listening experience to new heights.')).toBeInTheDocument();
+        expect(
+          screen.getByText(
+            'Discover our latest collection of premium audio devices designed to elevate your listening experience to new heights.'
+          )
+        ).toBeInTheDocument();
         expect(screen.getByTestId('promo-image')).toBeInTheDocument();
         expect(screen.getByTestId('primary-button')).toBeInTheDocument();
         expect(screen.getByTestId('secondary-button')).toBeInTheDocument();
@@ -155,7 +159,9 @@ describe('PromoAnimated Component', () => {
       render(<PromoAnimatedDefault {...defaultPromoAnimatedProps} />);
 
       const description = screen.getByTestId('sitecore-richtext');
-      expect(description).toHaveTextContent('Discover our latest collection of premium audio devices');
+      expect(description).toHaveTextContent(
+        'Discover our latest collection of premium audio devices'
+      );
       expect(description).toHaveClass('prose');
     });
   });
@@ -169,7 +175,7 @@ describe('PromoAnimated Component', () => {
 
       expect(primaryButton).toHaveTextContent('Shop Now');
       expect(primaryButton).toHaveAttribute('data-href', '/products/featured');
-      
+
       expect(secondaryButton).toHaveTextContent('Learn More');
       expect(secondaryButton).toHaveAttribute('data-href', '/about');
     });
@@ -209,12 +215,12 @@ describe('PromoAnimated Component', () => {
 
       await waitFor(() => {
         const animatedSections = screen.getAllByTestId('animated-section');
-        
+
         // Should have multiple animated sections for different content
         expect(animatedSections.length).toBeGreaterThan(0);
-        
+
         // Check reduced motion is passed through
-        animatedSections.forEach(section => {
+        animatedSections.forEach((section) => {
           expect(section).toHaveAttribute('data-reduced-motion');
         });
       });
@@ -225,12 +231,12 @@ describe('PromoAnimated Component', () => {
 
       await waitFor(() => {
         const animatedSections = screen.getAllByTestId('animated-section');
-        
+
         // Look for sections with delays
-        const sectionsWithDelay = animatedSections.filter(section => 
+        const sectionsWithDelay = animatedSections.filter((section) =>
           section.getAttribute('data-delay')
         );
-        
+
         expect(sectionsWithDelay.length).toBeGreaterThan(0);
       });
     });
@@ -239,10 +245,10 @@ describe('PromoAnimated Component', () => {
       render(<PromoAnimatedDefault {...defaultPromoAnimatedProps} />);
 
       await waitFor(() => {
-        const rotatingSection = screen.getAllByTestId('animated-section').find(section =>
-          section.getAttribute('data-animation-type') === 'rotate'
-        );
-        
+        const rotatingSection = screen
+          .getAllByTestId('animated-section')
+          .find((section) => section.getAttribute('data-animation-type') === 'rotate');
+
         expect(rotatingSection).toBeInTheDocument();
         expect(rotatingSection).toHaveAttribute('data-has-image-ref', 'true');
       });
@@ -269,8 +275,8 @@ describe('PromoAnimated Component', () => {
 
       await waitFor(() => {
         const animatedSections = screen.getAllByTestId('animated-section');
-        
-        animatedSections.forEach(section => {
+
+        animatedSections.forEach((section) => {
           expect(section).toHaveAttribute('data-reduced-motion', 'true');
         });
       });
@@ -295,9 +301,9 @@ describe('PromoAnimated Component', () => {
 
       colorSchemeVariants.forEach((props) => {
         const { unmount } = render(<PromoAnimatedDefault {...props} />);
-        
+
         expect(screen.getByText('Revolutionary Audio Experience')).toBeInTheDocument();
-        
+
         unmount();
       });
     });
@@ -352,12 +358,12 @@ describe('PromoAnimated Component', () => {
       render(<PromoAnimatedDefault {...promoAnimatedPropsEditing} />);
 
       const animatedSections = screen.getAllByTestId('animated-section');
-      animatedSections.forEach(section => {
+      animatedSections.forEach((section) => {
         expect(section).toHaveAttribute('data-editing', 'true');
       });
 
       const buttons = screen.getAllByRole('button');
-      buttons.forEach(button => {
+      buttons.forEach((button) => {
         expect(button).toHaveAttribute('data-editing', 'true');
       });
     });
@@ -421,7 +427,7 @@ describe('PromoAnimated Component', () => {
 
       const heading = screen.getByRole('heading', { level: 2 });
       const buttons = screen.getAllByRole('button');
-      
+
       expect(heading).toBeInTheDocument();
       expect(buttons).toHaveLength(2);
     });

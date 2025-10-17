@@ -49,7 +49,17 @@ jest.mock('@sitecore-content-sdk/nextjs', () => ({
       dangerouslySetInnerHTML: { __html: field.value },
     });
   },
-  withDatasourceCheck: jest.fn(() => (Component: React.ComponentType<unknown>) => Component),
+  withDatasourceCheck: jest.fn(() => (Component: React.ComponentType<any>) => {
+    const WrappedComponent = (props: any) => {
+      // Simulate withDatasourceCheck HOC behavior: return null if fields are missing
+      if (!props.fields) {
+        return null;
+      }
+      return React.createElement(Component, props);
+    };
+    WrappedComponent.displayName = `withDatasourceCheck(${Component.displayName || Component.name || 'Component'})`;
+    return WrappedComponent;
+  }),
 }));
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
@@ -121,7 +131,6 @@ describe('ContentBlock Component', () => {
     it('should handle empty heading gracefully', () => {
       const { container } = render(<ContentBlock {...contentBlockPropsEmptyHeading} />);
 
-      // Text component returns null for empty values, so h2 won't be rendered
       const heading = container.querySelector('h2');
       expect(heading).not.toBeInTheDocument();
       expect(container.querySelector('.contentBlock')).toBeInTheDocument();
@@ -130,7 +139,6 @@ describe('ContentBlock Component', () => {
     it('should handle empty content gracefully', () => {
       const { container } = render(<ContentBlock {...contentBlockPropsEmptyContent} />);
 
-      // RichText component returns null for empty values, so div won't be rendered
       const content = container.querySelector('.contentDescription');
       expect(content).not.toBeInTheDocument();
       expect(container.querySelector('.contentBlock')).toBeInTheDocument();
@@ -140,17 +148,15 @@ describe('ContentBlock Component', () => {
       const { container } = render(<ContentBlock {...contentBlockPropsEmpty} />);
 
       expect(container.querySelector('.contentBlock')).toBeInTheDocument();
-      // Both components return null for empty values
       expect(container.querySelector('h2')).not.toBeInTheDocument();
       expect(container.querySelector('.contentDescription')).not.toBeInTheDocument();
     });
 
-    it.skip('should handle null fields gracefully', () => {
-      //TODO: Note: Component crashes with null fields - this is expected behavior
-      // The component should be wrapped with withDatasourceCheck HOC which prevents this
+    it('should handle null fields gracefully with withDatasourceCheck HOC', () => {
       const { container } = render(<ContentBlock {...contentBlockPropsNullFields} />);
 
-      expect(container.querySelector('.contentBlock')).toBeInTheDocument();
+      expect(container.querySelector('.contentBlock')).not.toBeInTheDocument();
+      expect(container.firstChild).toBeNull();
     });
   });
 

@@ -1,149 +1,305 @@
-/**
- * Unit tests for Container component
- * Tests basic rendering, styling, background images, and parameter handling
- */
-
 import React from 'react';
-import { render } from '@testing-library/react';
-import { Default as Container } from 'components/sxa/Container';
+import { render, screen } from '@testing-library/react';
+import { Default as Container } from '@/components/sxa/Container';
 import {
-  defaultContainerProps,
-  containerPropsWithBackground,
-  containerPropsTailwind,
-  containerPropsMinimal,
-  containerPropsNullParams,
-  containerPropsEmptyStyles,
+  defaultProps,
+  propsWithContainer,
+  propsWithBackgroundImage,
+  propsWithoutStyles,
+  propsWithoutGridParameters,
+  propsWithoutId,
 } from './Container.mockProps';
 
-// Mock the Placeholder component
 jest.mock('@sitecore-content-sdk/nextjs', () => ({
-  Placeholder: ({ name }: { name: string }) => <div data-testid={`placeholder-${name}`} />,
+  Placeholder: ({ name, rendering }: { name: string; rendering: { componentName: string } }) => (
+    <div data-testid={`placeholder-${name}`} data-rendering={rendering.componentName}>
+      Placeholder Content
+    </div>
+  ),
 }));
 
 describe('Container Component', () => {
-  describe('Rendering', () => {
-    it('should render container with basic structure', () => {
-      const { container } = render(<Container {...defaultContainerProps} />);
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-      expect(container.querySelector('.component.container-default')).toBeInTheDocument();
-      expect(container.querySelector('.component-content')).toBeInTheDocument();
-      expect(container.querySelector('.row')).toBeInTheDocument();
+  describe('Basic rendering', () => {
+    it('should render container with default structure', () => {
+      render(<Container {...defaultProps} />);
+
+      const container = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component.container-default');
+      expect(container).toHaveClass(
+        'component',
+        'container-default',
+        'col-12',
+        'custom-container-style'
+      );
     });
 
-    it('should apply RenderingIdentifier as id', () => {
-      const { container } = render(<Container {...defaultContainerProps} />);
+    it('should render with correct placeholder', () => {
+      render(<Container {...defaultProps} />);
 
-      const component = container.querySelector('.component.container-default');
-      expect(component).toHaveAttribute('id', 'container-1');
+      expect(screen.getByTestId('placeholder-container-main')).toBeInTheDocument();
+      expect(screen.getByTestId('placeholder-container-main')).toHaveAttribute(
+        'data-rendering',
+        'Container'
+      );
     });
 
-    it('should apply custom styles from params', () => {
-      const { container } = render(<Container {...defaultContainerProps} />);
+    it('should have correct rendering identifier', () => {
+      render(<Container {...defaultProps} />);
 
-      const component = container.querySelector('.component.container-default');
-      expect(component).toHaveClass('custom-styles');
-      expect(component).toHaveClass('col-12');
+      const container = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component.container-default');
+      expect(container).toHaveAttribute('id', 'container-rendering-id');
     });
   });
 
-  describe('Background Images', () => {
-    it('should apply background image when BackgroundImage param is provided', () => {
-      const { container } = render(<Container {...containerPropsWithBackground} />);
+  describe('Container wrapper', () => {
+    it('should render with container wrapper when styles include "container"', () => {
+      render(<Container {...propsWithContainer} />);
 
-      const content = container.querySelector('.component-content');
-      expect(content).toHaveStyle({
-        backgroundImage: "url('/-/media/image.jpg')",
-      });
+      const wrapper = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.container-wrapper');
+      expect(wrapper).toBeInTheDocument();
+
+      const container = wrapper?.querySelector('.component.container-default');
+      expect(container).toBeInTheDocument();
     });
 
-    it('should apply bg-cover class for background images', () => {
-      const { container } = render(<Container {...containerPropsWithBackground} />);
+    it('should not render container wrapper when styles do not include "container"', () => {
+      render(<Container {...defaultProps} />);
 
-      const content = container.querySelector('.component-content');
-      expect(content).toHaveClass('bg-cover');
-    });
-
-    it('should not apply background styles when no BackgroundImage', () => {
-      const { container } = render(<Container {...defaultContainerProps} />);
-
-      const content = container.querySelector('.component-content') as HTMLElement;
-      const backgroundImage = content?.style.backgroundImage;
-      expect(backgroundImage).toBeFalsy(); // Should be empty string or undefined
+      const wrapper = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.container-wrapper');
+      expect(wrapper).not.toBeInTheDocument();
     });
   });
 
-  describe('Container Variants', () => {
-    it('should render Tailwind container variant when Styles includes "container"', () => {
-      const { container } = render(<Container {...containerPropsTailwind} />);
+  describe('Background image handling', () => {
+    it('should apply background image when BackgroundImage param contains mediaurl', () => {
+      render(<Container {...propsWithBackgroundImage} />);
 
-      expect(container.querySelector('.container-wrapper')).toBeInTheDocument();
-      expect(container.querySelector('.component.container-default')).toBeInTheDocument();
+      const contentDiv = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component-content');
+      expect(contentDiv).toHaveStyle("background-image: url('/test-image.jpg')");
     });
 
-    it('should render default container when Styles does not include "container"', () => {
-      const { container } = render(<Container {...defaultContainerProps} />);
+    it('should not apply background image when BackgroundImage param is empty', () => {
+      render(<Container {...defaultProps} />);
 
-      expect(container.querySelector('.container-wrapper')).not.toBeInTheDocument();
-      expect(container.querySelector('.component.container-default')).toBeInTheDocument();
-    });
-  });
-
-  describe('Parameters', () => {
-    it('should work with minimal parameters', () => {
-      const { container } = render(<Container {...containerPropsMinimal} />);
-
-      expect(container.querySelector('.component.container-default')).toBeInTheDocument();
-      expect(container.querySelector('.component-content')).toBeInTheDocument();
+      const contentDiv = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component-content');
+      expect(contentDiv).not.toHaveAttribute('style');
     });
 
-    // TODO: Skipped: Component doesn't handle null params - it expects params.GridParameters to exist
-    // This would require modifying the component to add null checks
-    it.skip('should handle null params gracefully', () => {
-      const { container } = render(<Container {...containerPropsNullParams} />);
+    it('should not apply background image when BackgroundImage param does not match mediaurl pattern', () => {
+      const invalidBackgroundParams = {
+        ...defaultProps.params,
+        BackgroundImage: 'invalid-background-image',
+      };
 
-      expect(container.querySelector('.component.container-default')).toBeInTheDocument();
-    });
+      const propsWithInvalidBackground = {
+        ...defaultProps,
+        params: invalidBackgroundParams,
+        rendering: {
+          ...defaultProps.rendering,
+          params: invalidBackgroundParams,
+        },
+      };
 
-    it('should handle empty styles parameters', () => {
-      const { container } = render(<Container {...containerPropsEmptyStyles} />);
+      render(<Container {...propsWithInvalidBackground} />);
 
-      const component = container.querySelector('.component.container-default');
-      expect(component).toBeInTheDocument();
-      // Should not have undefined or empty class names
-      expect(component?.className).not.toContain('undefined');
-      expect(component?.className).not.toContain('  ');
-    });
-
-    it('should generate correct placeholder key from DynamicPlaceholderId', () => {
-      const { container } = render(<Container {...defaultContainerProps} />);
-
-      // The placeholder key should be generated as `container-${DynamicPlaceholderId}`
-      // We can't easily test the Placeholder component directly, but we can verify the structure exists
-      expect(container.querySelector('.row')).toBeInTheDocument();
+      const contentDiv = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component-content');
+      expect(contentDiv).not.toHaveAttribute('style');
     });
   });
 
-  describe('Accessibility', () => {
-    it('should have semantic HTML structure', () => {
-      const { container } = render(<Container {...defaultContainerProps} />);
+  describe('Styles and parameters', () => {
+    it('should combine GridParameters and Styles correctly', () => {
+      render(<Container {...defaultProps} />);
 
-      expect(container.querySelector('.component')).toBeInTheDocument();
-      expect(container.querySelector('.component-content')).toBeInTheDocument();
-      expect(container.querySelector('.row')).toBeInTheDocument();
+      const container = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component.container-default');
+      expect(container).toHaveClass('col-12', 'custom-container-style');
     });
 
-    it('should apply id attribute when RenderingIdentifier is provided', () => {
-      const { container } = render(<Container {...defaultContainerProps} />);
+    it('should handle empty Styles parameter', () => {
+      render(<Container {...propsWithoutStyles} />);
 
-      const component = container.querySelector('.component.container-default');
-      expect(component).toHaveAttribute('id');
+      const container = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component.container-default');
+      expect(container).toHaveClass('col-12');
+      expect(container).not.toHaveClass('custom-container-style');
     });
 
-    it('should not have id attribute when RenderingIdentifier is not provided', () => {
-      const { container } = render(<Container {...containerPropsMinimal} />);
+    it('should handle empty GridParameters', () => {
+      render(<Container {...propsWithoutGridParameters} />);
 
-      const component = container.querySelector('.component.container-default');
-      expect(component).not.toHaveAttribute('id');
+      const container = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component.container-default');
+      expect(container).toHaveClass('custom-container-style');
+      expect(container).not.toHaveClass('col-12');
+    });
+
+    it('should handle empty RenderingIdentifier', () => {
+      render(<Container {...propsWithoutId} />);
+
+      const container = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component.container-default');
+      expect(container).not.toHaveAttribute('id');
+    });
+  });
+
+  describe('Component structure', () => {
+    it('should render correct DOM structure', () => {
+      render(<Container {...defaultProps} />);
+
+      const container = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component.container-default');
+      expect(container).toHaveClass('component', 'container-default');
+
+      const contentDiv = container?.querySelector('.component-content');
+      expect(contentDiv).toBeInTheDocument();
+
+      const rowDiv = contentDiv?.querySelector('.row');
+      expect(rowDiv).toBeInTheDocument();
+
+      const placeholder = rowDiv?.querySelector('[data-testid="placeholder-container-main"]');
+      expect(placeholder).toBeInTheDocument();
+    });
+
+    it('should pass correct props to Placeholder component', () => {
+      render(<Container {...defaultProps} />);
+
+      const placeholder = screen.getByTestId('placeholder-container-main');
+      expect(placeholder).toHaveAttribute('data-rendering', 'Container');
+    });
+  });
+
+  describe('Edge cases', () => {
+    it('should handle missing params gracefully', () => {
+      const emptyParams = {} as Record<string, string>;
+      const propsWithoutParams = {
+        rendering: {
+          ...defaultProps.rendering,
+          params: emptyParams,
+        },
+        params: emptyParams,
+      };
+
+      render(<Container {...propsWithoutParams} />);
+
+      const container = screen.getByTestId('placeholder-container-undefined').closest('div');
+      expect(container).toBeInTheDocument();
+    });
+
+    it('should handle undefined DynamicPlaceholderId', () => {
+      const undefinedPlaceholderParams = {
+        ...defaultProps.params,
+        DynamicPlaceholderId: '',
+      };
+
+      const propsWithUndefinedPlaceholder = {
+        ...defaultProps,
+        params: undefinedPlaceholderParams,
+        rendering: {
+          ...defaultProps.rendering,
+          params: undefinedPlaceholderParams,
+        },
+      };
+
+      render(<Container {...propsWithUndefinedPlaceholder} />);
+
+      const container = screen.getByTestId('placeholder-container-').closest('div');
+      expect(container).toBeInTheDocument();
+    });
+
+    it('should handle complex background image URLs', () => {
+      const complexBackgroundParams = {
+        ...defaultProps.params,
+        BackgroundImage: 'mediaurl="https://example.com/path/to/image.jpg"',
+      };
+
+      const propsWithComplexBackground = {
+        ...defaultProps,
+        params: complexBackgroundParams,
+        rendering: {
+          ...defaultProps.rendering,
+          params: complexBackgroundParams,
+        },
+      };
+
+      render(<Container {...propsWithComplexBackground} />);
+
+      const contentDiv = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component-content');
+      expect(contentDiv).toHaveStyle(
+        "background-image: url('https://example.com/path/to/image.jpg')"
+      );
+    });
+  });
+
+  describe('Media URL pattern matching', () => {
+    it('should handle case-insensitive mediaurl pattern', () => {
+      const uppercaseMediaUrlParams = {
+        ...defaultProps.params,
+        BackgroundImage: 'MEDIAURL="/test-image.jpg"',
+      };
+
+      const propsWithUppercaseMediaUrl = {
+        ...defaultProps,
+        params: uppercaseMediaUrlParams,
+        rendering: {
+          ...defaultProps.rendering,
+          params: uppercaseMediaUrlParams,
+        },
+      };
+
+      render(<Container {...propsWithUppercaseMediaUrl} />);
+
+      const contentDiv = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component-content');
+      expect(contentDiv).toHaveStyle("background-image: url('/test-image.jpg')");
+    });
+
+    it('should extract correct URL from complex mediaurl string', () => {
+      const complexMediaUrlParams = {
+        ...defaultProps.params,
+        BackgroundImage: 'some text mediaurl="/path/to/image.jpg" more text',
+      };
+
+      const propsWithComplexMediaUrl = {
+        ...defaultProps,
+        params: complexMediaUrlParams,
+        rendering: {
+          ...defaultProps.rendering,
+          params: complexMediaUrlParams,
+        },
+      };
+
+      render(<Container {...propsWithComplexMediaUrl} />);
+
+      const contentDiv = screen
+        .getByTestId('placeholder-container-main')
+        .closest('.component-content');
+      expect(contentDiv).toHaveStyle("background-image: url('/path/to/image.jpg')");
     });
   });
 });

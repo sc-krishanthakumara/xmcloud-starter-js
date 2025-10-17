@@ -52,23 +52,14 @@ export const mockImageData = {
   },
 };
 
-/**
- * Mock image caption field
- */
 export const mockImageCaption: Field<string> = {
   value: 'Sample image caption',
 };
 
-/**
- * Mock empty image caption
- */
 export const mockEmptyImageCaption: Field<string> = {
   value: '',
 };
 
-/**
- * Mock target URL field
- */
 export const mockTargetUrl: LinkField = {
   value: {
     href: '/target-page',
@@ -76,9 +67,6 @@ export const mockTargetUrl: LinkField = {
   },
 };
 
-/**
- * Mock empty target URL
- */
 export const mockEmptyTargetUrl: LinkField = {
   value: {
     href: '',
@@ -100,9 +88,6 @@ export const defaultImageProps: ImageProps = {
   },
 };
 
-/**
- * Props with image caption
- */
 export const imagePropsWithCaption: ImageProps = {
   params: {
     RenderingIdentifier: 'image-2',
@@ -115,9 +100,6 @@ export const imagePropsWithCaption: ImageProps = {
   },
 };
 
-/**
- * Props with clickable image (target URL)
- */
 export const imagePropsWithLink: ImageProps = {
   params: {
     RenderingIdentifier: 'image-3',
@@ -145,9 +127,6 @@ export const imagePropsEmptyImage: ImageProps = {
   },
 };
 
-/**
- * Props with minimal parameters
- */
 export const imagePropsMinimal: ImageProps = {
   params: {},
   fields: {
@@ -157,9 +136,6 @@ export const imagePropsMinimal: ImageProps = {
   },
 };
 
-/**
- * Props with null fields (edge case)
- */
 export const imagePropsNullFields: ImageProps = {
   params: {
     RenderingIdentifier: 'image-5',

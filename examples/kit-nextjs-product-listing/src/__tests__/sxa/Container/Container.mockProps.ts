@@ -1,105 +1,131 @@
-/**
- * Test fixtures and mock data for Container component
- */
+import { ComponentRendering, ComponentParams } from '@sitecore-content-sdk/nextjs';
 
-import type { ComponentParams, ComponentRendering } from '@sitecore-content-sdk/nextjs';
-
-interface ContainerComponentProps {
-  rendering: ComponentRendering & { params: ComponentParams };
-  params: ComponentParams;
-}
-
-/**
- * Base mock data for Container component
- */
-export const mockContainerData = {
-  basicParams: {
-    RenderingIdentifier: 'container-1',
-    Styles: 'custom-styles',
-    GridParameters: 'col-12',
-    DynamicPlaceholderId: '123',
-  },
-  backgroundImageParams: {
-    RenderingIdentifier: 'container-bg',
-    Styles: 'with-background',
-    GridParameters: 'col-12',
-    DynamicPlaceholderId: '456',
-    BackgroundImage: 'mediaurl="/-/media/image.jpg"',
-  },
-  tailwindContainerParams: {
-    Styles: 'container',
-    GridParameters: 'col-12',
-    DynamicPlaceholderId: '789',
-  },
-  minimalParams: {
-    DynamicPlaceholderId: '999',
-  },
+// Mock params data
+export const mockParams: ComponentParams = {
+  GridParameters: 'col-12',
+  Styles: 'custom-container-style',
+  DynamicPlaceholderId: 'main',
+  RenderingIdentifier: 'container-rendering-id',
+  BackgroundImage: '',
 };
 
-/**
- * Mock rendering object
- */
+// Mock rendering data
 export const mockRendering: ComponentRendering & { params: ComponentParams } = {
   componentName: 'Container',
-  dataSource: '',
-  uid: 'container-uid',
-  params: {},
-  placeholders: {
-    'container-123': [],
-    'container-456': [],
-    'container-789': [],
-    'container-999': [],
-  },
+  dataSource: 'test-datasource',
+  placeholders: {},
+  uid: 'test-uid',
+  params: mockParams,
 };
 
-/**
- * Default props for Container component testing
- */
-export const defaultContainerProps: ContainerComponentProps = {
-  params: mockContainerData.basicParams,
-  rendering: mockRendering,
+export const mockParamsWithContainer: ComponentParams = {
+  GridParameters: 'col-12',
+  Styles: 'container custom-container-style',
+  DynamicPlaceholderId: 'main',
+  RenderingIdentifier: 'container-rendering-id',
+  BackgroundImage: '',
 };
 
-/**
- * Props with background image
- */
-export const containerPropsWithBackground: ContainerComponentProps = {
-  params: mockContainerData.backgroundImageParams,
-  rendering: mockRendering,
+export const mockParamsWithBackgroundImage: ComponentParams = {
+  GridParameters: 'col-12',
+  Styles: 'custom-container-style',
+  DynamicPlaceholderId: 'main',
+  RenderingIdentifier: 'container-rendering-id',
+  BackgroundImage: 'mediaurl="/test-image.jpg"',
 };
 
-/**
- * Props for Tailwind container variant
- */
-export const containerPropsTailwind: ContainerComponentProps = {
-  params: mockContainerData.tailwindContainerParams,
-  rendering: mockRendering,
+export const mockParamsWithoutStyles: ComponentParams = {
+  GridParameters: 'col-12',
+  Styles: '',
+  DynamicPlaceholderId: 'main',
+  RenderingIdentifier: 'container-rendering-id',
+  BackgroundImage: '',
 };
 
-/**
- * Props with minimal parameters
- */
-export const containerPropsMinimal: ContainerComponentProps = {
-  params: mockContainerData.minimalParams,
-  rendering: mockRendering,
+export const mockParamsWithoutGridParameters: ComponentParams = {
+  GridParameters: '',
+  Styles: 'custom-container-style',
+  DynamicPlaceholderId: 'main',
+  RenderingIdentifier: 'container-rendering-id',
+  BackgroundImage: '',
 };
 
-/**
- * Props with null parameters (edge case)
- */
-export const containerPropsNullParams: ContainerComponentProps = {
-  params: null as unknown as ComponentParams,
-  rendering: mockRendering,
+export const mockParamsWithoutId: ComponentParams = {
+  GridParameters: 'col-12',
+  Styles: 'custom-container-style',
+  DynamicPlaceholderId: 'main',
+  RenderingIdentifier: '',
+  BackgroundImage: '',
 };
 
-/**
- * Props with empty styles
- */
-export const containerPropsEmptyStyles: ContainerComponentProps = {
-  params: {
-    ...mockContainerData.basicParams,
-    Styles: '',
-    GridParameters: '',
-  },
+// Create rendering objects with params
+const mockRenderingWithContainer: ComponentRendering & { params: ComponentParams } = {
+  componentName: 'Container',
+  dataSource: 'test-datasource',
+  placeholders: {},
+  uid: 'test-uid',
+  params: mockParamsWithContainer,
+};
+
+const mockRenderingWithBackgroundImage: ComponentRendering & { params: ComponentParams } = {
+  componentName: 'Container',
+  dataSource: 'test-datasource',
+  placeholders: {},
+  uid: 'test-uid',
+  params: mockParamsWithBackgroundImage,
+};
+
+const mockRenderingWithoutStyles: ComponentRendering & { params: ComponentParams } = {
+  componentName: 'Container',
+  dataSource: 'test-datasource',
+  placeholders: {},
+  uid: 'test-uid',
+  params: mockParamsWithoutStyles,
+};
+
+const mockRenderingWithoutGridParameters: ComponentRendering & { params: ComponentParams } = {
+  componentName: 'Container',
+  dataSource: 'test-datasource',
+  placeholders: {},
+  uid: 'test-uid',
+  params: mockParamsWithoutGridParameters,
+};
+
+const mockRenderingWithoutId: ComponentRendering & { params: ComponentParams } = {
+  componentName: 'Container',
+  dataSource: 'test-datasource',
+  placeholders: {},
+  uid: 'test-uid',
+  params: mockParamsWithoutId,
+};
+
+// Complete props combinations
+export const defaultProps = {
   rendering: mockRendering,
+  params: mockParams,
+};
+
+export const propsWithContainer = {
+  rendering: mockRenderingWithContainer,
+  params: mockParamsWithContainer,
+};
+
+export const propsWithBackgroundImage = {
+  rendering: mockRenderingWithBackgroundImage,
+  params: mockParamsWithBackgroundImage,
+};
+
+export const propsWithoutStyles = {
+  rendering: mockRenderingWithoutStyles,
+  params: mockParamsWithoutStyles,
+};
+
+export const propsWithoutGridParameters = {
+  rendering: mockRenderingWithoutGridParameters,
+  params: mockParamsWithoutGridParameters,
+};
+
+export const propsWithoutId = {
+  rendering: mockRenderingWithoutId,
+  params: mockParamsWithoutId,
 };

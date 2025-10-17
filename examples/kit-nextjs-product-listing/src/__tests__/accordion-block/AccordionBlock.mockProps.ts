@@ -24,27 +24,18 @@ export const mockAccordionData = {
   item3Description: '<p>We offer flexible pricing plans to suit different needs.</p>',
 };
 
-/**
- * Mock heading field
- */
 export const mockHeadingField: { jsonValue: Field<string> } = {
   jsonValue: {
     value: mockAccordionData.heading,
   },
 };
 
-/**
- * Mock description field
- */
 export const mockDescriptionField: { jsonValue: Field<string> } = {
   jsonValue: {
     value: mockAccordionData.description,
   },
 };
 
-/**
- * Mock link field
- */
 export const mockLinkField: { jsonValue: LinkField } = {
   jsonValue: {
     value: {
