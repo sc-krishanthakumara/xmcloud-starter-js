@@ -1,0 +1,35 @@
+---
+ID: "b2c3d4e5-f6a7-4890-b123-456789abcdef"
+Parent: "a1b2c3d4-e5f6-4789-a012-3456789abcde"
+Template: "0906b950-0047-4b98-93e1-cca545685259"
+Path: "/sitecore/templates/Branches/Project/click-click-launch/Solterra and Co/Add Article Page/Articles/Article 1/Data/Article Header"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20251020T000000Z
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value:
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value:
+    - ID: "74450b29-7ed3-4288-aa64-47fced8e06f2"
+      Hint: imageRequired
+      Value: |
+        <image mediaid="{B80D28E1-EBBC-49E6-A965-70070AC4087B}" alt="Sustainable Technology Innovation" />
+    - ID: "75aa702f-5fe3-47ab-8d77-78eb2c37cc7a"
+      Hint: eyebrowOptional
+      Value: Technology & Innovation
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "00000000-0000-0000-0000-000000000001"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value:
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20251020T000000Z
