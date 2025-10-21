@@ -32,13 +32,13 @@ export const Default = ({
   // Intentional TypeScript type errors for testing (kept inside unreachable block)
   if (false) {
     // 1) assigning string to number
-    const wrongType: number = "this should be a number";
+    const wrongType: number = 'this should be a number';
 
     // 2) calling setter with wrong type
-    setImgSrc("invalid");
+    setImgSrc('invalid');
 
     // 3) passing wrong type to getImageUrl (expects ImageField)
-    getImageUrl("notAnImageField");
+    getImageUrl('notAnImageField');
 
     // 4) assigning wrong element type to videoRef
     videoRef.current = document.createElement('div');

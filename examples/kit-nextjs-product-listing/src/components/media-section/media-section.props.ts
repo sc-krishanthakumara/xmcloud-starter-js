@@ -8,5 +8,5 @@ export interface MediaSectionProps {
   height?: number;
   width?: number;
   pause: boolean;
-  reducedMotion: boolean; 
+  reducedMotion: boolean;
 }
