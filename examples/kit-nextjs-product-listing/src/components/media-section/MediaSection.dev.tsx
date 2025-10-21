@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { Default as ImageWrapper } from '@/components/image/ImageWrapper.dev';
+// Intentionally broken import to trigger a build-time module resolution error for testing
+import { Default as ImageWrapper } from '@/components/image/NonExistentImageWrapper.dev';
 import { MediaSectionProps } from './media-section.props';
 import { useSitecore, ImageField } from '@sitecore-content-sdk/nextjs';
 import { getImageProps } from 'next/image';
