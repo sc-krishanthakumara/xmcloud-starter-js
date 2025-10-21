@@ -91,7 +91,7 @@ export const pageHeaderPropsNoLinks: PageHeaderProps = {
 export const pageHeaderPropsWithPositionStyles: PageHeaderProps = {
   ...defaultPageHeaderProps,
   params: {
-    styles: 'position-center position-bottom'
+    styles: 'position-center position-bottom',
   },
 };
 

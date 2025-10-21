@@ -66,7 +66,7 @@ describe('Meteors Component', () => {
       // Should render container div
       const container = document.querySelector('div');
       expect(container).toBeInTheDocument();
-      
+
       // Should render meteors (spans)
       const meteors = document.querySelectorAll('span');
       expect(meteors.length).toBe(20); // default number of meteors
@@ -164,7 +164,7 @@ describe('Meteors Component', () => {
   describe('Responsive Behavior', () => {
     it('handles window resize events', () => {
       const { container } = render(<Meteors {...defaultMeteorsProps} />);
-      
+
       // Initial meteors count
       let meteors = container.querySelectorAll('span');
       expect(meteors.length).toBe(20);

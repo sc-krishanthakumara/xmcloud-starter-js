@@ -10,7 +10,11 @@ export const createMockSlideChildren = () => [
 ];
 
 export const createSingleSlideChildren = () => [
-  React.createElement('div', { key: 'single-slide', 'data-testid': 'single-slide' }, 'Single Slide Content'),
+  React.createElement(
+    'div',
+    { key: 'single-slide', 'data-testid': 'single-slide' },
+    'Single Slide Content'
+  ),
 ];
 
 export const createManySlideChildren = () => [
@@ -70,7 +74,8 @@ export const slideCarouselPropsNoChildren: SlideCarouselProps = {
 // Props with long text content
 export const slideCarouselPropsLongText: SlideCarouselProps = {
   title: 'SYNC Audio Professional Equipment Store - Premium Collection of High-Quality Audio Gear',
-  description: 'Discover our comprehensive selection of professional-grade audio equipment including studio-quality headphones, reference monitors, premium speakers, audio interfaces, microphones, and specialized accessories designed for musicians, producers, audio engineers, and discerning music enthusiasts who demand exceptional sound quality and reliable performance for recording, mixing, mastering, live performances, and critical listening applications.',
+  description:
+    'Discover our comprehensive selection of professional-grade audio equipment including studio-quality headphones, reference monitors, premium speakers, audio interfaces, microphones, and specialized accessories designed for musicians, producers, audio engineers, and discerning music enthusiasts who demand exceptional sound quality and reliable performance for recording, mixing, mastering, live performances, and critical listening applications.',
   children: createMockSlideChildren(),
   className: 'long-text-carousel professional-equipment-showcase premium-collection-display',
 };
@@ -78,10 +83,19 @@ export const slideCarouselPropsLongText: SlideCarouselProps = {
 // Props with special characters
 export const slideCarouselPropsSpecialChars: SlideCarouselProps = {
   title: 'SYNC™ Àudio - Prémium Équipment & Spëcialty Gëar',
-  description: 'Découvrez notre collection "premium" d\'équipements audio <professionnels> & accessoires spécialisés.',
+  description:
+    'Découvrez notre collection "premium" d\'équipements audio <professionnels> & accessoires spécialisés.',
   children: [
-    React.createElement('div', { key: 'special-1', 'data-testid': 'special-slide-1' }, 'Prodüct Ønë - Spëciäl Chäractërs'),
-    React.createElement('div', { key: 'special-2', 'data-testid': 'special-slide-2' }, 'Prodüct Twö - Ümlauts & Äccents'),
+    React.createElement(
+      'div',
+      { key: 'special-1', 'data-testid': 'special-slide-1' },
+      'Prodüct Ønë - Spëciäl Chäractërs'
+    ),
+    React.createElement(
+      'div',
+      { key: 'special-2', 'data-testid': 'special-slide-2' },
+      'Prodüct Twö - Ümlauts & Äccents'
+    ),
   ],
   className: 'spëcial-chars-carousel',
 };

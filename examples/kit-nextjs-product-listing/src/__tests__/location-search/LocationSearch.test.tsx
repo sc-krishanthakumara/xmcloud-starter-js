@@ -43,9 +43,8 @@ jest.mock('../../hooks/use-match-media', () => ({
 }));
 
 jest.mock('../../components/zipcode-modal/zipcode-modal.dev', () => ({
-  ZipcodeModal: ({ isOpen, onClose }: any) => (
-    isOpen ? <div data-testid="zipcode-modal">Zipcode Modal</div> : null
-  ),
+  ZipcodeModal: ({ isOpen, onClose }: any) =>
+    isOpen ? <div data-testid="zipcode-modal">Zipcode Modal</div> : null,
 }));
 
 jest.mock('../../components/ui/button', () => ({
@@ -240,7 +239,9 @@ describe('LocationSearch Component', () => {
 
     it('renders MapRightTitleZipCentered variant', () => {
       render(<MapRightTitleZipCentered {...defaultLocationSearchProps} />);
-      expect(screen.getByTestId('location-search-map-right-title-zip-centered')).toBeInTheDocument();
+      expect(
+        screen.getByTestId('location-search-map-right-title-zip-centered')
+      ).toBeInTheDocument();
     });
 
     it('renders MapLeftTitleZipCentered variant', () => {
