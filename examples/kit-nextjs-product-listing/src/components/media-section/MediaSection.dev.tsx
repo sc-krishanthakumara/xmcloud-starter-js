@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { Default as ImageWrapper } from '@/components/image/ImageWrapper.dev';
+// Intentionally broken import to trigger a build-time module resolution error for testing
+import { Default as ImageWrapper } from '@/components/image/NonExistentImageWrapper.dev';
 import { MediaSectionProps } from './media-section.props';
 import { useSitecore, ImageField } from '@sitecore-content-sdk/nextjs';
 import { getImageProps } from 'next/image';
@@ -27,6 +28,21 @@ export const Default = ({
 
   const [imgSrc, setImgSrc] = useState({ src: '', width: 0, height: 0 });
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Intentional TypeScript type errors for testing (kept inside unreachable block)
+  if (false) {
+    // 1) assigning string to number
+    const wrongType: number = "this should be a number";
+
+    // 2) calling setter with wrong type
+    setImgSrc("invalid");
+
+    // 3) passing wrong type to getImageUrl (expects ImageField)
+    getImageUrl("notAnImageField");
+
+    // 4) assigning wrong element type to videoRef
+    videoRef.current = document.createElement('div');
+  }
 
   const { page } = useSitecore();
   const { mode } = page;
