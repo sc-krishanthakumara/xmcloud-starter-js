@@ -203,8 +203,10 @@ describe('PromoBlock Component', () => {
       // Should have flex containers for layout
       expect(flexContainers.length).toBeGreaterThan(0);
 
-      // Check for justify-end class when image is right and variation is VERSION_TWO
-      flexContainers.some((container) => container.className.includes('justify-end'));
+      // Check for justify-end class when image is right and variation is VERSION_TWO  
+      flexContainers.some((container) =>
+        container.className.includes('justify-end')
+      );
 
       // The component should render correctly regardless
       expect(screen.getByText('Premium Audio Experience')).toBeInTheDocument();

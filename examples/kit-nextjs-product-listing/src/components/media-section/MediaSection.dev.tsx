@@ -32,8 +32,6 @@ export const Default = ({
   if (false) {
     // Examples of proper type usage
     const correctType: number = 123;
-    // reference the variable to avoid unused-variable TS6133 during `tsc --noEmit`
-    void correctType;
     setImgSrc({ src: '', width: 0, height: 0 });
     // getImageUrl would be called with proper ImageField after it's declared
     videoRef.current = document.createElement('video') as HTMLVideoElement;
