@@ -43,7 +43,7 @@ export const Default = ({
   );
   useEffect(() => {
     if (!elementRef.current) return;
-    const vidEl = elementRef?.current?.querySelector('video');
+    const vidEl = elementRef?.current?.querySelector('video'); 
     if (pause) {
       vidEl?.pause();
     } else {
