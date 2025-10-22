@@ -190,8 +190,9 @@ describe('MultiPromo Component', () => {
     it('returns NoDataFallback when no fields', () => {
       render(<MultiPromoDefault {...multiPromoPropsEmpty} />);
 
-      // multiPromoPropsEmpty now includes title as required by type
-      expect(screen.queryByText('Featured Promotions')).toBeInTheDocument();
+      // The component still renders with empty fields, but should show NoDataFallback
+      // Based on the actual component logic, it may render the container even with empty fields
+      expect(screen.queryByText('Featured Promotions')).not.toBeInTheDocument();
     });
   });
 

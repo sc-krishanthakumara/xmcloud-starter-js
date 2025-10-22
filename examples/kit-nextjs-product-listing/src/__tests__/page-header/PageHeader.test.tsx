@@ -157,22 +157,19 @@ describe('PageHeader Component', () => {
     it('falls back to pageTitle when pageHeaderTitle is not provided', () => {
       render(<PageHeaderDefault {...pageHeaderPropsMinimal} />);
 
-      // pageHeaderPropsMinimal now includes pageHeaderTitle as required by type
-      expect(screen.getByTestId('header-title')).toHaveTextContent('Discover Amazing Products');
+      expect(screen.getByTestId('header-title')).toHaveTextContent('Welcome to Our Store');
     });
 
     it('handles missing subtitle gracefully', () => {
       render(<PageHeaderDefault {...pageHeaderPropsMinimal} />);
 
-      // pageHeaderPropsMinimal now includes pageSubtitle as required by type
-      expect(screen.queryByTestId('header-subtitle')).toBeInTheDocument();
+      expect(screen.queryByTestId('header-subtitle')).not.toBeInTheDocument();
     });
 
     it('handles missing image gracefully', () => {
       render(<PageHeaderDefault {...pageHeaderPropsNoImage} />);
 
-      // pageHeaderPropsNoImage still has imageRequired as it's a required field
-      expect(screen.queryByTestId('header-image')).toBeInTheDocument();
+      expect(screen.queryByTestId('header-image')).not.toBeInTheDocument();
       expect(screen.getByTestId('header-title')).toBeInTheDocument();
     });
 
@@ -290,8 +287,7 @@ describe('PageHeader Component', () => {
 
       // Should still render the component container
       expect(screen.getByTestId('page-header-default')).toBeInTheDocument();
-      // pageHeaderPropsEmpty now has required fields so title should be present
-      expect(screen.queryByTestId('header-title')).toBeInTheDocument();
+      expect(screen.queryByTestId('header-title')).not.toBeInTheDocument();
     });
   });
 

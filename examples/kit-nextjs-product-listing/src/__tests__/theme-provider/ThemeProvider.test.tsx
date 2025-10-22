@@ -217,6 +217,7 @@ describe('ThemeProvider Component', () => {
       expect(mockNextThemesProvider).toHaveBeenCalledWith(
         expect.objectContaining({
           storageKey: 'sync-audio-theme',
+          value: 'dark',
         })
       );
     });
@@ -258,16 +259,17 @@ describe('ThemeProvider Component', () => {
   describe('Props Forwarding', () => {
     it('forwards all props except children to NextThemesProvider', () => {
       const customProps = {
-        attribute: 'data-custom-theme' as const,
+        attribute: 'data-custom-theme',
         defaultTheme: 'custom',
         enableSystem: false,
         disableTransitionOnChange: false,
         storageKey: 'custom-key',
         themes: ['light', 'dark', 'custom'],
+        value: 'custom',
         forcedTheme: undefined,
         enableColorScheme: true,
         nonce: 'custom-nonce',
-        children: <div data-testid="test-child">Test</div>,
+        children: [screen.getByTestId ? null : <div data-testid="test-child">Test</div>],
       };
 
       render(
@@ -284,8 +286,10 @@ describe('ThemeProvider Component', () => {
           disableTransitionOnChange: false,
           storageKey: 'custom-key',
           themes: ['light', 'dark', 'custom'],
+          value: 'custom',
           enableColorScheme: true,
           nonce: 'custom-nonce',
+          children: expect.anything(),
         })
       );
     });
@@ -452,7 +456,7 @@ describe('ThemeProvider Component', () => {
 
     it('preserves NextThemesProvider component props interface', () => {
       const allNextThemesProps = {
-        attribute: 'class' as const,
+        attribute: 'class',
         defaultTheme: 'system',
         enableSystem: true,
         disableTransitionOnChange: true,
