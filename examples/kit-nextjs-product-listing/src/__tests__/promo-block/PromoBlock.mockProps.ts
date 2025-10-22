@@ -120,11 +120,11 @@ export const promoBlockPropsLongContent: PromoBlockProps = {
 };
 
 // Props without fields (should show NoDataFallback)
-export const promoBlockPropsNoFields: PromoBlockProps = {
+export const promoBlockPropsNoFields = {
   rendering: { componentName: 'PromoBlock', params: {} },
   params: {},
-  fields: undefined as any,
-};
+  fields: undefined,
+} as unknown as PromoBlockProps;
 
 // Props with missing image
 export const promoBlockPropsNoImage: PromoBlockProps = {

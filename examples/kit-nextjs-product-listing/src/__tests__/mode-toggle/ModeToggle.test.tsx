@@ -76,12 +76,9 @@ jest.mock('../../components/ui/dropdown-menu', () => ({
       {children}
     </div>
   ),
-  DropdownMenuTrigger: ({
-    children,
-  }: {
-    children: React.ReactNode;
-    asChild?: boolean;
-  }) => <div data-testid="dropdown-menu-trigger">{children}</div>,
+  DropdownMenuTrigger: ({ children }: { children: React.ReactNode; asChild?: boolean }) => (
+    <div data-testid="dropdown-menu-trigger">{children}</div>
+  ),
 }));
 
 jest.mock('../../components/ui/button', () => ({
