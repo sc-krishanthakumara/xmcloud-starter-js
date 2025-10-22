@@ -103,7 +103,16 @@ export const multiPromoPropsThreeColumns: MultiPromoProps = {
 export const multiPromoPropsEmpty: MultiPromoProps = {
   rendering: { componentName: 'MultiPromo', params: {} },
   params: {},
-  fields: {},
+  fields: {
+    data: {
+      datasource: {
+        title: { jsonValue: mockTitleField },
+        children: {
+          results: [],
+        },
+      },
+    },
+  },
   name: 'MultiPromo',
   promos: [],
 };

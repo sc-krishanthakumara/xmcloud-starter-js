@@ -1,6 +1,11 @@
 /* eslint-disable */
 import React from 'react';
-import { SlideCarouselProps } from '../../components/slide-carousel/slide-carousel.props';
+import { GalleryProps } from '../../components/slide-carousel/slide-carousel.props';
+
+// Extended interface for test props
+interface SlideCarouselProps extends GalleryProps {
+  className?: string;
+}
 
 // Mock children for carousel items (using React.createElement to avoid JSX compilation issues in mock files)
 export const createMockSlideChildren = () => [

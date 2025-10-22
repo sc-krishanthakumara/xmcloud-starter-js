@@ -1,20 +1,9 @@
 /* eslint-disable */
 import React from 'react';
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
 import { Meteors } from '../../components/magicui/meteors';
 
-// Define MeteorsProps interface inline since it's not exported from the component
-interface MeteorsProps {
-  number?: number;
-  minDelay?: number;
-  maxDelay?: number;
-  minDuration?: number;
-  maxDuration?: number;
-  angle?: number;
-  className?: string;
-  color?: string;
-  size?: string;
-}
+// MeteorsProps interface is used in mock props
 import {
   defaultMeteorsProps,
   meteorsPropsMinimal,
@@ -226,8 +215,8 @@ describe('Meteors Component', () => {
 
       const meteorTails = document.querySelectorAll('span > div');
       meteorTails.forEach((tail) => {
-        expect(tail.style.width).toBe('100px');
-        expect(tail.style.backgroundImage).toContain('linear-gradient');
+        expect(tail).toHaveStyle({ width: '100px' });
+        expect(tail).toHaveStyle({ backgroundImage: expect.stringContaining('linear-gradient') });
       });
     });
   });

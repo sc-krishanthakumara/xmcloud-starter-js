@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { ModeToggle } from '../../components/mode-toggle/mode-toggle.dev';
 import {
   defaultModeToggleProps,
@@ -21,7 +21,7 @@ jest.mock('next-themes', () => ({
 
 // Mock lucide-react icons
 jest.mock('lucide-react', () => ({
-  Sun: ({ className, size, strokeWidth, ...props }: any) => (
+  Sun: ({ className, size, strokeWidth }: any) => (
     <svg
       data-testid="sun-icon"
       className={className}
@@ -32,7 +32,7 @@ jest.mock('lucide-react', () => ({
       <circle cx="12" cy="12" r="5" />
     </svg>
   ),
-  Moon: ({ className, size, strokeWidth, ...props }: any) => (
+  Moon: ({ className, size, strokeWidth }: any) => (
     <svg
       data-testid="moon-icon"
       className={className}
@@ -78,7 +78,6 @@ jest.mock('../../components/ui/dropdown-menu', () => ({
   ),
   DropdownMenuTrigger: ({
     children,
-    asChild,
   }: {
     children: React.ReactNode;
     asChild?: boolean;

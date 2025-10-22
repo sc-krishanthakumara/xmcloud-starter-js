@@ -9,7 +9,6 @@ import {
   productListingPropsNoProducts,
   productListingPropsMinimal,
   productListingPropsEditing,
-  productListingPropsNoDataSource,
   productListingPropsNoFields,
   mockUseSitecoreNormal,
   mockUseSitecoreEditing,
@@ -67,7 +66,7 @@ jest.mock('../../components/animated-section/AnimatedSection.dev', () => ({
 }));
 
 jest.mock('../../components/product-listing/ProductListingCard.dev', () => ({
-  ProductListingCard: ({ product, link, prefersReducedMotion, isPageEditing }: any) => (
+  ProductListingCard: ({ product, prefersReducedMotion, isPageEditing }: any) => (
     <div
       data-testid="product-card"
       data-product-name={product.productName?.jsonValue?.value}

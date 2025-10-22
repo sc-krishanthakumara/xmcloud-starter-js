@@ -17,6 +17,7 @@ const createMockImageField = (src: string, alt: string): ImageField =>
 
 // Default props with complete content
 export const defaultPromoBlockProps: PromoBlockProps = {
+  rendering: { componentName: 'PromoBlock', params: {} },
   params: {
     orientation: Orientation.IMAGE_LEFT,
     variation: Variation.DEFAULT,
@@ -72,6 +73,7 @@ export const promoBlockPropsNoLink: PromoBlockProps = {
 
 // Props with minimal content
 export const promoBlockPropsMinimal: PromoBlockProps = {
+  rendering: { componentName: 'PromoBlock', params: {} },
   params: {
     orientation: Orientation.IMAGE_LEFT,
   },
@@ -84,6 +86,7 @@ export const promoBlockPropsMinimal: PromoBlockProps = {
 
 // Props with empty content
 export const promoBlockPropsEmpty: PromoBlockProps = {
+  rendering: { componentName: 'PromoBlock', params: {} },
   params: {},
   fields: {
     heading: createMockField(''),
@@ -118,12 +121,14 @@ export const promoBlockPropsLongContent: PromoBlockProps = {
 
 // Props without fields (should show NoDataFallback)
 export const promoBlockPropsNoFields: PromoBlockProps = {
+  rendering: { componentName: 'PromoBlock', params: {} },
   params: {},
   fields: undefined as any,
 };
 
 // Props with missing image
 export const promoBlockPropsNoImage: PromoBlockProps = {
+  rendering: { componentName: 'PromoBlock', params: {} },
   params: {
     orientation: Orientation.IMAGE_LEFT,
     variation: Variation.DEFAULT,
@@ -133,6 +138,7 @@ export const promoBlockPropsNoImage: PromoBlockProps = {
     description: createMockField(
       '<p>This promo block has text content but no image component.</p>'
     ),
+    image: createMockImageField('/images/default.jpg', 'Default Image'),
     link: createMockLinkField('/text-content', 'Read More'),
   },
 };

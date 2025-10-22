@@ -48,6 +48,8 @@ export const pageHeaderPropsMinimal: PageHeaderProps = {
       },
       externalFields: {
         pageTitle: { jsonValue: mockPageTitleField },
+        pageHeaderTitle: { jsonValue: mockPageHeaderTitleField },
+        pageSubtitle: { jsonValue: mockPageSubtitleField },
       },
     },
   },
@@ -59,6 +61,7 @@ export const pageHeaderPropsNoImage: PageHeaderProps = {
   fields: {
     data: {
       datasource: {
+        imageRequired: { jsonValue: mockImageField },
         link1: { jsonValue: mockLink1Field },
         link2: { jsonValue: mockLink2Field },
       },
@@ -98,7 +101,18 @@ export const pageHeaderPropsWithPositionStyles: PageHeaderProps = {
 export const pageHeaderPropsEmpty: PageHeaderProps = {
   rendering: { componentName: 'PageHeader', params: {} },
   params: {},
-  fields: {},
+  fields: {
+    data: {
+      datasource: {
+        imageRequired: { jsonValue: mockImageField },
+      },
+      externalFields: {
+        pageTitle: { jsonValue: mockPageTitleField },
+        pageHeaderTitle: { jsonValue: mockPageHeaderTitleField },
+        pageSubtitle: { jsonValue: mockPageSubtitleField },
+      },
+    },
+  },
 };
 
 // Mock useSitecore contexts

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import {
   Default as TextBannerDefault,
   TextBanner01,
@@ -19,11 +19,9 @@ import {
   textBannerPropsEmptyFields,
   textBannerPropsNoFields,
   textBannerPropsUndefinedHeading,
-  textBannerPropsEditing,
   textBannerPropsNoStyles,
   textBannerPropsCustomTheme,
   textBannerPropsMultipleStyles,
-  textBannerPropsReducedMotion,
   mockUseSitecoreNormal,
   mockUseSitecoreEditing,
 } from './TextBanner.mockProps';
@@ -485,8 +483,6 @@ describe('TextBanner Component', () => {
     it('handles re-renders efficiently', () => {
       const { rerender } = render(<TextBannerDefault {...defaultTextBannerProps} />);
 
-      const initialElement = screen.getByTestId('text-banner-default');
-
       rerender(<TextBannerDefault {...defaultTextBannerProps} />);
 
       const rerenderElement = screen.getByTestId('text-banner-default');
@@ -526,7 +522,7 @@ describe('TextBanner Component', () => {
     it('maintains proper component structure across variants', () => {
       const variants = [TextBannerDefault, TextBanner01, TextBanner02, TextTop, BlueTitleRight];
 
-      variants.forEach((Component, index) => {
+      variants.forEach((Component) => {
         const { unmount } = render(<Component {...defaultTextBannerProps} />);
 
         expect(screen.getByTestId('banner-heading')).toBeInTheDocument();

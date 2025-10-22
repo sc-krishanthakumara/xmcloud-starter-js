@@ -5,7 +5,7 @@ export const createMockChild = (testId: string, content: string) =>
   React.createElement('div', { 'data-testid': testId, key: testId }, content);
 
 export const defaultThemeProviderProps = {
-  attribute: 'class',
+  attribute: 'class' as const,
   defaultTheme: 'system',
   enableSystem: true,
   disableTransitionOnChange: true,
@@ -31,7 +31,7 @@ export const themeProviderPropsDarkDefault = {
 
 export const themeProviderPropsCustomAttribute = {
   ...defaultThemeProviderProps,
-  attribute: 'data-theme',
+  attribute: 'data-theme' as const,
   storageKey: 'custom-theme-key',
   children: [createMockChild('custom-attr-child', 'Custom Attribute Child')],
 };
@@ -82,7 +82,6 @@ export const themeProviderPropsNestedChildren = {
 export const themeProviderPropsCustomStorage = {
   ...defaultThemeProviderProps,
   storageKey: 'sync-audio-theme',
-  value: 'dark',
   children: [createMockChild('custom-storage-child', 'Custom Storage Child')],
 };
 

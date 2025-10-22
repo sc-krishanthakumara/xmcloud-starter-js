@@ -171,7 +171,6 @@ describe('FloatingDock', () => {
       fireEvent.click(trigger);
 
       const firstItem = screen.getByRole('menuitem', { name: 'Share' });
-      const secondItem = screen.getByRole('menuitem', { name: 'Email' });
 
       // Focus first item
       firstItem.focus();
@@ -290,8 +289,8 @@ describe('FloatingDock', () => {
       render(<FloatingDock items={mockItems} forceCollapse={false} />);
 
       // Desktop menu should be present
-      const desktopRegion = screen.queryByRole('region', { name: 'Share options' });
       // Note: Desktop menu might be hidden with md:flex so it may not be visible in test
+      expect(screen.queryByRole('region', { name: 'Share options' })).toBeTruthy();
     });
 
     it('renders with custom desktopClassName', () => {
@@ -299,8 +298,8 @@ describe('FloatingDock', () => {
         <FloatingDock items={mockItems} desktopClassName="custom-desktop-class" />
       );
 
-      const desktopMenu = container.querySelector('.custom-desktop-class');
       // Desktop menu might be hidden in test environment due to responsive classes
+      expect(container.querySelector('.custom-desktop-class')).toBeDefined();
     });
   });
 

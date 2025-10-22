@@ -54,7 +54,7 @@ const mockTabContent3: LogoTabContent = {
 
 export const defaultLogoTabsProps: LogoTabsProps = {
   rendering: { componentName: 'LogoTabs', params: {} },
-  params: { colorScheme: 'dark' },
+  params: { colorScheme: 'primary' },
   fields: {
     data: {
       datasource: {

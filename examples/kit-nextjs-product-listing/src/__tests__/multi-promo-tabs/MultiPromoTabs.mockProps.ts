@@ -91,7 +91,15 @@ export const multiPromoTabsPropsNoTabs: MultiPromoTabsProps = {
 export const multiPromoTabsPropsEmpty: MultiPromoTabsProps = {
   rendering: { componentName: 'MultiPromoTabs', params: {} },
   params: {},
-  fields: {},
+  fields: {
+    data: {
+      datasource: {
+        children: {
+          results: [],
+        },
+      },
+    },
+  },
 };
 
 // Mock useSitecore contexts

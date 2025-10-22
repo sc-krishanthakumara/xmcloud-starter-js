@@ -179,7 +179,7 @@ describe('PromoBlock Component', () => {
       const propsWithoutVariation = {
         ...defaultPromoBlockProps,
         params: {
-          orientation: defaultPromoBlockProps.params.orientation,
+          orientation: defaultPromoBlockProps.params.orientation!,
         },
       };
 
@@ -203,8 +203,8 @@ describe('PromoBlock Component', () => {
       // Should have flex containers for layout
       expect(flexContainers.length).toBeGreaterThan(0);
 
-      // Check for justify-end class when image is right and variation is VERSION_TWO
-      const justifyEndContainer = flexContainers.find((container) =>
+      // Check for justify-end class when image is right and variation is VERSION_TWO  
+      flexContainers.some((container) =>
         container.className.includes('justify-end')
       );
 
@@ -266,7 +266,7 @@ describe('PromoBlock Component', () => {
       expect(screen.getByTestId('sitecore-richtext')).toBeInTheDocument();
 
       // Image wrapper may or may not be rendered depending on field presence
-      const imageWrapper = screen.queryByTestId('image-wrapper');
+      screen.queryByTestId('image-wrapper') !== null;
       // Component should render without crashing regardless of image presence
       expect(document.body).toContainElement(screen.getByText('Text Only Content'));
     });
@@ -346,9 +346,7 @@ describe('PromoBlock Component', () => {
         );
         buttonContainer.remove();
 
-        const { container: defaultContainer } = render(
-          <PromoBlockDefault {...buttonLinkPromoBlockProps} />
-        );
+        render(<PromoBlockDefault {...buttonLinkPromoBlockProps} />);
 
         // Both should render the same structure
         expect(screen.getByText('Button Link Variant')).toBeInTheDocument();
