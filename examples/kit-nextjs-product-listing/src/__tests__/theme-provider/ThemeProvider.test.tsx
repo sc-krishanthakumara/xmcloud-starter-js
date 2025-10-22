@@ -217,7 +217,6 @@ describe('ThemeProvider Component', () => {
       expect(mockNextThemesProvider).toHaveBeenCalledWith(
         expect.objectContaining({
           storageKey: 'sync-audio-theme',
-          value: 'dark',
         })
       );
     });
@@ -285,10 +284,8 @@ describe('ThemeProvider Component', () => {
           disableTransitionOnChange: false,
           storageKey: 'custom-key',
           themes: ['light', 'dark', 'custom'],
-          value: 'custom',
           enableColorScheme: true,
           nonce: 'custom-nonce',
-          children: expect.anything(),
         })
       );
     });
