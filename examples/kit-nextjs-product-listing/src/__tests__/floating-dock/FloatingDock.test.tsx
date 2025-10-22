@@ -221,7 +221,7 @@ describe('FloatingDock', () => {
       const trigger = screen.getByRole('button', { name: /open share menu/i });
       fireEvent.click(trigger);
 
-      const firstItem = screen.getByRole('menuitem', { name: 'Share' });
+      const firstItem = screen.getByRole('menuitem', { name: 'Shae' });
 
       // Focus first item
       firstItem.focus();
