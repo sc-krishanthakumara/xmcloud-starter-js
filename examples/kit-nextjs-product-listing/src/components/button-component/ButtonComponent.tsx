@@ -20,14 +20,14 @@ export type ButtonFields = {
     buttonLink: LinkField;
     icon?: { value: EnumValues<typeof IconName> };
     iconClassName?: string;
-    isAriaHidden?: boolean;
+    isAriaHidden?: boolean; 
   };
   variant?: EnumValues<typeof ButtonVariants>;
   params: {
     size?: EnumValues<typeof ButtonSize>;
     iconPosition?: EnumValues<typeof IconPosition>;
     iconClassName?: string;
-    isPageEditing?: boolean;
+    isPageEditing?: boolean; 
   };
 };
 
@@ -35,7 +35,7 @@ export type ButtonRendering = { rendering: ComponentRendering };
 const linkIsValid = (link: LinkField) => {
   return (
     !!link?.value?.text &&
-    (!!link?.value?.href || !!link?.value?.url) &&
+    (!!link?.value?.href || !!link?.value?.url) && 
     link?.value?.href !== 'http://'
   );
 };
