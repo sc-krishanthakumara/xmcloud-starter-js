@@ -25,7 +25,7 @@ export type ButtonFields = {
   variant?: EnumValues<typeof ButtonVariants>;
   params: {
     size?: EnumValues<typeof ButtonSize>;
-    iconPosition?: EnumValues<typeof IconPosition>;
+    iconPosition?: EnumValues<typeof IconPosition>; 
     iconClassName?: string;
     isPageEditing?: boolean;
   };
@@ -34,7 +34,7 @@ export type ButtonFields = {
 export type ButtonRendering = { rendering: ComponentRendering };
 const linkIsValid = (link: LinkField) => {
   return (
-    !!link?.value?.text &&
+    !!link?.value?.text && 
     (!!link?.value?.href || !!link?.value?.url) &&
     link?.value?.href !== 'http://'
   );
@@ -43,7 +43,7 @@ const isValidEditableLink = (link: LinkField, icon?: ImageField) => {
   return (
     !!link?.value?.text ||
     (icon?.value?.src &&
-      (!!link?.value?.href || !!link?.value?.url) &&
+      (!!link?.value?.href || !!link?.value?.url) && 
       link?.value?.href !== 'http://')
   );
 };
