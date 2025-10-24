@@ -45,7 +45,7 @@ export const HeroImageBackground: React.FC<HeroProps> = (props) => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.CONTENT_SERVICE_ACCESS_TbOKEN}`,
+            Authorization: `Bearer ${process.env.CONTENT_SERVICE_ACCESS_TOKEN}`,
           },
         });
         if (response.ok) {
