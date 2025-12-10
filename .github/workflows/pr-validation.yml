@@ -154,29 +154,38 @@ jobs:
               echo "Generating files for $starter..."
               cd "examples/$starter"
               
-              # Try to generate files with Sitecore tools, fallback to minimal files if credentials are missing
+              # Ensure .sitecore directory exists
+              mkdir -p .sitecore
+              
+              # Try to generate files with Sitecore tools, but always ensure required files exist
               if npm run sitecore-tools:generate-map 2>/dev/null; then
                 echo "✅ Sitecore files generated successfully for $starter"
               else
                 echo "⚠️ Sitecore tools failed (likely missing credentials), creating minimal files for $starter"
-                
-                # Create minimal .sitecore directory and files
-                mkdir -p .sitecore
-                
-                # Create minimal sites.json
-                echo '[{"name":"basic","hostName":"*","language":"en"}]' > .sitecore/sites.json
-                
-                # Create minimal metadata.json
-                echo '{"packages":{"@sitecore-content-sdk/core":"1.1.0","@sitecore-content-sdk/nextjs":"1.1.0"}}' > .sitecore/metadata.json
-                
-                # Create minimal component-map.ts
-                echo 'export default new Map();' > .sitecore/component-map.ts
-                
-                # Create minimal import-map.ts
-                echo 'export default [];' > .sitecore/import-map.ts
-                
-                echo "✅ Minimal Sitecore files created for $starter"
               fi
+              
+              # Always ensure required files exist (even if generation succeeded, these might be missing)
+              if [ ! -f .sitecore/sites.json ]; then
+                echo '[{"name":"basic","hostName":"*","language":"en"}]' > .sitecore/sites.json
+                echo "Created minimal sites.json"
+              fi
+              
+              if [ ! -f .sitecore/metadata.json ]; then
+                echo '{"packages":{"@sitecore-content-sdk/core":"1.1.0","@sitecore-content-sdk/nextjs":"1.1.0"}}' > .sitecore/metadata.json
+                echo "Created minimal metadata.json"
+              fi
+              
+              if [ ! -f .sitecore/component-map.ts ]; then
+                echo 'export default new Map();' > .sitecore/component-map.ts
+                echo "Created minimal component-map.ts"
+              fi
+              
+              if [ ! -f .sitecore/import-map.ts ]; then
+                echo 'export default [];' > .sitecore/import-map.ts
+                echo "Created minimal import-map.ts"
+              fi
+              
+              echo "✅ Sitecore files ready for $starter"
               
               cd ../..
             fi
