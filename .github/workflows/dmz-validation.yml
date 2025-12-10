@@ -149,26 +149,48 @@ jobs:
               cd "$starter"
               
               # Try type-check, and if it fails due to .sitecore files, replace them with minimal versions
-              if npm run type-check 2>&1 | tee /tmp/typecheck-output.log; then
+              set +e  # Don't exit on error, we'll handle it
+              npm run type-check > /tmp/typecheck-output.log 2>&1
+              TYPE_CHECK_EXIT=$?
+              set -e  # Re-enable exit on error
+              
+              if [ $TYPE_CHECK_EXIT -eq 0 ]; then
                 echo "✅ Type checking passed for $starter"
               else
                 # Check if errors are related to .sitecore files
-                if grep -q "\.sitecore/" /tmp/typecheck-output.log; then
-                  echo "⚠️ Type errors detected in .sitecore files, replacing with minimal versions..."
+                if grep -q "\.sitecore/" /tmp/typecheck-output.log || grep -q "error TS" /tmp/typecheck-output.log; then
+                  echo "⚠️ Type errors detected, checking if they're in .sitecore files..."
+                  cat /tmp/typecheck-output.log
                   
-                  # Replace problematic files with minimal versions
-                  echo 'export default new Map();' > .sitecore/component-map.ts
-                  echo 'export default [];' > .sitecore/import-map.ts
-                  
-                  # Retry type-check
-                  if npm run type-check; then
-                    echo "✅ Type checking passed for $starter after fixing .sitecore files"
+                  # Check if any errors mention .sitecore files
+                  if grep -q "\.sitecore/" /tmp/typecheck-output.log; then
+                    echo "⚠️ Type errors detected in .sitecore files, replacing with minimal versions..."
+                    
+                    # Replace problematic files with minimal versions
+                    echo 'export default new Map();' > .sitecore/component-map.ts
+                    echo 'export default [];' > .sitecore/import-map.ts
+                    
+                    # Retry type-check
+                    set +e
+                    npm run type-check > /tmp/typecheck-retry.log 2>&1
+                    RETRY_EXIT=$?
+                    set -e
+                    
+                    if [ $RETRY_EXIT -eq 0 ]; then
+                      echo "✅ Type checking passed for $starter after fixing .sitecore files"
+                    else
+                      echo "❌ Type checking still failed after fixing .sitecore files:"
+                      cat /tmp/typecheck-retry.log
+                      exit 1
+                    fi
                   else
-                    echo "❌ Type checking failed for $starter"
+                    echo "❌ Type checking failed for $starter (errors not in .sitecore files):"
+                    cat /tmp/typecheck-output.log
                     exit 1
                   fi
                 else
-                  echo "❌ Type checking failed for $starter"
+                  echo "❌ Type checking failed for $starter:"
+                  cat /tmp/typecheck-output.log
                   exit 1
                 fi
               fi
@@ -212,12 +234,67 @@ jobs:
               cd "$starter"
               
               echo "Running build for $starter..."
-              if ! npm run build; then
-                echo "❌ Build failed for $starter"
-                echo "::error::Build failed for $starter"
-                exit 1
+              
+              # For starters that use sitecore-tools:build, we need to handle failures gracefully
+              # since Sitecore credentials may not be available in CI
+              if grep -q "sitecore-tools:build" package.json; then
+                echo "Build script includes sitecore-tools:build"
+                echo "Sitecore tools may fail without credentials - will build Next.js only if needed"
+                
+                # Try the full build first
+                set +e  # Don't exit on error immediately
+                npm run build > /tmp/build-output.log 2>&1
+                BUILD_EXIT=$?
+                set -e  # Re-enable exit on error
+                
+                if [ $BUILD_EXIT -eq 0 ]; then
+                  echo "✅ Build successful for $starter"
+                else
+                  # Check if failure is due to Sitecore tools
+                  if grep -qi "No sitecore context\|404\|GraphQL Error\|ClientError.*sitecore\|sitecore-tools:build.*exited" /tmp/build-output.log; then
+                    echo "⚠️ Build failed due to Sitecore tools (missing credentials/context)"
+                    echo "This is expected in CI - building Next.js only..."
+                    
+                    # Build just Next.js (skip Sitecore tools)
+                    if grep -q "\"next:build\"" package.json; then
+                      echo "Running next:build directly (skipping Sitecore tools)..."
+                      # Ensure .sitecore files exist for Next.js build
+                      mkdir -p .sitecore
+                      if [ ! -f .sitecore/sites.json ]; then
+                        echo '[{"name":"basic","hostName":"*","language":"en"}]' > .sitecore/sites.json
+                      fi
+                      if [ ! -f .sitecore/metadata.json ]; then
+                        echo '{"packages":{"@sitecore-content-sdk/core":"1.1.0","@sitecore-content-sdk/nextjs":"1.1.0"}}' > .sitecore/metadata.json
+                      fi
+                      
+                      if npm run next:build; then
+                        echo "✅ Next.js build successful (Sitecore tools skipped due to missing credentials)"
+                      else
+                        echo "❌ Next.js build failed:"
+                        exit 1
+                      fi
+                    else
+                      echo "❌ Cannot build - next:build script not found"
+                      echo "Build output:"
+                      cat /tmp/build-output.log
+                      exit 1
+                    fi
+                  else
+                    echo "❌ Build failed for $starter (not a Sitecore tools issue):"
+                    cat /tmp/build-output.log
+                    echo "::error::Build failed for $starter"
+                    exit 1
+                  fi
+                fi
+              else
+                # Build script doesn't use sitecore-tools:build, run normally
+                if ! npm run build; then
+                  echo "❌ Build failed for $starter"
+                  echo "::error::Build failed for $starter"
+                  exit 1
+                fi
+                echo "✅ Build successful for $starter"
               fi
-              echo "✅ Build successful for $starter"
               
               cd ../..
             fi
