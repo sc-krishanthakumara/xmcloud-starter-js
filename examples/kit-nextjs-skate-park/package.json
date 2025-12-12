@@ -42,12 +42,15 @@
     "eslint": "^9.33.0",
     "eslint-config-next": "15.5.0",
     "npm-run-all2": "^8.0.4",
+    "prettier": "3.6.2",
     "tailwindcss": "^4",
     "typescript": "~5.8.3"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production npm-run-all --serial sitecore-tools:generate-map sitecore-tools:build next:build",
     "lint": "eslint ./src/**/*.tsx ./src/**/*.ts",
+    "prettier": "prettier --write \"./src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"./src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "next:build": "next build",
     "next:dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "next:start": "next start",
