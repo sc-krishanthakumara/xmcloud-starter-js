@@ -31,9 +31,16 @@
         "./src/*"
       ],
     },
-    "target": "ES2017",
-    "types": ["node"],
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "es5",
+    "types": [
+      "node",
+      "jest"
+    ],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
