@@ -12,16 +12,23 @@ const DICTIONARY_KEYS = {
   CART_EMPTY_LABEL: 'Cart_Empty',
 };
 
-/** Returns true if the link field has a valid href (not a placeholder like # or http://#). */
+/** Returns true if the link field has a real navigable href (not a placeholder like # or http://#). */
 function hasValidLink(field: LinkField | undefined): boolean {
   const href = field?.value?.href;
   return !!(href && href !== '#' && !href.startsWith('http://#'));
+}
+
+/** Returns true if the link field has a placeholder href (# or http://#). */
+function isPlaceholderLink(field: LinkField | undefined): boolean {
+  const href = field?.value?.href;
+  return !!(href && (href === '#' || href.startsWith('http://#')));
 }
 
 export const MiniCart = ({ cartLink }: { cartLink: LinkField }) => {
   const t = useTranslations();
   const { isVisible, setIsVisible, ref } = useToggleWithClickOutside<HTMLDivElement>(false);
   const hasValidCartLink = hasValidLink(cartLink);
+  const isPlaceholderCartLink = isPlaceholderLink(cartLink);
 
   const cartTrigger = <FontAwesomeIcon icon={faShoppingCart} width={24} height={24} />;
 
@@ -71,10 +78,14 @@ export const MiniCart = ({ cartLink }: { cartLink: LinkField }) => {
             <ContentSdkLink field={cartLink} className="btn btn-primary btn-sharp">
               {t(DICTIONARY_KEYS.GO_TO_CART_LABEL) || 'Go to Cart'}
             </ContentSdkLink>
-          ) : (
-            <span className="btn btn-primary btn-sharp inline-block">
+          ) : isPlaceholderCartLink ? (
+            <a href="#" className="btn btn-primary btn-sharp" onClick={(e) => e.preventDefault()}>
               {t(DICTIONARY_KEYS.GO_TO_CART_LABEL) || 'Go to Cart'}
-            </span>
+            </a>
+          ) : (
+            <button type="button" className="btn btn-primary btn-sharp">
+              {t(DICTIONARY_KEYS.GO_TO_CART_LABEL) || 'Go to Cart'}
+            </button>
           )}
         </div>
       </div>
