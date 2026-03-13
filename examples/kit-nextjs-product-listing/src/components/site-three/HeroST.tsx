@@ -24,10 +24,16 @@ type PageHeaderSTProps = {
   fields: Fields;
 };
 
-/** Returns true if the link field has a valid href (not a placeholder like # or http://#). */
+/** Returns true if the link field has a real navigable href (not a placeholder like # or http://#). */
 function hasValidLink(field: LinkField | undefined): boolean {
   const href = field?.value?.href;
   return !!(href && href !== '#' && !href.startsWith('http://#'));
+}
+
+/** Returns true if the link field has a placeholder href (# or http://#). */
+function isPlaceholderLink(field: LinkField | undefined): boolean {
+  const href = field?.value?.href;
+  return !!(href && (href === '#' || href.startsWith('http://#')));
 }
 
 const HeroLink = ({
@@ -39,6 +45,8 @@ const HeroLink = ({
   className: string;
   ariaLabel?: string;
 }) => {
+  const text = field?.value?.text?.trim();
+  if (!text) return null;
   if (hasValidLink(field) && field) {
     return (
       <ContentSdkLink
@@ -49,9 +57,19 @@ const HeroLink = ({
       />
     );
   }
-  const text = field?.value?.text?.trim();
-  if (!text) return null;
-  return <span className={className}>{text}</span>;
+  if (isPlaceholderLink(field)) {
+    return (
+      <a
+        href="#"
+        className={className}
+        onClick={(e) => e.preventDefault()}
+        {...(ariaLabel && { 'aria-label': ariaLabel })}
+      >
+        {text}
+      </a>
+    );
+  }
+  return <button type="button" className={className}>{text}</button>;
 };
 
 export const Default = (props: PageHeaderSTProps) => {
