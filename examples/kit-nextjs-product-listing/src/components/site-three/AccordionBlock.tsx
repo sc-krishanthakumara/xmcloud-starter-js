@@ -15,16 +15,10 @@ import {
   AccordionTrigger,
 } from 'shadcd/components/ui/accordion';
 
-/** Returns true if the link has a real navigable href (not a placeholder like # or http://#). */
+/** Returns true if the link has a valid href (not a placeholder like # or http://#). */
 function hasValidLink(link: { value?: { href?: string } } | undefined): boolean {
   const href = link?.value?.href;
   return !!(href && href !== '#' && !href.startsWith('http://#'));
-}
-
-/** Returns true if the link has a placeholder href (# or http://#). */
-function isPlaceholderLink(link: { value?: { href?: string } } | undefined): boolean {
-  const href = link?.value?.href;
-  return !!(href && (href === '#' || href.startsWith('http://#')));
 }
 
 interface Fields {
@@ -93,14 +87,10 @@ export const Default = (props: AccordionProps) => {
                   prefetch={false}
                   className="btn btn-secondary btn-sharp"
                 />
-              ) : datasource?.link?.jsonValue && isPlaceholderLink(datasource.link.jsonValue) ? (
-                <a href="#" className="btn btn-secondary btn-sharp" onClick={(e) => e.preventDefault()}>
-                  {datasource.link.jsonValue?.value?.text || ''}
-                </a>
               ) : datasource?.link?.jsonValue ? (
-                <button type="button" className="btn btn-secondary btn-sharp">
+                <span className="btn btn-secondary btn-sharp inline-block">
                   {datasource.link.jsonValue?.value?.text || ''}
-                </button>
+                </span>
               ) : null}
             </div>
           </div>
@@ -239,14 +229,10 @@ export const BoxedContent = (props: AccordionProps) => {
                   prefetch={false}
                   className="btn btn-secondary btn-sharp"
                 />
-              ) : datasource?.link?.jsonValue && isPlaceholderLink(datasource.link.jsonValue) ? (
-                <a href="#" className="btn btn-secondary btn-sharp" onClick={(e) => e.preventDefault()}>
-                  {datasource.link.jsonValue?.value?.text || ''}
-                </a>
               ) : datasource?.link?.jsonValue ? (
-                <button type="button" className="btn btn-secondary btn-sharp">
+                <span className="btn btn-secondary btn-sharp inline-block">
                   {datasource.link.jsonValue?.value?.text || ''}
-                </button>
+                </span>
               ) : null}
             </div>
           </div>

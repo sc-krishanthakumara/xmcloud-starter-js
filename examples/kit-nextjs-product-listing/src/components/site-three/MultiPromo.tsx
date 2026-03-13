@@ -38,16 +38,10 @@ type PromoItemProps = SimplePromoFields & {
   isHorizontal?: boolean;
 };
 
-/** Returns true if the link has a real navigable href (not a placeholder like # or http://#). */
+/** Returns true if the link has a valid href (not a placeholder like # or http://#). */
 function hasValidLink(link: { value?: { href?: string } } | undefined): boolean {
   const href = link?.value?.href;
   return !!(href && href !== '#' && !href.startsWith('http://#'));
-}
-
-/** Returns true if the link has a placeholder href (# or http://#). */
-function isPlaceholderLink(link: { value?: { href?: string } } | undefined): boolean {
-  const href = link?.value?.href;
-  return !!(href && (href === '#' || href.startsWith('http://#')));
 }
 
 const PromoItem = ({ isHorizontal, ...promo }: PromoItemProps) => {
@@ -77,22 +71,9 @@ const PromoItem = ({ isHorizontal, ...promo }: PromoItemProps) => {
                 : undefined
             }
           />
-        ) : isPlaceholderLink(linkValue) && linkValue?.value?.text ? (
-          <a
-            href="#"
-            className="btn btn-ghost"
-            onClick={(e) => e.preventDefault()}
-            aria-label={
-              heading?.jsonValue?.value
-                ? `Learn more about ${heading.jsonValue.value}`
-                : undefined
-            }
-          >
-            {linkValue.value.text}
-          </a>
-        ) : linkValue?.value?.text ? (
-          <button type="button" className="btn btn-ghost">{linkValue.value.text}</button>
-        ) : null}
+        ) : (
+          <span className="btn btn-ghost inline-block">{linkValue?.value?.text || ''}</span>
+        )}
       </div>
     </div>
   );
