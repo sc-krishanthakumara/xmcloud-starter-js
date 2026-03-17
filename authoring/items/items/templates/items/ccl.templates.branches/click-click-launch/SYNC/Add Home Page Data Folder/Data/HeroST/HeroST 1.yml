@@ -14,7 +14,7 @@ Languages:
     - ID: "2d9c3674-1ac3-4f41-9806-1cd1d57b1a8f"
       Hint: Link2
       Value: |
-        <link text="Buy" linktype="external" url="/Speakers/Heritage-30" anchor="" target="" />
+        <link text="Buy" linktype="internal" url="/click-click-launch/Demo A/Home/Speakers/Heritage-30" anchor="" target="" />
     - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
       Hint: __Owner
       Value: |
