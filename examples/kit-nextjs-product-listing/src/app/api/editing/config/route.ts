@@ -8,6 +8,9 @@ import clientComponents from '.sitecore/component-map.client';
  * to determine feature compatibility and configuration.
  */
 
+// Force dynamic rendering since this route uses request headers
+export const dynamic = 'force-dynamic';
+
 export const { GET, OPTIONS } = createEditingConfigRouteHandler({
   components,
   clientComponents,
