@@ -15,7 +15,7 @@ jest.mock('@sitecore-content-sdk/nextjs', () => ({
 }));
 
 // Mock the Sitecore Cloud SDK
-jest.mock('@sitecore-cloudsdk/events/browser', () => ({
+jest.mock('@sitecore-content-sdk/events', () => ({
   pageView: jest.fn(),
 }));
 
@@ -30,7 +30,7 @@ jest.mock('sitecore.config', () => ({
 }));
 
 import { useSitecore } from '@sitecore-content-sdk/nextjs';
-import { pageView } from '@sitecore-cloudsdk/events/browser';
+import { pageView } from '@sitecore-content-sdk/events';
 
 const mockedUseSitecore = useSitecore as jest.MockedFunction<typeof useSitecore>;
 const mockPageView = pageView as jest.MockedFunction<typeof pageView>;
