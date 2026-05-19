@@ -89,7 +89,7 @@
     "@angular/forms": "~20.3.18",
     "@angular/platform-browser": "~20.3.18",
     "@angular/platform-browser-dynamic": "~20.3.18",
-    "@angular/platform-server": "~20.3.19",
+    "@angular/platform-server": "~20.3.21",
     "@angular/router": "~20.3.18",
     "@apollo/client": "^3.12.9",
     "@ngx-translate/core": "~15.0.0",
@@ -112,7 +112,7 @@
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^20.0.0",
-    "@angular-devkit/build-angular": "~20.3.18",
+    "@angular-devkit/build-angular": "~20.3.26",
     "@angular-eslint/builder": "^20.5.1",
     "@angular-eslint/eslint-plugin": "^20.5.1",
     "@angular-eslint/eslint-plugin-template": "^20.5.1",
