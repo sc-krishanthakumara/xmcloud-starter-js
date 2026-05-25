@@ -1,4 +1,4 @@
-﻿---
+---
 ID: "04eaeee5-5267-4bf2-a186-6a29e77475e2"
 Parent: "7070586a-d5a2-4997-82a0-0286cc88b58f"
 Template: "9a52202d-3a77-4f6d-b9bd-6aeced9bd49a"
@@ -25,38 +25,32 @@ Languages:
           <d
             id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}">
             <r
-              uid="{E9152102-E995-45CC-AECC-8909E68D90A7}"
-              p:before="*"
-              s:id="{E80C2A78-FCC2-4D32-8EC5-4133F608BE5C}"
-              s:par="colorScheme&amp;excludeTopMargin&amp;inset&amp;CSSStyles&amp;DynamicPlaceholderId=1"
-              s:ph="headless-main" />
-            <r
               uid="{81E4D0C2-D178-48A8-A77A-ECF53033DD2B}"
-              p:after="r[@uid='{E9152102-E995-45CC-AECC-8909E68D90A7}']"
+              p:before="*"
               s:ds="local:/Data/Page Header 2"
               s:id="{C78595D2-0892-4EC6-9FF8-B71EDBF17861}"
               s:par="FieldNames=%7B504C8462-ED9C-4031-A545-C92D5D67E9BA%7D&amp;CSSStyles&amp;DynamicPlaceholderId=2"
-              s:ph="/headless-main/container-fullbleed-1" />
+              s:ph="/headless-main/sxa-productcontent/container-fullbleed-1" />
             <r
               uid="{08CC2408-D09B-48DC-8ADC-AED77D561DED}"
               p:after="r[@uid='{81E4D0C2-D178-48A8-A77A-ECF53033DD2B}']"
               s:ds="local:/Data/Aero Text Banner"
               s:id="{E7B031D3-161F-4391-8B23-785FC8445D1E}"
               s:par="FieldNames=%7BB6249B9B-86AB-40B3-8B0E-0A4ED7ADAD9E%7D&amp;CSSStyles&amp;DynamicPlaceholderId=3"
-              s:ph="/headless-main/container-fullbleed-1" />
+              s:ph="/headless-main/sxa-productcontent/container-fullbleed-1" />
             <r
               uid="{E8ED4E7F-0264-48BC-A4F0-A80D97BB4800}"
               p:after="r[@uid='{08CC2408-D09B-48DC-8ADC-AED77D561DED}']"
               s:id="{02340885-3692-4CAD-AC11-ED61206501A3}"
               s:par="excludeTopMargin&amp;CSSStyles&amp;DynamicPlaceholderId=4"
-              s:ph="/headless-main/container-fullbleed-1" />
+              s:ph="/headless-main/sxa-productcontent/container-fullbleed-1" />
             <r
               uid="{93405308-9550-44F9-8766-080B0FF89B02}"
               p:after="*[1=2]"
               s:ds="local:/Data/Image Gallery 1"
               s:id="{939246CC-DAAB-4FE9-A265-536995A04122}"
               s:par="FieldNames=%7B85BCDAF1-E2F4-4BC5-B6EE-BA31EF6E39B0%7D&amp;CSSStyles&amp;DynamicPlaceholderId=5"
-              s:ph="/headless-main/container-fullbleed-1/container-fullwidth-4" />
+              s:ph="/headless-main/sxa-productcontent/container-fullbleed-1/container-fullwidth-4" />
           </d>
         </r>
     - ID: "2485de13-6c39-468c-9c26-fe08c27088f4"

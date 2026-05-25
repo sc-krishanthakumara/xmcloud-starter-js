@@ -1,4 +1,4 @@
-﻿---
+---
 ID: "f7d11d66-f272-4644-b4ee-e5f13dd6d438"
 Parent: "7070586a-d5a2-4997-82a0-0286cc88b58f"
 Template: "9a52202d-3a77-4f6d-b9bd-6aeced9bd49a"
@@ -25,59 +25,53 @@ Languages:
           <d
             id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}">
             <r
-              uid="{30027D95-0029-4931-8446-4DF88D40979C}"
-              p:before="*"
-              s:id="{E80C2A78-FCC2-4D32-8EC5-4133F608BE5C}"
-              s:par="colorScheme&amp;excludeTopMargin=1&amp;inset&amp;CSSStyles&amp;DynamicPlaceholderId=1"
-              s:ph="headless-main" />
-            <r
               uid="{E4B6A5DE-BB47-4F6B-88EA-BFAAF080BA47}"
-              p:after="r[@uid='{30027D95-0029-4931-8446-4DF88D40979C}']"
+              p:before="*"
               s:ds="local:/Data/Image Gallery 1"
               s:id="{939246CC-DAAB-4FE9-A265-536995A04122}"
               s:par="FieldNames=%7B85BCDAF1-E2F4-4BC5-B6EE-BA31EF6E39B0%7D&amp;CSSStyles&amp;DynamicPlaceholderId=7"
-              s:ph="/headless-main/container-fullbleed-1/container-fullwidth-6" />
+              s:ph="/headless-main/sxa-productcontent/container-fullbleed-1/container-fullwidth-6" />
             <r
               uid="{CC9C4A45-F831-48E1-88C7-ADA370D45D84}"
               p:after="r[@uid='{E4B6A5DE-BB47-4F6B-88EA-BFAAF080BA47}']"
               s:ds="local:/Data/Page Header 1"
               s:id="{C78595D2-0892-4EC6-9FF8-B71EDBF17861}"
               s:par="FieldNames=%7B504C8462-ED9C-4031-A545-C92D5D67E9BA%7D&amp;CSSStyles&amp;DynamicPlaceholderId=2"
-              s:ph="/headless-main/container-fullbleed-1" />
+              s:ph="/headless-main/sxa-productcontent/container-fullbleed-1" />
             <r
               uid="{8932F8F8-617F-44D0-B144-0C97D540A123}"
               p:after="r[@uid='{CC9C4A45-F831-48E1-88C7-ADA370D45D84}']"
               s:ds="local:/Data/Text Banner - Nexa - Demo Official"
               s:id="{E7B031D3-161F-4391-8B23-785FC8445D1E}"
               s:par="FieldNames=%7BB6249B9B-86AB-40B3-8B0E-0A4ED7ADAD9E%7D&amp;CSSStyles&amp;DynamicPlaceholderId=3"
-              s:ph="/headless-main/container-fullbleed-1" />
+              s:ph="/headless-main/sxa-productcontent/container-fullbleed-1" />
             <r
               uid="{C4127ED2-4B2F-4978-ACF5-243349FA9358}"
               p:after="r[@uid='{8932F8F8-617F-44D0-B144-0C97D540A123}']"
               s:id="{02340885-3692-4CAD-AC11-ED61206501A3}"
               s:par="excludeTopMargin&amp;CSSStyles&amp;DynamicPlaceholderId=6"
-              s:ph="/headless-main/container-fullbleed-1" />
+              s:ph="/headless-main/sxa-productcontent/container-fullbleed-1" />
             <r
               uid="{9B7DE353-9A75-4B32-B91F-68D36E0E6294}"
               p:after="r[@uid='{C4127ED2-4B2F-4978-ACF5-243349FA9358}']"
               s:ds="local:/Data/Promo 2 - Nexa - Demo Official"
               s:id="{945776A1-8F30-4749-A668-4FCC434A60ED}"
               s:par="FieldNames=%7B9307A39D-40D0-46CC-90AC-EE7C39CCC30B%7D&amp;orientation&amp;CSSStyles&amp;DynamicPlaceholderId=8"
-              s:ph="/headless-main/container-fullbleed-1" />
+              s:ph="/headless-main/sxa-productcontent/container-fullbleed-1" />
             <r
               uid="{D191FABD-E349-4232-AD80-944E82317B56}"
               p:after="r[@uid='{9B7DE353-9A75-4B32-B91F-68D36E0E6294}']"
               s:ds="local:/Data/Promo - Nexa - Cars on road"
               s:id="{945776A1-8F30-4749-A668-4FCC434A60ED}"
               s:par="FieldNames=%7BFD1FD17B-660A-46EC-9C9B-CAF995BE8954%7D&amp;orientation&amp;CSSStyles&amp;DynamicPlaceholderId=4"
-              s:ph="/headless-main/container-fullbleed-1" />
+              s:ph="/headless-main/sxa-productcontent/container-fullbleed-1" />
             <r
               uid="{D3E7E8F3-38F1-4AA0-A4D1-256DFD047DAB}"
               p:after="*[1=2]"
               s:ds="local:/Data/Accordion - Nexa - Demo Official"
               s:id="{913E30C7-63C2-4A2B-9D44-B2ADAEED6BC2}"
               s:par="FieldNames=%7B0984EFFA-137A-456C-9D76-9A8D3FE16D70%7D&amp;orientation&amp;CSSStyles&amp;DynamicPlaceholderId=5&amp;Styles"
-              s:ph="/headless-main/container-fullbleed-1" />
+              s:ph="/headless-main/sxa-productcontent/container-fullbleed-1" />
           </d>
         </r>
     - ID: "2485de13-6c39-468c-9c26-fe08c27088f4"
