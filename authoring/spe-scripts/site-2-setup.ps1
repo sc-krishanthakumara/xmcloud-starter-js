@@ -78,19 +78,23 @@ function Invoke-ModuleScriptBody {
         Write-Verbose "Add Page Design and link partial designs"
         $headerPartial = Get-Item -Path "$sitePath/Presentation/Partial Designs/Global/Header" -Language $Site.Language
         $footerPartial = Get-Item -Path "$sitePath/Presentation/Partial Designs/Global/Footer" -Language $Site.Language
+        $productContentPartial = Get-Item -Path "$sitePath/Presentation/Partial Designs/Global/ProductContent" -Language $Site.Language
 
         $defaultPageDesign = New-Item -Path "$($sitePath)/Presentation/Page Designs" -Name "Default" -ItemType "{1105B8F8-1E00-426B-BF1F-C840742D827B}"
         $defaultPageDesign.PartialDesigns = "$($headerPartial.ID)|$($footerPartial.ID)"
+
+        $productPageDesign = New-Item -Path "$($sitePath)/Presentation/Page Designs" -Name "ProductPage" -ItemType "{1105B8F8-1E00-426B-BF1F-C840742D827B}"
+        $productPageDesign.PartialDesigns = "$($headerPartial.ID)|$($productContentPartial.ID)|$($footerPartial.ID)"
 
         $pageDesigns = Get-Item -path "$sitePath/Presentation/Page Designs" -Language $Site.Language
         $map = [Sitecore.Text.UrlString]::new()
         $map[$homePageTemplate.ID] = "$($defaultPageDesign.ID)"
         $map[$pageTemplate.ID] = "$($defaultPageDesign.ID)"
-        $map[$audioPageTemplate.ID] = "$($productPageDesign.ID)"
+        $map[$audioPageTemplate.ID] = "$($defaultPageDesign.ID)"
         $map[$articlePageTemplate.ID] = "$($defaultPageDesign.ID)"
         $map[$detailPageTemplate.ID] = "$($defaultPageDesign.ID)"
         $map[$landingPageTemplate.ID] = "$($defaultPageDesign.ID)"
-        $map[$productPageTemplate.ID] = "$($defaultPageDesign.ID)"
+        $map[$productPageTemplate.ID] = "$($productPageDesign.ID)"
         $pageDesigns.TemplatesMapping = [System.Web.HttpUtility]::UrlEncode($map.toString())
         
         Write-Verbose "Update Partial Design Rendering Variants"
