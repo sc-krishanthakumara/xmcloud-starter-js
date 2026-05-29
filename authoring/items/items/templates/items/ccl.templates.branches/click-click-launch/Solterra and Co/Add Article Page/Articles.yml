@@ -3,6 +3,12 @@ ID: "39a4de41-b99f-4781-8a38-bc77b726443b"
 Parent: "97509128-1b31-4a5b-9c07-d4c94b611d24"
 Template: "84dbe64b-0fed-4125-a971-725c0155c321"
 Path: "/sitecore/templates/Branches/Project/click-click-launch/Solterra and Co/Add Article Page/Articles"
+SharedFields:
+- ID: "1172f251-dad4-4efb-a329-0c63500e4f1e"
+  Hint: __Masters
+  Value: |
+    {C6E8B6F6-E9C3-4205-A769-7AC1E9711E3D}
+    {B0602368-F67C-433C-8700-862D480546D0}
 Languages:
 - Language: en
   Versions:

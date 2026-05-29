@@ -30,45 +30,12 @@ Languages:
           <d
             id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}">
             <r
-              uid="{1E24F50F-ECAD-4925-B028-654B93A1652E}"
-              p:before="*"
-              s:id="{E80C2A78-FCC2-4D32-8EC5-4133F608BE5C}"
-              s:par="backgroundColor&amp;excludeTopMargin=1&amp;inset&amp;CSSStyles&amp;DynamicPlaceholderId=2"
-              s:ph="headless-main" />
-            <r
-              uid="{75B94739-C82C-4BEC-978D-C2811C31B09A}"
-              p:after="r[@uid='{1E24F50F-ECAD-4925-B028-654B93A1652E}']"
-              s:ds=""
-              s:id="{3F9CCCB1-7BD7-4245-A3E9-91ED43575D98}"
-              s:par="excludeTopMargin&amp;CSSStyles&amp;DynamicPlaceholderId=4&amp;Styles=%7B417CFF95-A3B6-4A1D-B10A-D41D449CE5FA%7D%7C%7BAE80F34C-96EF-4B45-8028-78EE7FB5B559%7D%7C%7BEF966498-A54E-44F1-80B4-917F0535B239%7D"
-              s:ph="headless-main" />
-            <r
-              uid="{E3602665-E6C8-4A63-B397-C4A4BD09DD59}"
-              p:after="r[@uid='{75B94739-C82C-4BEC-978D-C2811C31B09A}']"
-              s:id="{E80C2A78-FCC2-4D32-8EC5-4133F608BE5C}"
-              s:par="backgroundColor=secondary&amp;excludeTopMargin&amp;inset&amp;CSSStyles&amp;DynamicPlaceholderId=6"
-              s:ph="headless-main" />
-            <r
-              uid="{EE5191AB-D41F-4FD4-A46D-3DB95BA6EBA2}"
-              p:after="r[@uid='{E3602665-E6C8-4A63-B397-C4A4BD09DD59}']"
-              s:ds="local:/Data/Article Header"
-              s:id="{DD6C6E80-1458-4276-B753-001691C8841C}"
-              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=3"
-              s:ph="/headless-main/container-fullbleed-2" />
-            <r
               uid="{D61AB6FE-6379-4953-B42A-797F650313EE}"
-              p:after="r[@uid='{EE5191AB-D41F-4FD4-A46D-3DB95BA6EBA2}']"
+              p:before="*"
               s:ds="local:/Data/Text 1"
               s:id="{50B36874-8C4E-4958-9DD6-8B95C6AFD09A}"
               s:par="CSSStyles&amp;DynamicPlaceholderId=5"
-              s:ph="/headless-main/container-seventy-4" />
-            <r
-              uid="{D5047C48-4899-4E9B-AC74-3D047C742DD4}"
-              p:after="*[1=2]"
-              s:ds="local:/Data/CTA Banner"
-              s:id="{3332F59B-F5F3-44DF-B66E-2811C31AEB3C}"
-              s:par="colorScheme&amp;CSSStyles&amp;DynamicPlaceholderId=7"
-              s:ph="/headless-main/container-fullbleed-6" />
+              s:ph="/headless-main/sxa-articlecontent/container-seventy-2" />
           </d>
         </r>
     - ID: "25bed78c-4957-4165-998a-ca1b52f67497"

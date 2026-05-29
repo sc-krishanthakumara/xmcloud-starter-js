@@ -1,0 +1,31 @@
+---
+ID: "f2a3b4c5-d6e7-8901-bcde-f12345678902"
+Parent: "e9f398b6-606a-42e1-8ae2-2a0db54d76ef"
+Template: "3766e92a-e97f-4118-91a0-06223312a461"
+Path: "/sitecore/templates/Branches/Project/click-click-launch/SYNC/Add Audio Product Page/Audio Product Page/Data/MultiPromo 1"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260529T120000Z
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\Admin
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\Admin
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "c1d2e3f4-a5b6-7890-cdef-123456789ac0"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\Admin
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260529T120000Z

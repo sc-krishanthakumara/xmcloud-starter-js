@@ -1,0 +1,83 @@
+---
+ID: "25ae42cb-e956-48c9-a544-0372b6b461a6"
+Parent: "3ca08551-a614-4ddc-8371-6e0d380764ae"
+Template: "fd2059fd-6043-4dfe-8c04-e2437ce87634"
+Path: "/sitecore/templates/Branches/Project/click-click-launch/Solterra and Co/Add Partial Designs/Global/ArticleContent"
+SharedFields:
+- ID: "55faae90-3bba-4f7f-96fe-13c3f40055ff"
+  Hint: Signature
+  Value: articlecontent
+- ID: "c7c26117-dbb1-42b2-ab5e-f7223845cca3"
+  Hint: __Thumbnail
+  Value: |
+    <image mediaid="{78B4A32D-E814-49AC-816A-0F1D722D7DA1}" />
+- ID: "dbbbeca1-21c7-4906-9dd2-493c1efa59a2"
+  Hint: __Shared revision
+  Value: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "04bf00db-f5fb-41f7-8ab7-22408372a981"
+      Hint: __Final Renderings
+      Value: |
+        <r xmlns:p="p" xmlns:s="s"
+          p:p="1">
+          <d
+            id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}">
+            <r
+              uid="{A1C00101-0001-4001-8001-000000000001}"
+              p:before="*"
+              s:id="{E80C2A78-FCC2-4D32-8EC5-4133F608BE5C}"
+              s:par="backgroundColor&amp;excludeTopMargin=1&amp;inset&amp;CSSStyles&amp;DynamicPlaceholderId=1"
+              s:ph="headless-main" />
+            <r
+              uid="{A1C00102-0002-4002-8002-000000000002}"
+              p:after="r[@uid='{A1C00101-0001-4001-8001-000000000001}']"
+              s:ds="local:/Data/Article Header"
+              s:id="{DD6C6E80-1458-4276-B753-001691C8841C}"
+              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=1"
+              s:ph="/headless-main/sxa-articlecontent/container-fullbleed-1" />
+            <r
+              uid="{A1C00103-0003-4003-8003-000000000003}"
+              p:after="r[@uid='{A1C00102-0002-4002-8002-000000000002}']"
+              s:id="{E80C2A78-FCC2-4D32-8EC5-4133F608BE5C}"
+              s:par="excludeTopMargin&amp;CSSStyles&amp;DynamicPlaceholderId=2&amp;Styles=%7B417CFF95-A3B6-4A1D-B10A-D41D449CE5FA%7D%7C%7BAE80F34C-96EF-4B45-8028-78EE7FB5B559%7D%7C%7BEF966498-A54E-44F1-80B4-917F0535B239%7D"
+              s:ph="headless-main" />
+            <r
+              uid="{A1C00104-0004-4004-8004-000000000004}"
+              p:after="r[@uid='{A1C00103-0003-4003-8003-000000000003}']"
+              s:id="{E80C2A78-FCC2-4D32-8EC5-4133F608BE5C}"
+              s:par="backgroundColor=secondary&amp;excludeTopMargin&amp;inset&amp;CSSStyles&amp;DynamicPlaceholderId=3"
+              s:ph="headless-main" />
+            <r
+              uid="{A1C00105-0005-4005-8005-000000000005}"
+              p:after="*[1=2]"
+              s:ds="local:/Data/CTA Banner"
+              s:id="{3332F59B-F5F3-44DF-B66E-2811C31AEB3C}"
+              s:par="colorScheme&amp;CSSStyles&amp;DynamicPlaceholderId=1"
+              s:ph="/headless-main/sxa-articlecontent/container-fullbleed-3" />
+          </d>
+        </r>
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20260529T120000Z
+    - ID: "52807595-0f8f-4b20-8d2a-cb71d28c6103"
+      Hint: __Owner
+      Value: |
+        sitecore\Admin
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\Admin
+    - ID: "8cdc337e-a112-42fb-bbb4-4143751e123f"
+      Hint: __Revision
+      Value: "a1b2c3d4-e5f6-7890-abcd-ef1234567891"
+    - ID: "badd9cf9-53e0-4d0c-bcc0-2d784c282f6a"
+      Hint: __Updated by
+      Value: |
+        sitecore\Admin
+    - ID: "d9cf14b1-fa16-4ba6-9288-e8a174d4d522"
+      Hint: __Updated
+      Value: 20260529T120000Z

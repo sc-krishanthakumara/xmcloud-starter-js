@@ -6,7 +6,8 @@ Path: "/sitecore/templates/Project/click-click-launch/Site/Article Page/__Standa
 SharedFields:
 - ID: "1172f251-dad4-4efb-a329-0c63500e4f1e"
   Hint: __Masters
-  Value: 
+  Value: |
+    {C6E8B6F6-E9C3-4205-A769-7AC1E9711E3D}
 Languages:
 - Language: en
   Versions:
