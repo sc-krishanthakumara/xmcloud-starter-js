@@ -87,9 +87,9 @@ SharedFields:
     
             $defaultPageDesign = New-Item -Path "$($sitePath)/Presentation/Page Designs" -Name "Default" -ItemType "{1105B8F8-1E00-426B-BF1F-C840742D827B}"
             $defaultPageDesign.PartialDesigns = "$($headerPartial.ID)|$($footerPartial.ID)"
-
+    
             $articleContentPartial = Get-Item -Path "$sitePath/Presentation/Partial Designs/Global/ArticleContent" -Language $Site.Language
-
+    
             $articlePageDesign = New-Item -Path "$($sitePath)/Presentation/Page Designs" -Name "ArticlePage" -ItemType "{1105B8F8-1E00-426B-BF1F-C840742D827B}"
             $articlePageDesign.PartialDesigns = "$($headerPartial.ID)|$($articleContentPartial.ID)|$($footerPartial.ID)"
     
