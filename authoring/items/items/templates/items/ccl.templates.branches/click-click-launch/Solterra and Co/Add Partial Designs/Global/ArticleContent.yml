@@ -33,16 +33,9 @@ Languages:
               s:par="backgroundColor&amp;excludeTopMargin=1&amp;inset&amp;CSSStyles&amp;DynamicPlaceholderId=1"
               s:ph="headless-main" />
             <r
-              uid="{A1C00102-0002-4002-8002-000000000002}"
-              p:after="r[@uid='{A1C00101-0001-4001-8001-000000000001}']"
-              s:ds="local:/Data/Article Header"
-              s:id="{DD6C6E80-1458-4276-B753-001691C8841C}"
-              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=1"
-              s:ph="/headless-main/sxa-articlecontent/container-fullbleed-1" />
-            <r
               uid="{A1C00103-0003-4003-8003-000000000003}"
-              p:after="r[@uid='{A1C00102-0002-4002-8002-000000000002}']"
-              s:id="{E80C2A78-FCC2-4D32-8EC5-4133F608BE5C}"
+              p:after="r[@uid='{A1C00101-0001-4001-8001-000000000001}']"
+              s:id="{3F9CCCB1-7BD7-4245-A3E9-91ED43575D98}"
               s:par="excludeTopMargin&amp;CSSStyles&amp;DynamicPlaceholderId=2&amp;Styles=%7B417CFF95-A3B6-4A1D-B10A-D41D449CE5FA%7D%7C%7BAE80F34C-96EF-4B45-8028-78EE7FB5B559%7D%7C%7BEF966498-A54E-44F1-80B4-917F0535B239%7D"
               s:ph="headless-main" />
             <r

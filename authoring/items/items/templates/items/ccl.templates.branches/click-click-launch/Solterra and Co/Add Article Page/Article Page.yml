@@ -30,8 +30,15 @@ Languages:
           <d
             id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}">
             <r
-              uid="{D61AB6FE-6379-4953-B42A-797F650313EE}"
+              uid="{EE5191AB-D41F-4FD4-A46D-3DB95BA6EBA2}"
               p:before="*"
+              s:ds="local:/Data/Article Header"
+              s:id="{DD6C6E80-1458-4276-B753-001691C8841C}"
+              s:par="GridParameters=%7B7465D855-992E-4DC2-9855-A03250DFA74B%7D&amp;FieldNames&amp;Styles&amp;RenderingIdentifier&amp;CSSStyles&amp;DynamicPlaceholderId=3"
+              s:ph="/headless-main/sxa-articlecontent/container-fullbleed-1" />
+            <r
+              uid="{D61AB6FE-6379-4953-B42A-797F650313EE}"
+              p:after="r[@uid='{EE5191AB-D41F-4FD4-A46D-3DB95BA6EBA2}']"
               s:ds="local:/Data/Text 1"
               s:id="{50B36874-8C4E-4958-9DD6-8B95C6AFD09A}"
               s:par="CSSStyles&amp;DynamicPlaceholderId=5"
