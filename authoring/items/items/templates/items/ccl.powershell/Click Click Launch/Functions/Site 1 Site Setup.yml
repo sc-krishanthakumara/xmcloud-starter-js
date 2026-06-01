@@ -84,13 +84,15 @@ SharedFields:
             Write-Verbose "Add Page Design and link partial designs"
             $headerPartial = Get-Item -Path "$sitePath/Presentation/Partial Designs/Global/Header" -Language $Site.Language
             $footerPartial = Get-Item -Path "$sitePath/Presentation/Partial Designs/Global/Footer" -Language $Site.Language
-            $articleContentPartial = Get-Item -Path "$sitePath/Presentation/Partial Designs/Global/ArticleContent" -Language $Site.Language
     
             $defaultPageDesign = New-Item -Path "$($sitePath)/Presentation/Page Designs" -Name "Default" -ItemType "{1105B8F8-1E00-426B-BF1F-C840742D827B}"
             $defaultPageDesign.PartialDesigns = "$($headerPartial.ID)|$($footerPartial.ID)"
     
+            # Dedicated Article page design supplies the shared header/footer chrome. The
+            # article-specific ArticleHeader is added to the Article Page template standard values
+            # (below) so each article keeps its own editable hero image/eyebrow datasource.
             $articlePageDesign = New-Item -Path "$($sitePath)/Presentation/Page Designs" -Name "Article" -ItemType "{1105B8F8-1E00-426B-BF1F-C840742D827B}"
-            $articlePageDesign.PartialDesigns = "$($headerPartial.ID)|$($articleContentPartial.ID)|$($footerPartial.ID)"
+            $articlePageDesign.PartialDesigns = "$($headerPartial.ID)|$($footerPartial.ID)"
     
             $pageDesigns = Get-Item -path "$sitePath/Presentation/Page Designs" -Language $Site.Language
             $map = [Sitecore.Text.UrlString]::new()
@@ -102,6 +104,22 @@ SharedFields:
             $map[$landingPageTemplate.ID] = "$($defaultPageDesign.ID)"
             $map[$productPageTemplate.ID] = "$($defaultPageDesign.ID)"
             $pageDesigns.TemplatesMapping = [System.Web.HttpUtility]::UrlEncode($map.toString())
+
+            # Seed the Article Page template standard values with an ArticleHeader so every newly
+            # created Article Page renders the article header automatically. Title/read time/date/
+            # author bind from the page; the author sets the per-page image/eyebrow datasource in
+            # Pages. Existing article pages keep their own page-level ArticleHeader.
+            Write-Verbose "Add ArticleHeader to Article Page standard values"
+            $articleStdValuesPath = "$($articlePageTemplate.Paths.Path)/__Standard Values"
+            $articleStdValues = Get-Item -Path $articleStdValuesPath -Language $Site.Language -ErrorAction SilentlyContinue
+            $renderingArticleHeader = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Page Content/Article Header' -ErrorAction SilentlyContinue
+            if ($articleStdValues -and $renderingArticleHeader) {
+                $existingArticleHeader = Get-Rendering -Item $articleStdValues -Rendering $renderingArticleHeader -FinalLayout -ErrorAction SilentlyContinue
+                if (-not $existingArticleHeader) {
+                    $renderingArticleHeaderDefinition = $renderingArticleHeader | New-Rendering
+                    Add-Rendering -Item $articleStdValues -PlaceHolder "headless-main" -Instance $renderingArticleHeaderDefinition -Parameter @{ "DynamicPlaceholderId" = "1" } -FinalLayout
+                }
+            }
             
             Write-Verbose "Update Partial Design Rendering Variants"
             $renderingGlobalHeader = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Global Elements/GlobalHeader'
