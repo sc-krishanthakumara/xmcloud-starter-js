@@ -104,7 +104,7 @@ SharedFields:
             $map[$landingPageTemplate.ID] = "$($defaultPageDesign.ID)"
             $map[$productPageTemplate.ID] = "$($defaultPageDesign.ID)"
             $pageDesigns.TemplatesMapping = [System.Web.HttpUtility]::UrlEncode($map.toString())
-
+    
             # Seed the Article Page template standard values with an ArticleHeader so every newly
             # created Article Page renders the article header automatically. Title/read time/date/
             # author bind from the page; the author sets the per-page image/eyebrow datasource in
