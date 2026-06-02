@@ -69,8 +69,56 @@ SharedFields:
             $productPageTemplate = Update-PageTemplate -BaseTemplateId $baseProductPageTemplateId -TemplateName "Product Page" -TemplatesRootPath $templatesRootPath
             $pageFolderTemplate = Update-PageTemplate -BaseTemplateId $basePageFolderTemplateId -TemplateName "Page Folder" -TemplatesRootPath $templatesRootPath
     
+            # Build a reusable "Article Page" page-branch so authors who create an article in Pages get a
+            # fully-built, per-page editable layout (Article Header + Rich Text + CTA Banner) with its own
+            # local datasources. The $name page uses the generated Article Page template so the page-design
+            # header/footer chrome still applies. Created once per template collection (guarded by Test-Path).
+            Write-Verbose "Create Article Page page-branch"
+            $branchTemplateId = "{35E75C72-4985-4E09-88C3-0EAC6CD1E64F}"
+            $branchFolderTemplateId = "{85ADBF5B-E836-4932-A333-FE0F9FA1ED1E}"
+            $branchesRootPath = "/sitecore/templates/Branches/Project/$($siteCollection.Name)"
+            $branchesPagesPath = "$branchesRootPath/Pages"
+            if (-not (Test-Path $branchesPagesPath)) {
+                New-Item -Path $branchesRootPath -Name "Pages" -ItemType $branchFolderTemplateId | Out-Null
+            }
+            $articleBranchPath = "$branchesPagesPath/Article Page"
+            if (Test-Path $articleBranchPath) {
+                $articleBranch = Get-Item -Path $articleBranchPath -Language $Site.Language
+            } else {
+                $articleBranch = New-Item -Path $branchesPagesPath -Name "Article Page" -ItemType $branchTemplateId
+                $articleBranch."__Icon" = "Office/32x32/document_text.png"
+    
+                $branchPage = New-Item -Parent $articleBranch -Name "`$name" -ItemType $articlePageTemplate.ID
+    
+                $branchData = New-Item -Parent $branchPage -Name "Data" -ItemType "{1C82E550-EBCD-4E5D-8ABD-D50D0809541E}"
+    
+                $dsArticleHeader = New-Item -Parent $branchData -Name "Article Header" -ItemType "{0906B950-0047-4B98-93E1-CCA545685259}"
+                $dsArticleHeader."imageRequired" = '<image mediaid="{DDD4A2D5-A723-4A19-96BB-D783921E6757}" alt="Article image" />'
+                $dsArticleHeader."eyebrowOptional" = "Article"
+    
+                $dsText = New-Item -Parent $branchData -Name "Text 1" -ItemType "{58041043-7BEA-44F0-B1B8-08E4EA7054F4}"
+                $dsText."text" = '<div class="ck-content"><h5>Introduce your article here.</h5><p>Replace this placeholder with your article body. Use this space to tell your story, share insights and engage your readers.</p></div>'
+    
+                $dsCta = New-Item -Parent $branchData -Name "CTA Banner" -ItemType "{BEE4869D-B588-42C2-9797-76510C397E6A}"
+                $dsCta."titleRequired" = "Ready to learn more?"
+                $dsCta."descriptionOptional" = "Add a short call to action to guide your readers to the next step."
+    
+                $renderingCfbBranch = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Page Structure/Container Full Bleed'
+                $renderingC70Branch = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Page Structure/Container 70'
+                $renderingAhBranch = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Page Content/Article Header'
+                $renderingRtBranch = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Page Content/Rich Text'
+                $renderingCtaBranch = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Promos/CTA Banner'
+    
+                Add-Rendering -Item $branchPage -PlaceHolder "headless-main" -Instance ($renderingCfbBranch | New-Rendering) -Parameter @{ "DynamicPlaceholderId" = "2"; "excludeTopMargin" = "1"; } -FinalLayout
+                Add-Rendering -Item $branchPage -PlaceHolder "headless-main" -Instance ($renderingC70Branch | New-Rendering) -Parameter @{ "DynamicPlaceholderId" = "4"; } -FinalLayout
+                Add-Rendering -Item $branchPage -PlaceHolder "headless-main" -Instance ($renderingCfbBranch | New-Rendering) -Parameter @{ "DynamicPlaceholderId" = "6"; "backgroundColor" = "secondary"; } -FinalLayout
+                Add-Rendering -Item $branchPage -PlaceHolder "/headless-main/container-fullbleed-2" -Instance ($renderingAhBranch | New-Rendering) -Parameter @{ "DynamicPlaceholderId" = "3"; } -DataSource "local:/Data/Article Header" -FinalLayout
+                Add-Rendering -Item $branchPage -PlaceHolder "/headless-main/container-seventy-4" -Instance ($renderingRtBranch | New-Rendering) -Parameter @{ "DynamicPlaceholderId" = "5"; } -DataSource "local:/Data/Text 1" -FinalLayout
+                Add-Rendering -Item $branchPage -PlaceHolder "/headless-main/container-fullbleed-6" -Instance ($renderingCtaBranch | New-Rendering) -Parameter @{ "DynamicPlaceholderId" = "7"; } -DataSource "local:/Data/CTA Banner" -FinalLayout
+            }
+    
             Write-Verbose "Update insert options"
-            $insertOptions = @( $articlePageTemplate.ID, $audioPageTemplate.ID, $detailPageTemplate.ID, $landingPageTemplate.ID, $productPageTemplate.ID, $pageFolderTemplate.ID )
+            $insertOptions = @( $articleBranch.ID, $audioPageTemplate.ID, $detailPageTemplate.ID, $landingPageTemplate.ID, $productPageTemplate.ID, $pageFolderTemplate.ID )
             Update-TemplateInsertOptions -TemplateItem $homePageTemplate -InsertOptions $insertOptions
             Update-TemplateInsertOptions -TemplateItem $audioPageTemplate -InsertOptions $insertOptions
             Update-TemplateInsertOptions -TemplateItem $articlePageTemplate -InsertOptions $insertOptions
@@ -88,9 +136,9 @@ SharedFields:
             $defaultPageDesign = New-Item -Path "$($sitePath)/Presentation/Page Designs" -Name "Default" -ItemType "{1105B8F8-1E00-426B-BF1F-C840742D827B}"
             $defaultPageDesign.PartialDesigns = "$($headerPartial.ID)|$($footerPartial.ID)"
     
-            # Dedicated Article page design supplies the shared header/footer chrome. The
-            # article-specific ArticleHeader is added to the Article Page template standard values
-            # (below) so each article keeps its own editable hero image/eyebrow datasource.
+            # Dedicated Article page design supplies the shared header/footer chrome. The article body
+            # (Article Header + Rich Text + CTA Banner) comes from the Article Page page-branch above,
+            # so each new article gets its own editable per-page datasources.
             $articlePageDesign = New-Item -Path "$($sitePath)/Presentation/Page Designs" -Name "Article" -ItemType "{1105B8F8-1E00-426B-BF1F-C840742D827B}"
             $articlePageDesign.PartialDesigns = "$($headerPartial.ID)|$($footerPartial.ID)"
     
@@ -104,22 +152,6 @@ SharedFields:
             $map[$landingPageTemplate.ID] = "$($defaultPageDesign.ID)"
             $map[$productPageTemplate.ID] = "$($defaultPageDesign.ID)"
             $pageDesigns.TemplatesMapping = [System.Web.HttpUtility]::UrlEncode($map.toString())
-    
-            # Seed the Article Page template standard values with an ArticleHeader so every newly
-            # created Article Page renders the article header automatically. Title/read time/date/
-            # author bind from the page; the author sets the per-page image/eyebrow datasource in
-            # Pages. Existing article pages keep their own page-level ArticleHeader.
-            Write-Verbose "Add ArticleHeader to Article Page standard values"
-            $articleStdValuesPath = "$($articlePageTemplate.Paths.Path)/__Standard Values"
-            $articleStdValues = Get-Item -Path $articleStdValuesPath -Language $Site.Language -ErrorAction SilentlyContinue
-            $renderingArticleHeader = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Page Content/Article Header' -ErrorAction SilentlyContinue
-            if ($articleStdValues -and $renderingArticleHeader) {
-                $existingArticleHeader = Get-Rendering -Item $articleStdValues -Rendering $renderingArticleHeader -FinalLayout -ErrorAction SilentlyContinue
-                if (-not $existingArticleHeader) {
-                    $renderingArticleHeaderDefinition = $renderingArticleHeader | New-Rendering
-                    Add-Rendering -Item $articleStdValues -PlaceHolder "headless-main" -Instance $renderingArticleHeaderDefinition -Parameter @{ "DynamicPlaceholderId" = "1" } -FinalLayout
-                }
-            }
             
             Write-Verbose "Update Partial Design Rendering Variants"
             $renderingGlobalHeader = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Global Elements/GlobalHeader'
