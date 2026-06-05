@@ -61,7 +61,7 @@ export const mockImagePropsNoFields = {
     styles: 'image-empty-styles',
     RenderingIdentifier: 'image-empty-id',
   },
-  fields: null,
+  fields: undefined,
   page: mockPage,
 };
 

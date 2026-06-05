@@ -29,12 +29,13 @@ const ImageDefault: React.FC<ImageProps> = ({ params }) => (
   </figure>
 );
 
-export const Banner: React.FC<ImageProps> = ({ params, fields }) => {
+export const Banner: React.FC<ImageProps> = (props) => {
+  const { params, fields } = props;
   const { styles, RenderingIdentifier: id } = params;
   const image = fields?.image;
 
   if (!fields) {
-    return <ImageDefault params={params} />;
+    return <ImageDefault {...props} />;
   }
 
   const imageField = image && {
