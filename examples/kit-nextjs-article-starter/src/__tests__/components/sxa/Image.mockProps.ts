@@ -1,27 +1,10 @@
-import { ImageField, LinkField, Field } from '@sitecore-content-sdk/nextjs';
+import { Field, ImageField, ComponentRendering, Page, PageMode } from '@sitecore-content-sdk/nextjs';
+import { ImageProps } from '@/components/image/image.props';
 
-// Mock page data for useSitecore hook
-export const mockPageData = {
-  page: {
-    mode: {
-      isEditing: false,
-    },
-  },
-};
-
-export const mockPageDataEditing = {
-  page: {
-    mode: {
-      isEditing: true,
-    },
-  },
-};
-
-// Mock image field data
 export const mockImageField: ImageField = {
   value: {
-    src: '/test-image.jpg',
-    alt: 'Test Image',
+    src: '/images/sample-image.jpg',
+    alt: 'Sample Image',
     width: 800,
     height: 600,
   },
@@ -29,111 +12,140 @@ export const mockImageField: ImageField = {
 
 export const mockImageFieldWithoutAlt: ImageField = {
   value: {
-    src: '/test-image.jpg',
+    src: '/images/sample-image-no-alt.jpg',
     alt: '',
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 800,
   },
 };
 
-export const mockImageFieldEmpty: ImageField = {
-  value: undefined,
-};
-
-// Mock link field data
-export const mockLinkField: LinkField = {
+export const mockImageFieldLarge: ImageField = {
   value: {
-    href: '/test-link',
-    title: 'Test Link',
-    querystring: '',
+    src: '/images/large-image.jpg',
+    alt: 'Large Image',
+    width: 1920,
+    height: 1080,
   },
 };
 
-export const mockLinkFieldEmpty: LinkField = {
-  value: undefined as unknown as LinkField['value'],
+export const mockCaptionField: Field<string> = {
+  value: 'This is a beautiful image caption',
 };
 
-// Mock fields data
+export const mockEmptyCaptionField: Field<string> = {
+  value: '',
+};
+
 export const mockFields = {
-  Image: mockImageField,
-  ImageCaption: {
-    value: 'Test Image Caption',
-    editable: 'Test Image Caption',
-  } as Field<string>,
-  TargetUrl: mockLinkField,
+  image: mockImageField,
+  caption: mockCaptionField,
 };
 
-export const mockFieldsWithoutLink = {
-  Image: mockImageField,
-  ImageCaption: {
-    value: 'Test Image Caption',
-    editable: 'Test Image Caption',
-  } as Field<string>,
-  TargetUrl: mockLinkFieldEmpty,
+export const mockFieldsWithoutCaption = {
+  image: mockImageField,
 };
 
-export const mockFieldsWithEmptyImage = {
-  Image: mockImageFieldEmpty,
-  ImageCaption: {
-    value: 'Test Image Caption',
-    editable: 'Test Image Caption',
-  } as Field<string>,
-  TargetUrl: mockLinkField,
+export const mockFieldsWithEmptyCaption = {
+  image: mockImageField,
+  caption: mockEmptyCaptionField,
 };
 
 export const mockFieldsWithoutAlt = {
-  Image: mockImageFieldWithoutAlt,
-  ImageCaption: {
-    value: 'Test Image Caption',
-    editable: 'Test Image Caption',
-  } as Field<string>,
-  TargetUrl: mockLinkField,
+  image: mockImageFieldWithoutAlt,
+  caption: mockCaptionField,
 };
 
-// Mock params data
+export const mockFieldsLargeImage = {
+  image: mockImageFieldLarge,
+  caption: mockCaptionField,
+};
+
 export const mockParams = {
-  Styles: 'custom-image-style',
+  styles: 'custom-image-style',
   RenderingIdentifier: 'image-rendering-id',
 };
 
 export const mockParamsWithoutStyles = {
-  Styles: '',
   RenderingIdentifier: 'image-rendering-id',
 };
 
-export const mockParamsWithoutId = {
-  Styles: 'custom-image-style',
-  RenderingIdentifier: '',
+const mockRendering: ComponentRendering = {
+  componentName: 'Image',
 };
 
-// Complete props combinations
-export const defaultProps = {
+const mockPage: Page = {
+  mode: {
+    isEditing: false,
+    isPreview: false,
+    isNormal: true,
+    name: 'normal' as PageMode['name'],
+    designLibrary: { isVariantGeneration: false },
+    isDesignLibrary: false,
+  },
+  layout: {
+    sitecore: {
+      context: {},
+      route: null,
+    },
+  },
+  locale: 'en',
+};
+
+export const defaultProps: ImageProps = {
   params: mockParams,
   fields: mockFields,
+  rendering: mockRendering,
+  page: mockPage,
 };
 
-export const propsWithoutStyles = {
-  params: mockParamsWithoutStyles,
-  fields: mockFields,
-};
-
-export const propsWithoutId = {
-  params: mockParamsWithoutId,
-  fields: mockFields,
-};
-
-export const propsWithoutLink = {
+export const propsWithoutCaption: ImageProps = {
   params: mockParams,
-  fields: mockFieldsWithoutLink,
+  fields: mockFieldsWithoutCaption,
+  rendering: mockRendering,
+  page: mockPage,
 };
 
-export const propsWithEmptyImage = {
+export const propsWithEmptyCaption: ImageProps = {
   params: mockParams,
-  fields: mockFieldsWithEmptyImage,
+  fields: mockFieldsWithEmptyCaption,
+  rendering: mockRendering,
+  page: mockPage,
 };
 
-export const propsWithoutAlt = {
+export const propsWithoutAlt: ImageProps = {
   params: mockParams,
   fields: mockFieldsWithoutAlt,
+  rendering: mockRendering,
+  page: mockPage,
 };
 
+export const propsWithLargeImage: ImageProps = {
+  params: mockParams,
+  fields: mockFieldsLargeImage,
+  rendering: mockRendering,
+  page: mockPage,
+};
+
+export const propsWithoutStyles: ImageProps = {
+  params: mockParamsWithoutStyles,
+  fields: mockFields,
+  rendering: mockRendering,
+  page: mockPage,
+};
+
+export const propsWithoutFields: ImageProps = {
+  params: mockParams,
+  fields: undefined as unknown as ImageProps['fields'],
+  rendering: mockRendering,
+  page: mockPage,
+};
+
+export const bannerProps: ImageProps = {
+  params: {
+    styles: 'hero-banner-styles',
+    RenderingIdentifier: 'banner-1',
+  },
+  fields: mockFields,
+  rendering: mockRendering,
+  page: mockPage,
+};
