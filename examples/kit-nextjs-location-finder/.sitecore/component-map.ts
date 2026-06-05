@@ -53,6 +53,7 @@ import * as PromoImageDefaultdev from 'src/components/promo-image/PromoImageDefa
 import * as PromoImage from 'src/components/promo-image/PromoImage';
 import * as PromoBlock from 'src/components/promo-block/PromoBlock';
 import * as PromoAnimatedImageRightdev from 'src/components/promo-animated/PromoAnimatedImageRight.dev';
+import * as PromoAnimatedEmptyImageEditing from 'src/components/promo-animated/PromoAnimatedEmptyImageEditing';
 import * as PromoAnimatedDefaultdev from 'src/components/promo-animated/PromoAnimatedDefault.dev';
 import * as PromoAnimated from 'src/components/promo-animated/PromoAnimated';
 import * as ProductListingThreeUpdev from 'src/components/product-listing/ProductListingThreeUp.dev';
@@ -102,7 +103,6 @@ import * as ImageCarousel from 'src/components/image-carousel/ImageCarousel';
 import * as nextImageSrcdev from 'src/components/image/nextImageSrc.dev';
 import * as ImageWrapperdev from 'src/components/image/ImageWrapper.dev';
 import * as ImageWrapperclient from 'src/components/image/ImageWrapper.client';
-import * as ImageBlock from 'src/components/image/ImageBlock';
 import * as Icon from 'src/components/icon/Icon';
 import * as YoutubeIcondev from 'src/components/icon/svg/YoutubeIcon.dev';
 import * as TwitterIcondev from 'src/components/icon/svg/TwitterIcon.dev';
@@ -228,6 +228,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['PromoImage', { ...PromoImage, componentType: 'client' }],
   ['PromoBlock', { ...PromoBlock }],
   ['PromoAnimatedImageRight', { ...PromoAnimatedImageRightdev }],
+  ['PromoAnimatedEmptyImageEditing', { ...PromoAnimatedEmptyImageEditing }],
   ['PromoAnimatedDefault', { ...PromoAnimatedDefaultdev }],
   ['PromoAnimated', { ...PromoAnimated, componentType: 'client' }],
   ['ProductListingThreeUp', { ...ProductListingThreeUpdev }],
@@ -275,7 +276,6 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['ImageCarousel', { ...ImageCarousel, componentType: 'client' }],
   ['nextImageSrc', { ...nextImageSrcdev }],
   ['ImageWrapper', { ...ImageWrapperdev, ...ImageWrapperclient }],
-  ['ImageBlock', { ...ImageBlock }],
   ['Icon', { ...Icon, componentType: 'client' }],
   ['YoutubeIcon', { ...YoutubeIcondev }],
   ['TwitterIcon', { ...TwitterIcondev }],

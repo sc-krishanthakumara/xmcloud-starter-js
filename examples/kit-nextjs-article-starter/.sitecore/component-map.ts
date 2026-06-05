@@ -73,7 +73,6 @@ import * as Logodev from 'src/components/logo/Logo.dev';
 import * as nextImageSrcdev from 'src/components/image/nextImageSrc.dev';
 import * as ImageWrapperdev from 'src/components/image/ImageWrapper.dev';
 import * as ImageWrapperclient from 'src/components/image/ImageWrapper.client';
-import * as ImageBlock from 'src/components/image/ImageBlock';
 import * as imageprops from 'src/components/image/image.props';
 import * as imageoptimizationcontext from 'src/components/image/image-optimization.context';
 import * as Icon from 'src/components/icon/Icon';
@@ -163,7 +162,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['NavigationList', { ...NavigationListclient }],
   ['Navigation', { ...Navigation }],
   ['LinkList', { ...LinkList }],
-  ['Image', { ...Image, componentType: 'client' }],
+  ['Image', { ...Image }],
   ['ContentBlock', { ...ContentBlock, componentType: 'client' }],
   ['Container', { ...Container }],
   ['ColumnSplitter', { ...ColumnSplitter }],
@@ -201,7 +200,6 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['Logo', { ...Logodev }],
   ['nextImageSrc', { ...nextImageSrcdev }],
   ['ImageWrapper', { ...ImageWrapperdev, ...ImageWrapperclient }],
-  ['ImageBlock', { ...ImageBlock }],
   ['image', { ...imageprops }],
   ['image-optimization', { ...imageoptimizationcontext }],
   ['Icon', { ...Icon, componentType: 'client' }],
