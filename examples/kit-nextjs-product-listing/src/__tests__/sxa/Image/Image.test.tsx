@@ -23,10 +23,10 @@ jest.mock('@sitecore-content-sdk/nextjs', () => ({
     // eslint-disable-next-line @next/next/no-img-element
     <img
       data-testid="next-image"
-      src={field?.value?.src}
-      alt={alt ?? field?.value?.alt}
-      width={field?.value?.width}
-      height={field?.value?.height}
+      src={field?.value?.src as string | undefined}
+      alt={(alt ?? field?.value?.alt) as string | undefined}
+      width={field?.value?.width as number | undefined}
+      height={field?.value?.height as number | undefined}
     />
   ),
 }));
@@ -35,7 +35,10 @@ jest.mock('@/components/image/ImageWrapper.dev', () => ({
   Default: ({ image, className }: { image?: ImageField; className?: string }) => (
     <div data-testid="image-wrapper" className={className}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={image?.value?.src} alt={image?.value?.alt} />
+      <img
+        src={image?.value?.src as string | undefined}
+        alt={image?.value?.alt as string | undefined}
+      />
     </div>
   ),
 }));

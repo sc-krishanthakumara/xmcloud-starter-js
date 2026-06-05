@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Default as Image, Banner } from '@/components/sxa/Image';
+import type { ImageProps } from '@/components/image/image.props';
 import type { ImageField, Page } from '@sitecore-content-sdk/nextjs';
 
 const mockPage = {
@@ -34,7 +35,11 @@ jest.mock('@sitecore-content-sdk/nextjs', () => ({
   ),
   NextImage: ({ field, alt }: { field?: ImageField; alt?: string }) => (
     // eslint-disable-next-line @next/next/no-img-element
-    <img data-testid="next-image" src={field?.value?.src} alt={alt ?? field?.value?.alt} />
+    <img
+      data-testid="next-image"
+      src={field?.value?.src as string | undefined}
+      alt={(alt ?? field?.value?.alt) as string | undefined}
+    />
   ),
 }));
 
@@ -42,7 +47,10 @@ jest.mock('@/components/image/ImageWrapper.dev', () => ({
   Default: ({ image, className }: { image?: ImageField; className?: string }) => (
     <div data-testid="image-wrapper" className={className}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={image?.value?.src} alt={image?.value?.alt} />
+      <img
+        src={image?.value?.src as string | undefined}
+        alt={image?.value?.alt as string | undefined}
+      />
     </div>
   ),
 }));
@@ -54,7 +62,7 @@ jest.mock('@/utils/NoDataFallback', () => ({
 }));
 
 describe('Image Component', () => {
-  const defaultProps = {
+  const defaultProps: ImageProps = {
     params: { styles: 'image-styles', RenderingIdentifier: 'image-1' },
     fields: {
       image: {
@@ -69,6 +77,7 @@ describe('Image Component', () => {
     },
     page: mockPage,
     rendering: { componentName: 'Image' },
+    componentMap: new Map(),
   };
 
   it('renders image and caption', () => {
@@ -88,7 +97,12 @@ describe('Image Component', () => {
   });
 
   it('renders fallback when fields are undefined', () => {
-    render(<Image {...defaultProps} fields={undefined} />);
+    render(
+      <Image
+        {...defaultProps}
+        fields={undefined as unknown as ImageProps['fields']}
+      />
+    );
 
     expect(screen.getByTestId('no-data-fallback')).toHaveTextContent('Image');
   });

@@ -9,10 +9,10 @@
         "./src/*"
       ],
       "components/*": [
-        "./src/components/*"
+        "src/components/*"
       ],
       "lib/*": [
-        "./src/lib/*"
+        "src/lib/*"
       ]
     },
     "target": "ES2017",
