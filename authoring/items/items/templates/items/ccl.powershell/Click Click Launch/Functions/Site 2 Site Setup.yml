@@ -424,6 +424,28 @@ SharedFields:
                 Write-Verbose "Deleted legacy Image Block rendering item"
             }
             
+            Write-Verbose "Remove duplicate Image from Media Available Renderings bucket"
+            $renderingImageForDedup = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Media/Image' -ErrorAction SilentlyContinue
+            if ($renderingImageForDedup) {
+                $imageGuidForDedup = $renderingImageForDedup.ID.ToString()
+                $mediaArPath = "$sitePath/Presentation/Available Renderings/Media"
+                if (Test-Path $mediaArPath) {
+                    $mediaArItem = Get-Item -Path $mediaArPath -Language $Site.Language
+                    $mediaRenderingsField = $mediaArItem.Fields["Renderings"]
+                    if ($mediaRenderingsField -and -not [string]::IsNullOrEmpty($mediaRenderingsField.Value) -and $mediaRenderingsField.Value -like "*$imageGuidForDedup*") {
+                        $dedupedRenderingsValue = ($mediaRenderingsField.Value -split "`r?`n" | Where-Object {
+                            -not [string]::IsNullOrWhiteSpace($_) -and ($_ -notmatch [regex]::Escape($imageGuidForDedup))
+                        }) -join "`n"
+                        if ($dedupedRenderingsValue -ne $mediaRenderingsField.Value) {
+                            $mediaArItem.Editing.BeginEdit()
+                            $mediaRenderingsField.Value = $dedupedRenderingsValue
+                            $mediaArItem.Editing.EndEdit() | Out-Null
+                            Write-Verbose "Removed duplicate Image from $mediaArPath"
+                        }
+                    }
+                }
+            }
+            
             Write-Verbose "Enforce Default variant for Image renderings"
             $renderingImage = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Media/Image' -ErrorAction SilentlyContinue
             if ($renderingImage) {
