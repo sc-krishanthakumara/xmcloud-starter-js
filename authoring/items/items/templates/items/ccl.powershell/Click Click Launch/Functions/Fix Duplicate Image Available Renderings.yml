@@ -13,71 +13,72 @@ SharedFields:
             [string]$FieldName,
             [string]$GuidToRemove
         )
-
         $field = $Item.Fields[$FieldName]
         if (-not $field -or [string]::IsNullOrEmpty($field.Value)) {
             return $false
         }
-
         if ($field.Value -notlike "*$GuidToRemove*") {
             return $false
         }
-
         $updatedValue = ($field.Value -split "`r?`n" | Where-Object {
             -not [string]::IsNullOrWhiteSpace($_) -and ($_ -notmatch [regex]::Escape($GuidToRemove))
         }) -join "`n"
-
         if ($updatedValue -eq $field.Value) {
             return $false
         }
-
         $Item.Editing.BeginEdit()
         $field.Value = $updatedValue
         $Item.Editing.EndEdit() | Out-Null
         return $true
     }
-
     function Invoke-FixDuplicateImageAvailableRenderings {
         [CmdletBinding()]
         param(
             [Parameter(Mandatory = $true, Position = 0)]
             [Item]$Site
         )
-
         $sitePath = $Site.Paths.Path
         $renderingImage = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Media/Image' -ErrorAction SilentlyContinue
         if (-not $renderingImage) {
             Write-Warning "Image rendering not found. Nothing to deduplicate."
             return
         }
-
         $imageGuid = $renderingImage.ID.ToString()
         $imageBlockGuid = "A563BE98-85FA-4DD5-94BD-9D9C937799F6"
-        $guidsToRemoveFromCategoryBuckets = @($imageGuid)
-        $guidsToRemoveEverywhere = @($imageBlockGuid)
+        $sxaImageRenderingPaths = @(
+            '/sitecore/layout/Renderings/Feature/JSS Experience Accelerator/Media/Image',
+            '/sitecore/layout/Renderings/Feature/Headless Experience Accelerator/Media/Image'
+        )
+        $sxaImageGuids = @(
+            foreach ($sxaImageRenderingPath in $sxaImageRenderingPaths) {
+                $sxaImageRendering = Get-Item -Path $sxaImageRenderingPath -ErrorAction SilentlyContinue
+                if ($sxaImageRendering) {
+                    $sxaImageRendering.ID.ToString()
+                }
+            }
+        )
+        $guidsToRemoveFromCategoryBuckets = @($imageGuid) + $sxaImageGuids
+        $guidsToRemoveFromPrimaryBucket = @($imageBlockGuid) + $sxaImageGuids
+        $guidsToRemoveEverywhere = @($imageBlockGuid) + $sxaImageGuids
         $renderingListFieldNames = @("Renderings", "Allowed Controls")
         $renderingCleanupPaths = @(
             "$sitePath/Presentation/Available Renderings",
             "$sitePath/Presentation/Placeholder Settings"
         )
-
         foreach ($renderingCleanupPath in $renderingCleanupPaths) {
             if (-not (Test-Path $renderingCleanupPath)) { continue }
-
             foreach ($renderingListItem in (Get-ChildItem -Path $renderingCleanupPath -Recurse -Language $Site.Language)) {
                 $isPrimaryBucket = $renderingListItem.Name -eq "click-click-launch"
-                $guidsToRemove = if ($isPrimaryBucket) { $guidsToRemoveEverywhere } else { $guidsToRemoveFromCategoryBuckets + $guidsToRemoveEverywhere }
-
+                $guidsToRemove = if ($isPrimaryBucket) { $guidsToRemoveFromPrimaryBucket } else { $guidsToRemoveFromCategoryBuckets + $guidsToRemoveEverywhere }
                 foreach ($renderingListFieldName in $renderingListFieldNames) {
                     foreach ($guidToRemove in $guidsToRemove) {
                         if (Remove-RenderingGuidFromField -Item $renderingListItem -FieldName $renderingListFieldName -GuidToRemove $guidToRemove) {
-                            Write-Host "Removed $guidToRemove from $($renderingListItem.Paths.Path) — $renderingListFieldName"
+                            Write-Host "Removed $guidToRemove from $($renderingListItem.Paths.Path) - $renderingListFieldName"
                         }
                     }
                 }
             }
         }
-
         Write-Host "Duplicate Image cleanup completed for $sitePath"
     }
 Languages:
