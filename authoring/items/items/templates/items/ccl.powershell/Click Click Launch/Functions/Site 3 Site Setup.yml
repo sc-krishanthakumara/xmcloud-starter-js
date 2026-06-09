@@ -291,6 +291,76 @@ SharedFields:
                 }
             }
             
+            Write-Verbose "Remove legacy Image Block from site Available Renderings and placeholder settings"
+            if ($renderingImageBlockLegacy) {
+                $blockGuid = $renderingImageBlockLegacy.ID.ToString()
+                $renderingListFieldNames = @("Renderings", "Allowed Controls")
+                $renderingCleanupPaths = @(
+                    "$sitePath/Presentation/Available Renderings",
+                    "$sitePath/Presentation/Placeholder Settings"
+                )
+                foreach ($renderingCleanupPath in $renderingCleanupPaths) {
+                    if (-not (Test-Path $renderingCleanupPath)) { continue }
+                    foreach ($renderingListItem in (Get-ChildItem -Path $renderingCleanupPath -Recurse -Language $Site.Language)) {
+                        foreach ($renderingListFieldName in $renderingListFieldNames) {
+                            $renderingListField = $renderingListItem.Fields[$renderingListFieldName]
+                            if ($renderingListField -eq $null) { continue }
+                            $renderingListValue = $renderingListField.Value
+                            if ([string]::IsNullOrEmpty($renderingListValue)) { continue }
+                            if ($renderingListValue -notlike "*$blockGuid*") { continue }
+                            $updatedRenderingListValue = ($renderingListValue -split "`r?`n" | Where-Object {
+                                -not [string]::IsNullOrWhiteSpace($_) -and ($_ -notmatch [regex]::Escape($blockGuid))
+                            }) -join "`n"
+                            if ($updatedRenderingListValue -ne $renderingListValue) {
+                                $renderingListItem.Editing.BeginEdit()
+                                $renderingListField.Value = $updatedRenderingListValue
+                                $renderingListItem.Editing.EndEdit() | Out-Null
+                                Write-Verbose "Removed Image Block from $($renderingListItem.Paths.Path) — $renderingListFieldName"
+                            }
+                        }
+                    }
+                }
+                Remove-Item -Path $renderingImageBlockLegacy.Paths.Path -Force -ErrorAction SilentlyContinue
+                Write-Verbose "Deleted legacy Image Block rendering item"
+            }
+            
+            Write-Verbose "Remove duplicate Image renderings from Media Available Renderings bucket"
+            $mediaArPath = "$sitePath/Presentation/Available Renderings/Media"
+            if (Test-Path $mediaArPath) {
+                $mediaArItem = Get-Item -Path $mediaArPath -Language $Site.Language
+                $mediaRenderingsField = $mediaArItem.Fields["Renderings"]
+                if ($mediaRenderingsField -and -not [string]::IsNullOrEmpty($mediaRenderingsField.Value)) {
+                    $imageGuidsToRemoveFromMedia = @()
+                    $renderingImageForDedup = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Media/Image' -ErrorAction SilentlyContinue
+                    if ($renderingImageForDedup) {
+                        $imageGuidsToRemoveFromMedia += $renderingImageForDedup.ID.ToString()
+                    }
+                    $sxaImageRenderingPaths = @(
+                        '/sitecore/layout/Renderings/Feature/JSS Experience Accelerator/Media/Image',
+                        '/sitecore/layout/Renderings/Feature/Headless Experience Accelerator/Media/Image'
+                    )
+                    foreach ($sxaImageRenderingPath in $sxaImageRenderingPaths) {
+                        $sxaImageRendering = Get-Item -Path $sxaImageRenderingPath -ErrorAction SilentlyContinue
+                        if ($sxaImageRendering) {
+                            $imageGuidsToRemoveFromMedia += $sxaImageRendering.ID.ToString()
+                        }
+                    }
+                    $dedupedRenderingsValue = $mediaRenderingsField.Value
+                    foreach ($imageGuidForDedup in $imageGuidsToRemoveFromMedia) {
+                        if ($dedupedRenderingsValue -notlike "*$imageGuidForDedup*") { continue }
+                        $dedupedRenderingsValue = ($dedupedRenderingsValue -split "`r?`n" | Where-Object {
+                            -not [string]::IsNullOrWhiteSpace($_) -and ($_ -notmatch [regex]::Escape($imageGuidForDedup))
+                        }) -join "`n"
+                        Write-Verbose "Removed Image $imageGuidForDedup from $mediaArPath"
+                    }
+                    if ($dedupedRenderingsValue -ne $mediaRenderingsField.Value) {
+                        $mediaArItem.Editing.BeginEdit()
+                        $mediaRenderingsField.Value = $dedupedRenderingsValue
+                        $mediaArItem.Editing.EndEdit() | Out-Null
+                    }
+                }
+            }
+            
             Write-Verbose "Enforce Default variant for Image renderings"
             $renderingImage = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Media/Image' -ErrorAction SilentlyContinue
             if ($renderingImage) {

@@ -103,6 +103,7 @@ import * as promoimageprops from 'src/components/promo-image/promo-image.props';
 import * as PromoBlock from 'src/components/promo-block/PromoBlock';
 import * as promoblockprops from 'src/components/promo-block/promo-block.props';
 import * as PromoAnimatedImageRightdev from 'src/components/promo-animated/PromoAnimatedImageRight.dev';
+import * as PromoAnimatedEmptyImageEditing from 'src/components/promo-animated/PromoAnimatedEmptyImageEditing';
 import * as PromoAnimatedDefaultdev from 'src/components/promo-animated/PromoAnimatedDefault.dev';
 import * as PromoAnimated from 'src/components/promo-animated/PromoAnimated';
 import * as promoanimatedutil from 'src/components/promo-animated/promo-animated.util';
@@ -156,7 +157,6 @@ import * as imagegalleryprops from 'src/components/image-gallery/image-gallery.p
 import * as nextImageSrcdev from 'src/components/image/nextImageSrc.dev';
 import * as ImageWrapperdev from 'src/components/image/ImageWrapper.dev';
 import * as ImageWrapperclient from 'src/components/image/ImageWrapper.client';
-import * as ImageBlock from 'src/components/image/ImageBlock';
 import * as imageprops from 'src/components/image/image.props';
 import * as imageoptimizationcontext from 'src/components/image/image-optimization.context';
 import * as Icon from 'src/components/icon/Icon';
@@ -367,6 +367,7 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['PromoBlock', { ...PromoBlock }],
   ['promo-block', { ...promoblockprops }],
   ['PromoAnimatedImageRight', { ...PromoAnimatedImageRightdev }],
+  ['PromoAnimatedEmptyImageEditing', { ...PromoAnimatedEmptyImageEditing }],
   ['PromoAnimatedDefault', { ...PromoAnimatedDefaultdev }],
   ['PromoAnimated', { ...PromoAnimated, componentType: 'client' }],
   ['promo-animated', { ...promoanimatedutil, ...promoanimatedprops }],
@@ -416,7 +417,6 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['image-gallery', { ...imagegalleryprops }],
   ['nextImageSrc', { ...nextImageSrcdev }],
   ['ImageWrapper', { ...ImageWrapperdev, ...ImageWrapperclient }],
-  ['ImageBlock', { ...ImageBlock }],
   ['image', { ...imageprops }],
   ['image-optimization', { ...imageoptimizationcontext }],
   ['Icon', { ...Icon, componentType: 'client' }],
