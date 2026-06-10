@@ -31,7 +31,7 @@ import * as NavigationMenuToggleclient from 'src/components/sxa/NavigationMenuTo
 import * as NavigationListclient from 'src/components/sxa/NavigationList.client';
 import * as Navigation from 'src/components/sxa/Navigation';
 import * as LinkList from 'src/components/sxa/LinkList';
-import * as Image from 'src/components/sxa/Image';
+import * as Image from 'src/components/image/Image';
 import * as ContentBlock from 'src/components/sxa/ContentBlock';
 import * as Container from 'src/components/sxa/Container';
 import * as ColumnSplitter from 'src/components/sxa/ColumnSplitter';
@@ -102,7 +102,6 @@ import * as ImageCarousel from 'src/components/image-carousel/ImageCarousel';
 import * as nextImageSrcdev from 'src/components/image/nextImageSrc.dev';
 import * as ImageWrapperdev from 'src/components/image/ImageWrapper.dev';
 import * as ImageWrapperclient from 'src/components/image/ImageWrapper.client';
-import * as ImageBlock from 'src/components/image/ImageBlock';
 import * as Icon from 'src/components/icon/Icon';
 import * as YoutubeIcondev from 'src/components/icon/svg/YoutubeIcon.dev';
 import * as TwitterIcondev from 'src/components/icon/svg/TwitterIcon.dev';
@@ -275,7 +274,6 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['ImageCarousel', { ...ImageCarousel, componentType: 'client' }],
   ['nextImageSrc', { ...nextImageSrcdev }],
   ['ImageWrapper', { ...ImageWrapperdev, ...ImageWrapperclient }],
-  ['ImageBlock', { ...ImageBlock }],
   ['Icon', { ...Icon, componentType: 'client' }],
   ['YoutubeIcon', { ...YoutubeIcondev }],
   ['TwitterIcon', { ...TwitterIcondev }],

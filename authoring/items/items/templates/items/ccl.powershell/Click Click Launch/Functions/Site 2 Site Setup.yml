@@ -391,6 +391,13 @@ SharedFields:
                 }
             }
             
+            Write-Verbose "Fix duplicate Image renderings via shared utility"
+            $fixImageScript = Get-Item -Path "/sitecore/system/Modules/PowerShell/Script Library/Click Click Launch/Functions/Fix Duplicate Image Available Renderings" -ErrorAction SilentlyContinue
+            if ($fixImageScript) {
+                Invoke-Expression $fixImageScript.Fields["Script"].Value
+                Invoke-FixDuplicateImageAvailableRenderings -Site $Site
+            }
+            
             Write-Verbose "Enforce Default variant for Image renderings"
             $renderingImage = Get-Item -Path '/sitecore/layout/Renderings/Project/click-click-launch/Media/Image' -ErrorAction SilentlyContinue
             if ($renderingImage) {

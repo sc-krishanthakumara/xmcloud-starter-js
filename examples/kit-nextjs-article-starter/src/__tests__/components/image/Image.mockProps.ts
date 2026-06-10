@@ -1,7 +1,6 @@
 import { Field, ImageField, ComponentRendering, Page, PageMode } from '@sitecore-content-sdk/nextjs';
 import { ImageProps } from '@/components/image/image.props';
 
-// Mock image fields
 export const mockImageField: ImageField = {
   value: {
     src: '/images/sample-image.jpg',
@@ -29,7 +28,6 @@ export const mockImageFieldLarge: ImageField = {
   },
 };
 
-// Mock caption field
 export const mockCaptionField: Field<string> = {
   value: 'This is a beautiful image caption',
 };
@@ -38,7 +36,6 @@ export const mockEmptyCaptionField: Field<string> = {
   value: '',
 };
 
-// Complete fields data
 export const mockFields = {
   image: mockImageField,
   caption: mockCaptionField,
@@ -63,7 +60,6 @@ export const mockFieldsLargeImage = {
   caption: mockCaptionField,
 };
 
-// Mock params
 export const mockParams = {
   styles: 'custom-image-style',
   RenderingIdentifier: 'image-rendering-id',
@@ -73,12 +69,10 @@ export const mockParamsWithoutStyles = {
   RenderingIdentifier: 'image-rendering-id',
 };
 
-// Mock rendering
 const mockRendering: ComponentRendering = {
   componentName: 'Image',
 };
 
-// Mock page
 const mockPage: Page = {
   mode: {
     isEditing: false,
@@ -97,7 +91,6 @@ const mockPage: Page = {
   locale: 'en',
 };
 
-// Complete props combinations
 export const defaultProps: ImageProps = {
   params: mockParams,
   fields: mockFields,
@@ -147,3 +140,12 @@ export const propsWithoutFields: ImageProps = {
   page: mockPage,
 };
 
+export const bannerProps: ImageProps = {
+  params: {
+    styles: 'hero-banner-styles',
+    RenderingIdentifier: 'banner-1',
+  },
+  fields: mockFields,
+  rendering: mockRendering,
+  page: mockPage,
+};

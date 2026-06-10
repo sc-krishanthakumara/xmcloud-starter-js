@@ -31,7 +31,7 @@ import * as NavigationMenuToggleclient from 'src/components/sxa/NavigationMenuTo
 import * as NavigationListclient from 'src/components/sxa/NavigationList.client';
 import * as Navigation from 'src/components/sxa/Navigation';
 import * as LinkList from 'src/components/sxa/LinkList';
-import * as Image from 'src/components/sxa/Image';
+import * as Image from 'src/components/image/Image';
 import * as ContentBlock from 'src/components/sxa/ContentBlock';
 import * as Container from 'src/components/sxa/Container';
 import * as ColumnSplitter from 'src/components/sxa/ColumnSplitter';
@@ -156,7 +156,6 @@ import * as imagegalleryprops from 'src/components/image-gallery/image-gallery.p
 import * as nextImageSrcdev from 'src/components/image/nextImageSrc.dev';
 import * as ImageWrapperdev from 'src/components/image/ImageWrapper.dev';
 import * as ImageWrapperclient from 'src/components/image/ImageWrapper.client';
-import * as ImageBlock from 'src/components/image/ImageBlock';
 import * as imageprops from 'src/components/image/image.props';
 import * as imageoptimizationcontext from 'src/components/image/image-optimization.context';
 import * as Icon from 'src/components/icon/Icon';
@@ -416,7 +415,6 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['image-gallery', { ...imagegalleryprops }],
   ['nextImageSrc', { ...nextImageSrcdev }],
   ['ImageWrapper', { ...ImageWrapperdev, ...ImageWrapperclient }],
-  ['ImageBlock', { ...ImageBlock }],
   ['image', { ...imageprops }],
   ['image-optimization', { ...imageoptimizationcontext }],
   ['Icon', { ...Icon, componentType: 'client' }],
