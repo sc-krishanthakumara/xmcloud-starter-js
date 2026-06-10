@@ -11,6 +11,12 @@ const BANNER_IMAGE_SIZES =
 
 const getStyles = (params: ImageProps['params']) => params?.styles ?? params?.Styles ?? '';
 
+// BREAKING CHANGE (SCB-1201): This component now uses the project Image datasource schema
+// (fields: image, caption). The legacy SXA schema fields Image, ImageCaption, and TargetUrl
+// are no longer read. Existing datasource items that had TargetUrl populated will no longer
+// render as clickable links. Run the "Fix Duplicate Image Available Renderings" SPE script
+// on existing sites to clean up legacy rendering registrations.
+
 export const Default: React.FC<ImageProps> = (props) => {
   const fields = props.fields ?? props.rendering?.fields;
   const { image, caption } = fields ?? {};

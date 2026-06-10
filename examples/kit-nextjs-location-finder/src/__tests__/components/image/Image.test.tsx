@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Default as Image, Banner } from '@/components/sxa/Image';
+import { Default as Image, Banner } from '@/components/image/Image';
 import type { ImageProps } from '@/components/image/image.props';
 import type { ImageField, Page } from '@sitecore-content-sdk/nextjs';
 

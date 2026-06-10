@@ -4,7 +4,7 @@
 
 import type { ImageField, Field, Page, ComponentRendering } from '@sitecore-content-sdk/nextjs';
 import type { ImageProps } from '@/components/image/image.props';
-import { mockPage as sharedMockPage } from '../../test-utils/mockPage';
+import { mockPage as sharedMockPage } from '../test-utils/mockPage';
 
 export const mockImageData: ImageField = {
   value: {

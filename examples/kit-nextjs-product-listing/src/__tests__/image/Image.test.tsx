@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Default as Image, Banner } from 'components/sxa/Image';
+import { Default as Image, Banner } from 'components/image/Image';
 import type { ImageField } from '@sitecore-content-sdk/nextjs';
 import {
   defaultImageProps,

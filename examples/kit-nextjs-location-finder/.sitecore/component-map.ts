@@ -31,7 +31,7 @@ import * as NavigationMenuToggleclient from 'src/components/sxa/NavigationMenuTo
 import * as NavigationListclient from 'src/components/sxa/NavigationList.client';
 import * as Navigation from 'src/components/sxa/Navigation';
 import * as LinkList from 'src/components/sxa/LinkList';
-import * as Image from 'src/components/sxa/Image';
+import * as Image from 'src/components/image/Image';
 import * as ContentBlock from 'src/components/sxa/ContentBlock';
 import * as Container from 'src/components/sxa/Container';
 import * as ColumnSplitter from 'src/components/sxa/ColumnSplitter';
@@ -53,7 +53,6 @@ import * as PromoImageDefaultdev from 'src/components/promo-image/PromoImageDefa
 import * as PromoImage from 'src/components/promo-image/PromoImage';
 import * as PromoBlock from 'src/components/promo-block/PromoBlock';
 import * as PromoAnimatedImageRightdev from 'src/components/promo-animated/PromoAnimatedImageRight.dev';
-import * as PromoAnimatedEmptyImageEditing from 'src/components/promo-animated/PromoAnimatedEmptyImageEditing';
 import * as PromoAnimatedDefaultdev from 'src/components/promo-animated/PromoAnimatedDefault.dev';
 import * as PromoAnimated from 'src/components/promo-animated/PromoAnimated';
 import * as ProductListingThreeUpdev from 'src/components/product-listing/ProductListingThreeUp.dev';
@@ -228,7 +227,6 @@ export const componentMap = new Map<string, NextjsContentSdkComponent>([
   ['PromoImage', { ...PromoImage, componentType: 'client' }],
   ['PromoBlock', { ...PromoBlock }],
   ['PromoAnimatedImageRight', { ...PromoAnimatedImageRightdev }],
-  ['PromoAnimatedEmptyImageEditing', { ...PromoAnimatedEmptyImageEditing }],
   ['PromoAnimatedDefault', { ...PromoAnimatedDefaultdev }],
   ['PromoAnimated', { ...PromoAnimated, componentType: 'client' }],
   ['ProductListingThreeUp', { ...ProductListingThreeUpdev }],

@@ -32,7 +32,7 @@ import * as NavigationMenuToggleclient from 'src/components/sxa/NavigationMenuTo
 import * as NavigationListclient from 'src/components/sxa/NavigationList.client';
 import * as Navigation from 'src/components/sxa/Navigation';
 import * as LinkList from 'src/components/sxa/LinkList';
-import * as Image from 'src/components/sxa/Image';
+import * as Image from 'src/components/image/Image';
 import * as ContentBlock from 'src/components/sxa/ContentBlock';
 import * as Container from 'src/components/sxa/Container';
 import * as ColumnSplitter from 'src/components/sxa/ColumnSplitter';
